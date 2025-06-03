@@ -3,7 +3,7 @@ import PetDAO from '../DAO/petDAO'
 
 const petDao = new PetDAO()
 
-const getAllPets = async (req: Request, res: Response) => {
+ export const getAllPets = async (req: Request, res: Response) => {
     try {
         //Aqui deve ser chamada a RN e só apartir da RN a DAO é chamada
         const pets = await petDao.getAllPets()
@@ -15,4 +15,9 @@ const getAllPets = async (req: Request, res: Response) => {
     }
 }
 
-export default getAllPets
+export const postPet = async(req: Request, res: Response) => {
+    //request tem que ver oq esta chegando
+    // ve como tratar a questa da imagem, se estiver vindo a parte, separe em uma variavel
+    //enviar para a camada rn em formato PetModel
+    
+}
