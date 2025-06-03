@@ -1,9 +1,25 @@
+
+
+
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="pt-BR">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recanto dos Animais</title>
+
+  <!-- Caminho certo para o CSS -->
+  <link rel="stylesheet" href="/frontend/css/bootstrap.min.css">
+</head>
+<body>
+
+  <!-- Caminho certo para o JS -->
+  <script src="/frontend/js/bootstrap.bundle.js"></script>
+</body>
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>Paraíso dos Peludinhos</title>
+    <title>ONG Recanto dos Animais</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet"/>
@@ -14,22 +30,23 @@
     <header class="absolute top-0 left-0 w-full z-30">
         <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
             <div>
-                <a class="block w-14 h-14 rounded-full overflow-hidden" href="#">
-                    <img alt="Logo Paraíso dos Peludinhos amarelo com azul, círculo amarelo com desenho azul de casa e dois animais" class="w-full h-full object-contain" height="56" src="https://storage.googleapis.com/a1aa/image/33e9c957-4c09-439e-9dcb-f865c499ccce.jpg" width="56"/>
+                <a class="flex w-52 h-52 rounded-full overflow-hidden" href="index.html" aria-label="Voltar para a página inicial">
+                    <img alt="Logo Paraíso dos Peludinhos amarelo com azul, círculo amarelo com desenho azul de casa e dois animais" class="w-full h-full object-contain" height="56" src="./assets/resources/logo.svg" width="56"/>
                 </a>
             </div>
-            <ul class="hidden md:flex items-center space-x-6 text-white text-sm font-normal" id="mobile-menu">
-                <li><a class="text-yellow-400 font-semibold hover:text-yellow-400" href="#">Home</a></li>
-                <li><a class="text-yellow-400 font-semibold hover:text-yellow-400" href="./cadastro_animais.html">Cadastro de Animais</a></li>
+            <ul class="hidden md:flex items-center space-x-6 text-[#1f2a5a] text-sm font-normal">
+                <li><a class="text-[#1f2a5a] font-semibold hover:text-yellow-400 transition" href="index.html">Home</a></li>
+                <li><a class="text-yellow-400 font-semibold hover:text-yellow-400 transition" href="./cadastro_animais.html" aria-current="page">Cadastro de Animais</a></li>
+                
+                <li><a class="text-yellow-400 font-semibold hover:text-yellow-400 transition" href="./adocao.html" aria-current="page">Adote um Animal</a></li>
             </ul>
             <div class="hidden md:flex items-center space-x-4">
                 <a class="bg-yellow-400 text-black text-xs font-semibold rounded-full px-4 py-2 hover:bg-yellow-300 transition" href="#">FAÇA UMA DOAÇÃO</a>
-                <a aria-label="Facebook" class="text-yellow-400 hover:text-yellow-300" href="https://www.facebook.com/recantodosanimaisourobranco/"><i class="fab fa-facebook-f"></i></a>
-                <a aria-label="Instagram" class="text-yellow-400 hover:text-yellow-300" href="https://www.instagram.com/ong.recanto/"><i class="fab fa-instagram"></i></a>
+                <a aria-label="Facebook" class="text-yellow-400 hover:text-yellow-300" href="https://www.facebook.com/recantodosanimaisourobranco/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                <a aria-label="Instagram" class="text-yellow-400 hover:text-yellow-300" href="https://www.instagram.com/ong.recanto/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
             </div>
         </nav>
     </header>
-
     <main>
         <section class="relative w-full h-[520px] md:h-[600px] lg:h-[600px] xl:h-[600px]">
             <img alt="Imagem de gatos peludinhos no pátio com azulejo cinza, vários gatos andando e olhando para frente" class="w-full h-full object-cover brightness-50" height="600" src="https://storage.googleapis.com/a1aa/image/6ab46009-3690-42f8-2745-1a30d00c32d3.jpg" width="1920"/>
@@ -38,7 +55,7 @@
                     Nossa missão é salvar<br/>
                     vidas de 4 patas!
                 </h1>
-                <a class="mt-6 bg-yellow-400 text-black text-xs font-semibold rounded-full px-6 py-2 hover:bg-yellow-300 transition" href="#">QUERO SER MELHOR AMIGO</a>
+                <a class="mt-6 bg-yellow-400 text-black text-xs font-semibold rounded-full px-6 py-2 hover:bg-yellow-300 transition" href="./adocao.html">ADOTE UM ANIMAL</a>
             </div>
             <button aria-label="Previous slide" class="absolute top-1/2 left-2 transform -translate-y-1/2 text-white text-2xl opacity-70 hover:opacity-100">
                 <i class="fas fa-chevron-left"></i>
@@ -48,37 +65,7 @@
             </button>
         </section>
 
-        <section class="bg-white font-sans py-12">
-            <div class="max-w-4xl mx-auto px-6">
-                <div class="relative">
-                    <div id="carousel" class="overflow-hidden rounded-md bg-[#273B7A] p-8 text-center text-white font-sans">
-                        <div id="carousel-inner" class="flex transition-transform duration-500 ease-in-out"> <!-- style removido, será controlado pelo JS -->
-                            <div class="flex-shrink-0 w-full flex flex-col items-center max-w-md mx-auto">
-                                <img src="https://storage.googleapis.com/a1aa/image/4c7a541d-1c03-4c0d-a60d-e0661dbdf261.jpg" alt="Gato branco deitado em fundo cinza" class="mb-4 w-12 h-12 object-cover rounded" width="50" height="50"/>
-                                <h3 class="text-yellow-400 font-montserrat font-semibold text-lg mb-3 leading-tight">Gato Branco</h3>
-                                <p class="text-sm mb-6 leading-relaxed max-w-xs">Um gato branco tranquilo que adora descansar em locais quentinhos e receber carinho.</p>
-                            </div>
-                            <div class="flex-shrink-0 w-full flex flex-col items-center max-w-md mx-auto">
-                                <img src="https://storage.googleapis.com/a1aa/image/adf8fbb7-7965-4c45-6178-e62a9a4e3d0c.jpg" alt="Cachorro sentado em fundo amarelo" class="mb-4 w-12 h-12 object-cover rounded" width="50" height="50"/>
-                                <h3 class="text-yellow-400 font-montserrat font-semibold text-lg mb-3 leading-tight">Cachorro Amarelo</h3>
-                                <p class="text-sm mb-6 leading-relaxed max-w-xs">Um cachorro alegre e brincalhão que adora passear e fazer novos amigos.</p>
-                            </div>
-                            <div class="flex-shrink-0 w-full flex flex-col items-center max-w-md mx-auto">
-                                <img src="https://storage.googleapis.com/a1aa/image/531c5ea1-d65c-4103-605c-08ad633a3e88.jpg" alt="Gato branco deitado em fundo preto" class="mb-4 w-12 h-12 object-cover rounded" width="50" height="50"/>
-                                <h3 class="text-yellow-400 font-montserrat font-semibold text-lg mb-3 leading-tight">Gato Branco no Escuro</h3>
-                                <p class="text-sm mb-6 leading-relaxed max-w-xs">Um gato curioso que gosta de explorar e se esconder em lugares escuros e aconchegantes.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button id="prevBtn" aria-label="Anterior" class="absolute top-1/2 left-2 -translate-y-1/2 bg-yellow-400 text-[#273B7A] rounded-full p-2 hover:bg-yellow-300 transition">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button id="nextBtn" aria-label="Próximo" class="absolute top-1/2 right-2 -translate-y-1/2 bg-yellow-400 text-[#273B7A] rounded-full p-2 hover:bg-yellow-300 transition">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
+
 
         <section class="max-w-7xl mx-auto px-4 py-12 flex flex-col md:flex-row gap-6 justify-center">
             <article class="bg-[#27387f] text-white rounded-md p-8 max-w-sm flex flex-col items-center text-center">
