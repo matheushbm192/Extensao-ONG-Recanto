@@ -4,6 +4,7 @@ dist/
 .env
 *.log
 
+
 # TypeScript
 *.tsbuildinfo
 
@@ -38,8 +39,10 @@ frontend/.parcel-cache/
 frontend/.turbo/
 frontend/.next/
 frontend/.vite/
+frontend/package-lock.json
 
 # Backend (builds)
 backend/dist/
 backend/node_modules/
 backend/.env
+backend/package-lock.json
