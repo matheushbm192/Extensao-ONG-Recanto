@@ -1,0 +1,10 @@
+body {
+    font-family: 'Baloo 2', cursive;
+}
+
+.hero-content-centered {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* A largura do #carousel-inner é definida dinamicamente pelo script.js */
