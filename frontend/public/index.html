@@ -1,15 +1,156 @@
+
+
+
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ONG Recanto dos Animais</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
+<html class="scroll-smooth" lang="pt-BR">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recanto dos Animais</title>
+
+  <!-- Caminho certo para o CSS -->
+  <link rel="stylesheet" href="/frontend/css/bootstrap.min.css">
 </head>
 <body>
-  <div id="app"></div>
 
-  <script type="module" src="assets/js/main.js"></script>
+  <!-- Caminho certo para o JS -->
+  <script src="/frontend/js/bootstrap.bundle.js"></script>
+</body>
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>ONG Recanto dos Animais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <link href="./assets/css/index.css" rel="stylesheet"/>
+</head>
+<body class="relative bg-white">
+    <header class="absolute top-0 left-0 w-full z-30">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
+            <div>
+                <a class="flex w-52 h-52 rounded-full overflow-hidden" href="index.html" aria-label="Voltar para a página inicial">
+                    <img alt="Logo Paraíso dos Peludinhos amarelo com azul, círculo amarelo com desenho azul de casa e dois animais" class="w-full h-full object-contain" height="56" src="./assets/resources/logo.svg" width="56"/>
+                </a>
+            </div>
+            <ul class="hidden md:flex items-center space-x-6 text-[#1f2a5a] text-sm font-normal">
+                <li><a class="text-[#1f2a5a] font-semibold hover:text-yellow-400 transition" href="index.html">Home</a></li>
+                <li><a class="text-yellow-400 font-semibold hover:text-yellow-400 transition" href="./cadastro_animais.html" aria-current="page">Cadastro de Animais</a></li>
+                
+                <li><a class="text-yellow-400 font-semibold hover:text-yellow-400 transition" href="./adocao.html" aria-current="page">Adote um Animal</a></li>
+            </ul>
+            <div class="hidden md:flex items-center space-x-4">
+                <a class="bg-yellow-400 text-black text-xs font-semibold rounded-full px-4 py-2 hover:bg-yellow-300 transition" href="#">FAÇA UMA DOAÇÃO</a>
+                <a aria-label="Facebook" class="text-yellow-400 hover:text-yellow-300" href="https://www.facebook.com/recantodosanimaisourobranco/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                <a aria-label="Instagram" class="text-yellow-400 hover:text-yellow-300" href="https://www.instagram.com/ong.recanto/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="relative w-full h-[520px] md:h-[600px] lg:h-[600px] xl:h-[600px]">
+            <img alt="Imagem de gatos peludinhos no pátio com azulejo cinza, vários gatos andando e olhando para frente" class="w-full h-full object-cover brightness-50" height="600" src="https://storage.googleapis.com/a1aa/image/6ab46009-3690-42f8-2745-1a30d00c32d3.jpg" width="1920"/>
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 hero-content-centered">  <!-- Classe adicionada, style removido -->
+                <h1 class="text-white text-3xl sm:text-4xl md:text-5xl font-bold leading-tight max-w-lg">
+                    Nossa missão é salvar<br/>
+                    vidas de 4 patas!
+                </h1>
+                <a class="mt-6 bg-yellow-400 text-black text-xs font-semibold rounded-full px-6 py-2 hover:bg-yellow-300 transition" href="./adocao.html">ADOTE UM ANIMAL</a>
+            </div>
+            <button aria-label="Previous slide" class="absolute top-1/2 left-2 transform -translate-y-1/2 text-white text-2xl opacity-70 hover:opacity-100">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button aria-label="Next slide" class="absolute top-1/2 right-2 transform -translate-y-1/2 text-white text-2xl opacity-70 hover:opacity-100">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </section>
+
+
+
+        <section class="max-w-7xl mx-auto px-4 py-12 flex flex-col md:flex-row gap-6 justify-center">
+            <article class="bg-[#27387f] text-white rounded-md p-8 max-w-sm flex flex-col items-center text-center">
+                <img alt="Ícone branco de gato sentado, símbolo de apadrinhamento" class="mb-4" height="48" src="https://storage.googleapis.com/a1aa/image/b9549b75-3a20-4246-353c-e2398a28c9cd.jpg" width="48"/>
+                <h3 class="text-yellow-400 font-bold text-lg mb-3">Faça uma Doação</h3>
+                <p class="text-xs leading-relaxed mb-6">Seja um doador pontual ou um doador recorrente e ajude a ONG com o valor que você puder contribuir. É fácil, rápido e ajuda demais a cuidar dos nossos mais de 500 peludinhos.</p>
+                <a class="border border-white rounded-full px-6 py-2 text-xs hover:bg-white hover:text-[#27387f] transition" href="#">SAIBA MAIS</a>
+            </article>
+            <article class="bg-[#27387f] text-white rounded-md p-8 max-w-sm flex flex-col items-center text-center">
+                <img alt="Ícone branco de cachorro sentado, símbolo de apadrinhamento" class="mb-4" height="48" src="https://storage.googleapis.com/a1aa/image/daee70cf-b71e-422c-43c5-fa0e899234b2.jpg" width="48"/>
+                <h3 class="text-yellow-400 font-bold text-lg mb-3">Apadrinhe um Peludo</h3>
+                <p class="text-xs leading-relaxed mb-6">Sendo madrinha ou padrinho, você vai contribuir com um custo fixo mensal de R$100,00 por peludo escolhido, que ajuda com ração, medicamentos e todo gasto que ele precisa para ficar lindo e feliz.</p>
+                <a class="border border-white rounded-full px-6 py-2 text-xs hover:bg-white hover:text-[#27387f] transition" href="#">SAIBA MAIS</a>
+            </article>
+            <article class="bg-[#27387f] text-white rounded-md p-8 max-w-sm flex flex-col items-center text-center">
+                <img alt="Ícone branco de gato sentado, símbolo de adoção" class="mb-4" height="48" src="https://storage.googleapis.com/a1aa/image/822bb0b8-2a19-4ec8-7208-514d1f50277a.jpg" width="48"/>
+                <h3 class="text-yellow-400 font-bold text-lg mb-3">Não compre. Adote!</h3>
+                <p class="text-xs leading-relaxed mb-6">A adoção de animais é fundamental para combater o abandono e a crueldade. Ao escolher adotar, você não apenas salva uma vida, mas também abre espaço para que mais animais sejam resgatados e cuidados.</p>
+                <a class="border border-white rounded-full px-6 py-2 text-xs hover:bg-white hover:text-[#27387f] transition" href="#">SAIBA MAIS</a>
+            </article>
+        </section>
+
+        <section id="trabalho" class="bg-[#2c3e8f] text-yellow-400 py-16 px-6 text-center">
+            <div class="max-w-4xl mx-auto text-[9px] md:text-[10px]">
+                <p class="uppercase font-extrabold tracking-widest mb-1">CASOS ESPECIAIS DE RESGATE</p>
+                <h3 class="font-extrabold text-yellow-400 text-2xl mb-2">NOSSO TRABALHO</h3>
+                <div class="w-16 h-[2px] bg-yellow-400 mx-auto mb-6"></div>
+                <p class="max-w-[600px] mx-auto mb-10 leading-tight">
+                    O Paraíso é conhecido como a organização que tem maior capacidade de recuperar a causa mais grave de animais vítimas de maus tratos. Não desistimos nunca! Todos afetados são felizes para que eles se recuperem. Somos 100% contra a eutanásia. Temos diversas casas, clínicas com nós solucionáveis, que conseguimos até o ex animal está lindo e felizes conosco. Abaixo alguns exemplos.
+                </p>
+                <div class="flex justify-center items-center gap-6 max-w-[600px] mx-auto">
+                    <img src="https://storage.googleapis.com/a1aa/image/7dfa08f7-3506-4f5a-2900-b8511933edc4.jpg" alt="Imagem de Vitória, uma cadela resgatada, mostrando ela com um bode e um cabrito em área externa" class="rounded-lg border border-yellow-400 w-24 h-24 object-cover" loading="lazy"/>
+                    <div class="text-left text-[10px] max-w-[350px]">
+                        <h4 class="font-extrabold text-yellow-400 mb-1">Vitória</h4>
+                        <p>Me chamo Vitória e sou uma das iguás que vivem na ONG. Fui resgatada com meu irmão Tocabelão, após sofrermos maus-tratos e sermos forçados a trabalhar por menos de tigela. Além disso, chegavam magra e cheia de feridas pelo corpo. O meu estado era o pior, mas com um longo tratamento, consegui me recuperar e hoje sou saudável!</p>
+                    </div>
+                    <button aria-label="Previous" class="text-yellow-400 text-xl cursor-pointer select-none">‹</button>
+                    <button aria-label="Next" class="text-yellow-400 text-xl cursor-pointer select-none">›</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="presidente" class="max-w-6xl mx-auto px-6 py-16 flex flex-col md:flex-row md:items-center md:space-x-12">
+            <div class="md:w-1/2 text-[9px] md:text-[10px] leading-relaxed text-center md:text-left">
+                <p class="uppercase font-extralight text-[8px] mb-1">NOSSA PRESIDENTE</p>
+                <h3 class="font-bold text-[#1f2a5a] text-2xl mb-3">Hanri Soares</h3>
+                <div class="w-16 h-[2px] bg-[#1f2a5a] mb-6 mx-auto md:mx-0"></div>
+                <p class="mb-4">É jornalista com especialização em Marketing, MKT de Serviços e Mídias Sociais. Empreendedora, sempre usou sua formação acadêmica para a gestão para a realização de diversos projetos sociais. Se dedica quase que integralmente como diretora de marketing e presidente/fundadora da ONG Paraíso dos Focinhos.</p>
+                <p class="mb-4">Apresenta e produz o programa da ONG "Em Movimento", que fala sobre a causa animal e o meio ambiente, além de outros projetos filantrópicos.</p>
+                <p>Estando à frente da ONG como presidente, já lançou um caternário, um programa de TV, construiu três sítios, passou a resgatar cavalos e um porquinho, além de gatos e cães. Hoje o Paraíso dos Focinhos pode ser considerado a maior ONG de proteção de animais do rio do estado do Rio de Janeiro.</p>
+            </div>
+            <div class="md:w-1/2 flex justify-center md:justify-end mt-8 md:mt-0">
+                <img src="https://storage.googleapis.com/a1aa/image/83dc78ed-ecea-4447-ee52-e7dedc7a5e91.jpg" alt="Foto da presidente Hanri Soares sorrindo sentada na porta com um cachorro no colo" class="rounded shadow-md w-56 h-72 object-cover" loading="lazy"/>
+            </div>
+        </section>
+
+        <section id="contato" class="bg-[#1f2a5a] text-white py-16 px-6 text-center">
+            <h2 class="text-3xl font-bold mb-6">Contato</h2>
+            <p class="max-w-xl mx-auto mb-6">Para mais informações, dúvidas ou para ajudar, entre em contato conosco!</p>
+            <form class="max-w-md mx-auto space-y-4 text-left">
+                <label class="block">
+                    <span class="text-sm font-semibold">Nome</span>
+                    <input type="text" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-black" placeholder="Seu nome" required/>
+                </label>
+                <label class="block">
+                    <span class="text-sm font-semibold">Email</span>
+                    <input type="email" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-black" placeholder="seu@email.com" required/>
+                </label>
+                <label class="block">
+                    <span class="text-sm font-semibold">Mensagem</span>
+                    <textarea rows="4" class="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-black" placeholder="Escreva sua mensagem" required></textarea>
+                </label>
+                <button type="submit" class="bg-yellow-400 text-[#1f2a5a] font-bold px-6 py-2 rounded hover:bg-yellow-300 transition">Enviar</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="bg-[#1f2a5a] text-yellow-400 py-6 text-center text-xs">
+        © 2024 Recanto dos Animais - Todos os direitos reservados.
+    </footer>
+
+    <a aria-label="WhatsApp" class="fixed bottom-6 right-6 bg-[#27387f] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-[#1e2a66] transition" href="#">
+        <i class="fab fa-whatsapp fa-lg"></i>
+    </a>
+
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

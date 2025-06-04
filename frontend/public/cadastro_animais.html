@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Recanto dos Animais - Cadastro de Animais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet"/>
+    <link href="./assets/css/cadastro_animais.css" rel="stylesheet"/>
+</head>
+<body class="relative bg-white">
+    <header class="absolute top-0 left-0 w-full z-30">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
+            <div>
+                <a class="flex w-52 h-52 rounded-full overflow-hidden" href="index.html" aria-label="Voltar para a página inicial">
+                    <img alt="Logo Paraíso dos Peludinhos amarelo com azul, círculo amarelo com desenho azul de casa e dois animais" class="w-full h-full object-contain" height="56" src="./assets/resources/logo.svg" width="56"/>
+                </a>
+            </div>
+            <ul class="hidden md:flex items-center space-x-6 text-[#1f2a5a] text-sm font-normal">
+                <li><a class="text-[#1f2a5a] font-semibold hover:text-yellow-400 transition" href="index.html">Home</a></li>
+                <li><a class="text-yellow-400 font-semibold hover:text-yellow-400 transition" href="./cadastro_animais.html" aria-current="page">Cadastro de Animais</a></li>
+                <li><a class="text-yellow-400 font-semibold hover:text-yellow-400 transition" href="./adocao.html" aria-current="page">Adote um Animal</a></li>
+            </ul>
+            <div class="hidden md:flex items-center space-x-4">
+                <a class="bg-yellow-400 text-black text-xs font-semibold rounded-full px-4 py-2 hover:bg-yellow-300 transition" href="#">FAÇA UMA DOAÇÃO</a>
+                <a aria-label="Facebook" class="text-yellow-400 hover:text-yellow-300" href="https://www.facebook.com/recantodosanimaisourobranco/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                <a aria-label="Instagram" class="text-yellow-400 hover:text-yellow-300" href="https://www.instagram.com/ong.recanto/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-40 max-w-3xl mx-auto px-6 pb-16">
+        <h1 class="text-3xl font-bold text-[#1f2a5a] mb-8 text-center">Cadastro de Animais</h1>
+        <form id="formulario-cadastro-animal" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 border border-gray-200" action="#" method="POST" enctype="multipart/form-data">
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="nome">Nome do Animal</label>
+                <input id="nome" name="nome" type="text" placeholder="Nome do animal" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="foto">Foto do Animal</label>
+                <input id="foto" name="foto" type="file" accept="image/*" required class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-yellow-400 file:text-black hover:file:bg-yellow-300 cursor-pointer"/>
+            </div>
+
+            <fieldset class="mb-6 border border-gray-300 p-4 rounded">
+                <legend class="text-gray-700 text-sm font-bold mb-2 px-2">Local Onde Foi Encontrado</legend>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="cep">CEP</label>
+                    <input id="cep" name="cep" type="text" placeholder="00000-000" 
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                           pattern="\d{5}-?\d{3}" title="Formato de CEP: 00000-000 ou 00000000"
+                           onkeyup="formatarCEP(event)" maxlength="9"/>
+                    <small class="text-gray-500 text-xs">Opcional: Ao preencher o CEP, outros campos podem ser preenchidos automaticamente.</small>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="rua">Rua / Logradouro</label>
+                        <input id="rua" name="rua" type="text" placeholder="Ex: Rua das Flores" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="numero">Número</label>
+                        <input id="numero" name="numero" type="text" placeholder="Ex: 123" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="complemento">Complemento</label>
+                    <input id="complemento" name="complemento" type="text" placeholder="Ex: Apto 101, Bloco B, Fundos" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="bairro">Bairro</label>
+                    <input id="bairro" name="bairro" type="text" placeholder="Ex: Centro" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="cidade">Cidade</label>
+                        <input id="cidade" name="cidade" type="text" placeholder="Ex: Belo Horizonte" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="estado">Estado</label>
+                        <select id="estado" name="estado" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="" disabled selected>Selecione o Estado</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="idade">Idade</label>
+                <input id="idade" name="idade" type="number" min="0" placeholder="Idade do animal (em anos)" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="sexo">Sexo</label>
+                <select id="sexo" name="sexo" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Selecione o sexo</option>
+                    <option value="macho">Macho</option>
+                    <option value="femea">Fêmea</option>
+                </select>
+            </div>
+
+            <div class="flex items-center justify-center">
+                <button type="submit" class="bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline transition">
+                    Cadastrar Animal
+                </button>
+            </div>
+        </form>
+    </main>
+    <script src="assets/js/cadastro_animais.js"></script>
+</body>
+</html>
