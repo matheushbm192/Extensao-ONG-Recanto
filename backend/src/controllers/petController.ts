@@ -16,6 +16,7 @@ const petDao = new PetDAO()
 }
 
 export const postPet = async(req: Request, res: Response) => {
+    
     //request tem que ver oq esta chegando
     // ve como tratar a questa da imagem, se estiver vindo a parte, separe em uma variavel
     //enviar para a camada rn em formato PetModel
