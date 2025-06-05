@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 3000;
 app.engine('html', mustacheExpress());
 app.set('view engine', 'html');
 
+// Pasta para armazenar as imagens 
+app.use('/uploads', express.static('public/uploads'));
+
 // Define onde estão os templates
 app.set('views', path.join(__dirname, 'pages'));
 

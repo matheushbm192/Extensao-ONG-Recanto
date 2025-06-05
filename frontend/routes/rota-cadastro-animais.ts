@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', (event: Event) => {
     event.preventDefault();
-  
+
     submitButton.disabled = true;
     submitButton.textContent = 'Enviando...';
-    
+
     enviarFormularioAnimal(form, submitButton);
   });
 
@@ -25,28 +25,29 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(`${key}:`, value);
     }
     //alterar para nossa rota
-    fetch('http://localhost:3000/api/petPost', {
+    fetch('http://localhost:3000/api/petsPost', {
       method: 'POST',
       body: formData,
     })
       .then(async (response) => {
         if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message || 'Erro no envio do formulário');
+          const error = await response.text();
+          throw new Error(error || 'Erro no envio do formulário');
         }
         //receberemos um html
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Resposta do servidor:', data);
-        //inserir mensagem na tela
-        alert('Animal cadastrado com sucesso!');
+        return response.text();
+      }).then((html) => {
+        const container = document.getElementById('Mensagem'); // div onde será inserido o HTML
+        if (container) {
+          container.innerHTML = html;
+        } else {
+          console.warn('Container para resposta não encontrado');
+        }
 
-        form.reset();
+        form.reset(); // limpa o formulário
       })
       .catch((error) => {
         console.error('Erro ao cadastrar:', error);
-        //alterar para uma mensagem
         alert('Erro ao cadastrar o animal. Verifique os campos e tente novamente.');
       })
       .finally(() => {

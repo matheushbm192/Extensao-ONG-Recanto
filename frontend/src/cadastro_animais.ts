@@ -30,7 +30,7 @@ if (cepInput) {
                         const rua = document.getElementById('rua') as HTMLInputElement | null;
                         const bairro = document.getElementById('bairro') as HTMLInputElement | null;
                         const cidade = document.getElementById('cidade') as HTMLInputElement | null;
-                        const estado = document.getElementById('estado') as HTMLInputElement | null;
+                        const estado = document.getElementById('estado') as HTMLSelectElement | null;
                         const numero = document.getElementById('numero') as HTMLInputElement | null;
 
                         if (rua) rua.value = data.logradouro || '';
@@ -41,6 +41,7 @@ if (cepInput) {
                     } else {
                         console.warn('CEP não encontrado ou inválido.');
                         // Você pode limpar os campos aqui se quiser
+                        
                     }
                 })
                 .catch((error: unknown) => {
