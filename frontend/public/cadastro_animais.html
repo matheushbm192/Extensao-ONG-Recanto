@@ -164,8 +164,14 @@
 
 
         </form>
-        <div id="Mensagem" class="flex items-center justify-center">
+        <!-- Mensagem de sucesso -->
+        <div id="mensagem" class="hidden flex items-center justify-center bg-green-100 text-green-700 p-4 rounded">
             <p>Animal cadastrado com sucesso!</p>
+        </div>
+
+        <!-- Mensagem de erro -->
+        <div id="mensagemErro" class="hidden flex items-center justify-center bg-red-100 text-red-700 p-4 rounded">
+            <p>Erro ao cadastrar o animal. Verifique os campos e tente novamente.</p>
         </div>
     </main>
     <script src="assets/js/cadastro_animais.js"></script>

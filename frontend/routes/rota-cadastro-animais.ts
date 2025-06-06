@@ -37,18 +37,24 @@ document.addEventListener('DOMContentLoaded', () => {
         //receberemos um html
         return response.text();
       }).then((html) => {
-        const container = document.getElementById('Mensagem'); // div onde será inserido o HTML
+        const container = document.getElementById('mensagem'); 
         if (container) {
-          container.innerHTML = html;
+          container.classList.remove('hidden'); 
+          setTimeout(() => container.classList.add('hidden'), 2000); // Esconde após 2 segundos
         } else {
-          console.warn('Container para resposta não encontrado');
+          console.warn('Container para mensagem de sucesso não encontrado');
         }
 
-        form.reset(); // limpa o formulário
+        form.reset(); // Limpa o formulário
       })
       .catch((error) => {
-        console.error('Erro ao cadastrar:', error);
-        alert('Erro ao cadastrar o animal. Verifique os campos e tente novamente.');
+        const containerErro = document.getElementById('mensagemErro'); 
+        if (containerErro) {
+          containerErro.classList.remove('hidden'); 
+          setTimeout(() => containerErro.classList.add('hidden'), 2000); // Esconde após 2 segundos
+        } else {
+          console.warn('Container para mensagem de erro não encontrado');
+        }
       })
       .finally(() => {
         if (button) {
