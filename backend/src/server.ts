@@ -1,5 +1,7 @@
 import express, { application } from 'express';
 import petRoutes from "./routes/petRoutes"
+import telaRoutes from "./routes/telaRoutes"
+
 import mustacheExpress from 'mustache-express'
 import path from 'path';
 const app = express();
@@ -16,7 +18,10 @@ app.use('/uploads', express.static('public/uploads'));
 app.set('views', path.join(__dirname, 'pages'));
 
 app.use(express.json());
+
 app.use('/api', petRoutes)
+
+app.use('/tela',telaRoutes)
 
 app.get('/', (req, res) => {
   res.send('API da ONG Recanto dos Animais no ar!');
