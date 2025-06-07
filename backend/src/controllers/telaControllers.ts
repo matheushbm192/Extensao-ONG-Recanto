@@ -1,8 +1,10 @@
 import { Request, Response } from 'express'
+import path from 'path'
 
 export const getTelaHome = async (req: Request, res: Response) => {
     try {
-        res.sendFile('../pages/home')
+        const filePath = path.join(__dirname, '..', '..', 'pages', 'home.html')
+        res.sendFile(filePath)
     } catch (error) {
         res.send(error)
     }
@@ -10,14 +12,16 @@ export const getTelaHome = async (req: Request, res: Response) => {
 }
 export const getTelaAdocao = async (req: Request, res: Response) => {
     try {
-        res.sendFile('../pages/adocao')
+        const filePath = path.join(__dirname, '..', '..', 'pages', 'adocao.html')
+        res.sendFile(filePath)
     } catch (error) {
         res.send(error)
     }
 }
 export const getTelaCadastrarAnimais = async (req: Request, res: Response) => {
     try {
-        res.sendFile('../pages/cadastrarAnimais')
+        const filePath = path.join(__dirname, '..', '..', 'pages', 'cadastrarAnimais.html')
+        res.sendFile(filePath)
     } catch (error) {
         res.send(error)
     }

@@ -1,20 +1,22 @@
-import { Pet, PetInput } from '../models/petModel'
-import PetDAO from '../DAO/petDAO'
+import { Pet, PetInput } from '../models/petModel';
+import PetDAO from '../DAO/petDAO';
 
-const petDao = new PetDAO()
+export class PetRN {
+  private petDao: PetDAO;
 
-const postPet = async (petData: PetInput): Promise<Pet> => {
-  if (!petData.nome) { 
-    throw new Error('Nome e obrigatorio.') 
+  constructor() {
+    this.petDao = new PetDAO();
   }
 
-  return await petDao.postPet(petData) 
-}
+  async insertPet(petData: PetInput): Promise<Pet> {
+    if (!petData.nome) {
+      throw new Error('Nome é obrigatório.');
+    }
 
-// Permite ser importado essas funcoes onde a classe eh definida
- const getAllPets = async (): Promise<Pet[]> => {
-  return await petDao.getAllPets()
-  
-}
+    return await this.petDao.insertPet(petData);
+  }
 
-export default { postPet, getAllPets }
+  async selectPets(): Promise<Pet[]> {
+    return await this.petDao.selectPets();
+  }
+}
