@@ -1,0 +1,13 @@
+<li class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-2xl transition-shadow duration-300">
+    <img src="{{foto_url}}" alt="{{nome}}" class="w-full h-48 object-cover" />
+    <div class="p-4 flex flex-col flex-grow">
+        <h2 class="text-xl font-semibold mb-2 text-[#357a38]">{{nome}}</h2>
+        <ul class="text-gray-700 flex-grow space-y-1">
+            <li><strong>Raça:</strong> {{raca}}</li>
+            <li><strong>Sexo:</strong> {{sexo}}</li>
+            <li><strong>Idade:</strong> {{idade}}</li>
+        </ul>
+        <button class="mt-4 bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300 transition"
+            type="button">Adotar</button>
+    </div>
+</li>

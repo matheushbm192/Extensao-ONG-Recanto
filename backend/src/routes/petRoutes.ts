@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { PetCTR } from '../controllers/petController';
-import upload from '../public/uploads';
+import upload from '../storage/uploads';
 const petCTR = new PetCTR
 const router = Router()
 

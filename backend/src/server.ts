@@ -18,7 +18,7 @@ app.use(cors({
 }));
 
 // Pasta para armazenar as imagens 
-app.use('/uploads', express.static('public/uploads'));
+app.use('/uploads', express.static('imagens'));
 
 // Define onde estão os templates
 app.set('views', path.join(__dirname, 'pages'));
