@@ -1,10 +1,12 @@
 import multer from 'multer';
 import path from 'path';
 
+const filePath = path.join(__dirname, '..', '..', 'imagens')
 // Define onde o arquivo será salvo e o nome que ele terá
 const storage = multer.diskStorage({
+  
   destination: function (req, file, cb) {
-    cb(null, 'public/uploads'); // Pasta onde os arquivos vão
+    cb(null, filePath); // Pasta onde os arquivos vão
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);

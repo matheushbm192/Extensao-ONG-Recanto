@@ -11,15 +11,17 @@ const petRN = new PetRN();
 export class PetCTR {
   async getAllPets(req: Request, res: Response) {
     try {
-      const pets = await petRN.selectPets();
-
       // Carrega o template Mustache
-      const templatePath = path.join(__dirname, '../views/listaPets.html');
+      const templatePath = path.join(__dirname, '..', '..', 'pages', 'listaAdocao.html');
       const template = fs.readFileSync(templatePath, 'utf-8');
 
-      const html = mustache.render(template, { pets });
+      const pets = await petRN.selectPets();
 
-      res.send(html);
+      let listaPetHTML: string[] = pets.map( (pet) => {
+        return mustache.render(template, pet );
+      })
+      
+      res.json({listaPetHTML});
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }
