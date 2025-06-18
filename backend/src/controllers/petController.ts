@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { MulterRequest } from '../interfaceConfig/MulterRequest';
-import { Pet } from '../models/petModel'
+import { Pet, PetInput } from '../models/petModel'
 import { PetRN } from '../services/petService';
 import mustache from 'mustache';
 import fs from 'fs';
@@ -29,21 +29,39 @@ export class PetCTR {
 
   async postPet(req: MulterRequest, res: Response) {
     try {
-      const { nome, raca, especie, sexo, idade, endereco_resgate } = req.body;
+      const {
+      nome,
+      raca,
+      especie,
+      sexo,
+      idade,
+      cep,
+      logradouro,
+      numero,
+      complemento,
+      bairro,
+      cidade,
+      estado
+    } = req.body;
+
 
       const foto_url = req.file ? `/uploads/${req.file.filename}` : null;
 
-      const novoPet: Pet = {
-        id_pet: '',
+      const novoPet: PetInput = {
         nome,
         raca: raca || null,
         especie: especie || null,
-        sexo: sexo || null,
+        sexo,
         idade: idade ? parseInt(idade, 10) : null,
         foto_url,
-        endereco_resgate: endereco_resgate || null,
-        created_at: new Date().toISOString(),
-      };
+        cep: cep || null,
+        logradouro,
+        numero: numero ? parseInt(numero, 10) : null,
+        complemento: complemento || null,
+        bairro,
+        cidade,
+        estado
+    };
 
       // Chama a regra de negócio
       await petRN.insertPet(novoPet);
