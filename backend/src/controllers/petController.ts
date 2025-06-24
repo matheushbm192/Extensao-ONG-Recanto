@@ -15,7 +15,7 @@ export class PetCTR {
       const templatePath = path.join(__dirname, '..', '..', 'pages', 'listaAdocao.html');
       const template = fs.readFileSync(templatePath, 'utf-8');
 
-      const pets = await petRN.selectPets();
+      const pets = await petRN.selectAllPets();
 
       let listaPetHTML: string[] = pets.map( (pet) => {
         return mustache.render(template, pet );
@@ -85,13 +85,22 @@ export class PetCTR {
       console.log("Pet a ser inserido:", novoPet);
 
       // Chama a regra de negócio
+      console.log("Chamando PetRN.insertPet...");
       const resultado = await petRN.insertPet(novoPet);
       console.log("Pet inserido com sucesso:", resultado);
 
-      res.send('<p>Animal cadastrado com sucesso!</p>');
+      res.status(201).send('<p>Animal cadastrado com sucesso!</p>');
     } catch (error: any) {
-      console.error("Erro no postPet:", error);
-      res.status(500).send('<p>Erro ao cadastrar animal: ' + error.message + '</p>');
+      console.error("=== ERRO CAPTURADO NO CONTROLLER ===");
+      console.error("Erro completo:", error);
+      
+      // Se for erro de validação da PetRN, retorna 400 (Bad Request)
+      if (error.message.includes('obrigatório') || error.message.includes('não pode ser')) {
+        res.status(400).send('<p>Erro de validação: ' + error.message + '</p>');
+      } else {
+        // Se for erro de banco ou outro, retorna 500 (Internal Server Error)
+        res.status(500).send('<p>Erro interno do servidor: ' + error.message + '</p>');
+      }
     }
   }
 }
