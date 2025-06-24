@@ -22,13 +22,13 @@ if (cepInput) {
                 .then(response => response.json())
                 .then((data) => {
                 if (!data.erro) {
-                    const rua = document.getElementById('rua');
+                    const logradouro = document.getElementById('logradouro');
                     const bairro = document.getElementById('bairro');
                     const cidade = document.getElementById('cidade');
                     const estado = document.getElementById('estado');
                     const numero = document.getElementById('numero');
-                    if (rua)
-                        rua.value = data.logradouro || '';
+                    if (logradouro)
+                        logradouro.value = data.logradouro || '';
                     if (bairro)
                         bairro.value = data.bairro || '';
                     if (cidade)

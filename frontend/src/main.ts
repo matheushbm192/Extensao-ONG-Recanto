@@ -1,6 +1,6 @@
 
 
-
+carregarPaginaInicial();
 
 function carregarPaginaInicial() {
 
@@ -39,6 +39,8 @@ function carregarPaginaCadastroAnimal() {
         }).then((html) => {
             const container = document.getElementById("principal"); // div onde será inserido o HTML
             if (container) {
+                console.log("Carrega cadastro")
+                console.log(container)
                 container.innerHTML = html;
             } else {
                 console.warn('Container para resposta não encontrado');
@@ -95,4 +97,3 @@ function getAllPets() {
         });
 }
 
-carregarPaginaInicial();

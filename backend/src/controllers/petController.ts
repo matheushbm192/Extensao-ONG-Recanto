@@ -29,6 +29,10 @@ export class PetCTR {
 
   async postPet(req: MulterRequest, res: Response) {
     try {
+      console.log("=== INÍCIO DO POST PET ===");
+      console.log("Body recebido:", req.body);
+      console.log("File recebido:", req.file);
+      
       const {
       nome,
       raca,
@@ -44,8 +48,23 @@ export class PetCTR {
       estado
     } = req.body;
 
+      console.log("Dados extraídos:", {
+        nome,
+        raca,
+        especie,
+        sexo,
+        idade,
+        cep,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
+        cidade,
+        estado
+      });
 
       const foto_url = req.file ? `/uploads/${req.file.filename}` : null;
+      console.log("Foto URL:", foto_url);
 
       const novoPet: PetInput = {
         nome,
@@ -63,12 +82,16 @@ export class PetCTR {
         estado
     };
 
+      console.log("Pet a ser inserido:", novoPet);
+
       // Chama a regra de negócio
-      await petRN.insertPet(novoPet);
+      const resultado = await petRN.insertPet(novoPet);
+      console.log("Pet inserido com sucesso:", resultado);
 
       res.send('<p>Animal cadastrado com sucesso!</p>');
     } catch (error: any) {
-      res.send('<p>Erro ao cadastrar animal.</p>');
+      console.error("Erro no postPet:", error);
+      res.status(500).send('<p>Erro ao cadastrar animal: ' + error.message + '</p>');
     }
   }
 }

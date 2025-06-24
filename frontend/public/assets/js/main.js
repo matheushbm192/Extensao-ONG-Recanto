@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+carregarPaginaInicial();
 function carregarPaginaInicial() {
     fetch('http://localhost:3000/tela/home')
         .then((response) => __awaiter(this, void 0, void 0, function* () {
@@ -43,7 +44,16 @@ function carregarPaginaCadastroAnimal() {
     })).then((html) => {
         const container = document.getElementById("principal"); // div onde será inserido o HTML
         if (container) {
+            console.log("Carrega cadastro");
+            console.log(container);
             container.innerHTML = html;
+            
+            // Aguarda um pouco para o DOM ser atualizado e então inicializa o formulário
+            setTimeout(() => {
+                if (window.inicializarFormularioCadastro) {
+                    window.inicializarFormularioCadastro();
+                }
+            }, 100);
         }
         else {
             console.warn('Container para resposta não encontrado');
@@ -96,4 +106,3 @@ function getAllPets() {
         alert('Erro ao pegar animais. ');
     });
 }
-carregarPaginaInicial();

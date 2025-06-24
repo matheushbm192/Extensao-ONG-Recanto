@@ -23,7 +23,9 @@ app.use('/uploads', express.static('imagens'));
 // Define onde estão os templates
 app.set('views', path.join(__dirname, 'pages'));
 
+// Middlewares para processar dados
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', petRoutes)
 app.use('/tela',telaRoutes)
