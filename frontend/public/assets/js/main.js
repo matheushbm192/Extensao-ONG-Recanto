@@ -47,13 +47,6 @@ function carregarPaginaCadastroAnimal() {
             console.log("Carrega cadastro");
             console.log(container);
             container.innerHTML = html;
-            
-            // Aguarda um pouco para o DOM ser atualizado e então inicializa o formulário
-            setTimeout(() => {
-                if (window.inicializarFormularioCadastro) {
-                    window.inicializarFormularioCadastro();
-                }
-            }, 100);
         }
         else {
             console.warn('Container para resposta não encontrado');

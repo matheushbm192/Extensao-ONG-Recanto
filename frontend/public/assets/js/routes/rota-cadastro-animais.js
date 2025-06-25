@@ -51,115 +51,42 @@
 //       });
 //   }
 // });
-
-// Função para inicializar o formulário quando a página for carregada
-function inicializarFormularioCadastro() {
-    console.log("Inicializando formulário de cadastro...");
-    
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("clicado");
     const botao = document.getElementById('btn-cadastrar');
-    const form = document.getElementById('formulario-cadastro-animal');
-    
-    if (!botao || !form) {
-        console.error('Elementos do formulário não encontrados');
-        return;
-    }
-    
-    // Remove listeners anteriores para evitar duplicação
-    botao.removeEventListener('click', handleSubmit);
-    
-    // Adiciona o novo listener
-    botao.addEventListener('click', handleSubmit);
-    
-    console.log("Formulário inicializado com sucesso");
-}
-
-// Função para lidar com o submit do formulário
-function handleSubmit(event) {
-    event.preventDefault();
-    console.log("Enviando formulário...");
-    enviarCadastro();
-}
-
-// Função para enviar o cadastro
+    botao === null || botao === void 0 ? void 0 : botao.addEventListener('click', (event) => {
+        event.preventDefault();
+        enviarCadastro();
+    });
+});
 function enviarCadastro() {
     const form = document.getElementById('formulario-cadastro-animal');
     const button = document.getElementById('btn-cadastrar');
-    const mensagem = document.getElementById('mensagem');
-    const mensagemErro = document.getElementById('mensagemErro');
-    
-    if (!form || !button) {
-        console.error('Elementos necessários não encontrados');
-        return;
-    }
-    
-    // Esconde mensagens anteriores
-    if (mensagem) mensagem.classList.add('hidden');
-    if (mensagemErro) mensagemErro.classList.add('hidden');
-    
     const formData = new FormData(form);
-    
-    // Log dos dados sendo enviados
-    console.log('Dados do formulário:');
-    for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-    }
-    
+    console.log(formData);
     button.disabled = true;
     button.textContent = 'Enviando...';
-    
     fetch('http://localhost:3000/api/petsPost', {
         method: 'POST',
         body: formData,
     })
-    .then(response => {
-        console.log('Status da resposta:', response.status);
-        if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
-        }
-        return response.text();
+        .then(res => {
+        if (!res.ok)
+            throw new Error('Erro no envio');
+        return res.text();
     })
-    .then((res) => {
-        console.log('Resposta do servidor:', res);
-        
-        // Mostra mensagem de sucesso
-        if (mensagem) {
-            mensagem.classList.remove('hidden');
-        }
-        
-        // Limpa o formulário
+        .then((res) => {
+        var _a;
+        console.log(res);
+        (_a = document.getElementById('mensagem')) === null || _a === void 0 ? void 0 : _a.classList.remove('hidden');
         form.reset();
-        
-        // Esconde a mensagem após 3 segundos
-        setTimeout(() => {
-            if (mensagem) mensagem.classList.add('hidden');
-        }, 3000);
     })
-    .catch((error) => {
-        console.error('Erro ao cadastrar:', error);
-        
-        // Mostra mensagem de erro
-        if (mensagemErro) {
-            mensagemErro.classList.remove('hidden');
-        }
-        
-        // Esconde a mensagem após 5 segundos
-        setTimeout(() => {
-            if (mensagemErro) mensagemErro.classList.add('hidden');
-        }, 5000);
+        .catch(() => {
+        var _a;
+        (_a = document.getElementById('mensagemErro')) === null || _a === void 0 ? void 0 : _a.classList.remove('hidden');
     })
-    .finally(() => {
+        .finally(() => {
         button.disabled = false;
         button.textContent = 'Cadastrar Animal';
     });
 }
-
-// Inicializa quando o DOM estiver pronto
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inicializarFormularioCadastro);
-} else {
-    // Se o DOM já estiver carregado, inicializa imediatamente
-    inicializarFormularioCadastro();
-}
-
-// Também inicializa quando a função for chamada diretamente (para carregamento dinâmico)
-window.inicializarFormularioCadastro = inicializarFormularioCadastro;
