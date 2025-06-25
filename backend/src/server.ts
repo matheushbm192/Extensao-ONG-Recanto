@@ -23,6 +23,8 @@ app.use('/uploads', express.static('imagens'));
 // Define onde estão os templates
 app.set('views', path.join(__dirname, 'pages'));
 
+// Adicione esta linha:
+app.use('/imagens', express.static(path.join(__dirname, '../imagens')));
 
 // Middlewares para processar dados
 app.use(express.json());
