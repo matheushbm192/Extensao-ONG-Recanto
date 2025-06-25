@@ -1,6 +1,31 @@
+import { renderPage, initializeAdocaoPage } from "./adocao.js";
+import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 
-
-carregarPaginaInicial();
+// Event listeners para navegação
+document.addEventListener('DOMContentLoaded', () => {
+    // Event listener para todos os elementos com data-action
+    document.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement;
+        const action = target.dataset.action;
+        
+        if (action) {
+            switch(action) {
+                case 'home':
+                    carregarPaginaInicial();
+                    break;
+                case 'cadastro':
+                    carregarPaginaCadastroAnimal();
+                    break;
+                case 'adocao':
+                    carregarPaginaAdocao();
+                    break;
+            }
+        }
+    });
+    
+    // Carrega a página inicial automaticamente
+    carregarPaginaInicial();
+});
 
 function carregarPaginaInicial() {
 
@@ -21,8 +46,9 @@ function carregarPaginaInicial() {
             }
         })
         .catch((error) => {
-            console.error('Erro ao cadastrar:', error);
-            alert('Erro ao cadastrar o animal. Verifique os campos e tente novamente.');
+
+            console.error('Erro ao carregar tela home:', error);
+            alert('Erro ao carregar tela home. Verifique a conexão com a internet.');
         });
 }
 
@@ -47,8 +73,12 @@ function carregarPaginaCadastroAnimal() {
             }
         })
         .catch((error) => {
-            console.error('Erro ao cadastrar:', error);
-            alert('Erro ao cadastrar o animal. Verifique os campos e tente novamente.');
+
+            console.error('Erro ao carregar tela cadastro:', error);
+            alert('Erro ao carregar tela cadastro. Verifique a conexão com a internet.');
+        }).then(() => {
+            // Inicializa a página de cadastro após carregar o HTML
+            initializeCadastroPage();
         });
 }
 
@@ -71,29 +101,13 @@ function carregarPaginaAdocao() {
             }
         })
         .catch((error) => {
-            console.error('Erro ao cadastrar:', error);
-            alert('Erro ao cadastrar o animal. Verifique os campos e tente novamente.');
-        }).then(getAllPets)
-}
-
-function getAllPets() {
-    fetch('http://localhost:3000/api/petGet')
-        .then(async res => {
-            if (!res.ok) {
-                const error = await res.text();
-                throw new Error(error || 'Erro ao carregar tela home');
-            }
-            return res.json()
-        })
-        .then(data => {
-            const container = document.getElementById('animal-list')
-            if (container) {
-                container.innerHTML = data.listaPetHTML.join('');
-            }
-
-        }).catch((error) => {
-            console.error('Erro pegar:', error);
-            alert('Erro ao pegar animais. ');
+            console.error('Erro ao carregar tela adocao:', error);
+            alert('Erro ao carregar tela adocao. Verifique a conexão com a internet.');
+        }).then(() => {
+            // Inicializa a página de adoção após carregar o HTML
+            initializeAdocaoPage();
         });
 }
+
+
 

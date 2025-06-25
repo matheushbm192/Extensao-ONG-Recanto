@@ -12,17 +12,18 @@ export class PetCTR {
   async getAllPets(req: Request, res: Response) {
     try {
       // Carrega o template Mustache
-      const templatePath = path.join(__dirname, '..', '..', 'pages', 'listaAdocao.html');
-      const template = fs.readFileSync(templatePath, 'utf-8');
-
+      //const templatePath = path.join(__dirname, '..', '..', 'pages', 'listaAdocao.html');
+      //const template = fs.readFileSync(templatePath, 'utf-8');
       const pets = await petRN.selectAllPets();
+      // let listaPetHTML: string[] = pets.map( (pet) => {
+      //   return mustache.render(template, pet );
+      // })
+      console.log("Pets encontrados:", pets);
+      return res.json({pets});
 
-      let listaPetHTML: string[] = pets.map( (pet) => {
-        return mustache.render(template, pet );
-      })
-      
-      res.json({listaPetHTML});
     } catch (error: any) {
+      
+      console.error("Erro ao buscar animais:", error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -94,11 +95,11 @@ export class PetCTR {
       console.error("=== ERRO CAPTURADO NO CONTROLLER ===");
       console.error("Erro completo:", error);
       
-      // Se for erro de validação da PetRN, retorna 400 (Bad Request)
+      // Se for erro de validação da PetRN, retorna 400 Bad Request
       if (error.message.includes('obrigatório') || error.message.includes('não pode ser')) {
         res.status(400).send('<p>Erro de validação: ' + error.message + '</p>');
       } else {
-        // Se for erro de banco ou outro, retorna 500 (Internal Server Error)
+        // Se for erro de banco ou outro, retorna 500 Internal Server Error
         res.status(500).send('<p>Erro interno do servidor: ' + error.message + '</p>');
       }
     }

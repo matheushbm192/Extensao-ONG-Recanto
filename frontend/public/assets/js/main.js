@@ -1,24 +1,38 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+import { initializeAdocaoPage } from "./adocao.js";
+import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
+// Event listeners para navegação
+document.addEventListener('DOMContentLoaded', () => {
+    // Event listener para todos os elementos com data-action
+    document.addEventListener('click', (event) => {
+        const target = event.target;
+        const action = target.dataset.action;
+        if (action) {
+            switch (action) {
+                case 'home':
+                    carregarPaginaInicial();
+                    break;
+                case 'cadastro':
+                    carregarPaginaCadastroAnimal();
+                    break;
+                case 'adocao':
+                    carregarPaginaAdocao();
+                    break;
+            }
+        }
     });
-};
-carregarPaginaInicial();
+    // Carrega a página inicial automaticamente
+    carregarPaginaInicial();
+});
 function carregarPaginaInicial() {
     fetch('http://localhost:3000/tela/home')
-        .then((response) => __awaiter(this, void 0, void 0, function* () {
+        .then(async (response) => {
         if (!response.ok) {
-            const error = yield response.text();
+            const error = await response.text();
             throw new Error(error || 'Erro ao carregar tela home');
         }
         //receberemos um html
         return response.text();
-    })).then((html) => {
+    }).then((html) => {
         const container = document.getElementById("principal"); // div onde será inserido o HTML
         if (container) {
             container.innerHTML = html;
@@ -28,20 +42,20 @@ function carregarPaginaInicial() {
         }
     })
         .catch((error) => {
-        console.error('Erro ao cadastrar:', error);
-        alert('Erro ao cadastrar o animal. Verifique os campos e tente novamente.');
+        console.error('Erro ao carregar tela home:', error);
+        alert('Erro ao carregar tela home. Verifique a conexão com a internet.');
     });
 }
 function carregarPaginaCadastroAnimal() {
     fetch('http://localhost:3000/tela/cadastrarAnimais')
-        .then((response) => __awaiter(this, void 0, void 0, function* () {
+        .then(async (response) => {
         if (!response.ok) {
-            const error = yield response.text();
+            const error = await response.text();
             throw new Error(error || 'Erro ao carregar tela home');
         }
         //receberemos um html
         return response.text();
-    })).then((html) => {
+    }).then((html) => {
         const container = document.getElementById("principal"); // div onde será inserido o HTML
         if (container) {
             console.log("Carrega cadastro");
@@ -53,20 +67,23 @@ function carregarPaginaCadastroAnimal() {
         }
     })
         .catch((error) => {
-        console.error('Erro ao cadastrar:', error);
-        alert('Erro ao cadastrar o animal. Verifique os campos e tente novamente.');
+        console.error('Erro ao carregar tela cadastro:', error);
+        alert('Erro ao carregar tela cadastro. Verifique a conexão com a internet.');
+    }).then(() => {
+        // Inicializa a página de cadastro após carregar o HTML
+        initializeCadastroPage();
     });
 }
 function carregarPaginaAdocao() {
     fetch('http://localhost:3000/tela/adocao')
-        .then((response) => __awaiter(this, void 0, void 0, function* () {
+        .then(async (response) => {
         if (!response.ok) {
-            const error = yield response.text();
+            const error = await response.text();
             throw new Error(error || 'Erro ao carregar tela home');
         }
         //receberemos um html
         return response.text();
-    })).then((html) => {
+    }).then((html) => {
         const container = document.getElementById("principal"); // div onde será inserido o HTML
         if (container) {
             container.innerHTML = html;
@@ -76,26 +93,10 @@ function carregarPaginaAdocao() {
         }
     })
         .catch((error) => {
-        console.error('Erro ao cadastrar:', error);
-        alert('Erro ao cadastrar o animal. Verifique os campos e tente novamente.');
-    }).then(getAllPets);
-}
-function getAllPets() {
-    fetch('http://localhost:3000/api/petGet')
-        .then((res) => __awaiter(this, void 0, void 0, function* () {
-        if (!res.ok) {
-            const error = yield res.text();
-            throw new Error(error || 'Erro ao carregar tela home');
-        }
-        return res.json();
-    }))
-        .then(data => {
-        const container = document.getElementById('animal-list');
-        if (container) {
-            container.innerHTML = data.listaPetHTML.join('');
-        }
-    }).catch((error) => {
-        console.error('Erro pegar:', error);
-        alert('Erro ao pegar animais. ');
+        console.error('Erro ao carregar tela adocao:', error);
+        alert('Erro ao carregar tela adocao. Verifique a conexão com a internet.');
+    }).then(() => {
+        // Inicializa a página de adoção após carregar o HTML
+        initializeAdocaoPage();
     });
 }

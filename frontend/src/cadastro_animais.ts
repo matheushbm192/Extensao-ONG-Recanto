@@ -1,5 +1,5 @@
 // Função para aplicar máscara de CEP (00000-000)
-function formatarCEP(event: Event): void {
+export function formatarCEP(event: Event): void {
     const input = event.target as HTMLInputElement;
     let value: string = input.value.replace(/\D/g, ''); // Remove tudo que não for dígito
 
@@ -13,6 +13,9 @@ function formatarCEP(event: Event): void {
 
     input.value = value;
 }
+
+// Expor a função globalmente para compatibilidade com onkeyup
+(window as any).formatarCEP = formatarCEP;
 
 // Seleciona o campo de CEP
 const cepInput = document.getElementById('cep') as HTMLInputElement | null;

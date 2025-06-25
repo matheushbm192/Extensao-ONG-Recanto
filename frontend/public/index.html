@@ -14,7 +14,7 @@
     <header class="absolute top-0 left-0 w-full z-30">
         <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
             <div>
-                <a class="flex w-52 h-52 rounded-full overflow-hidden cursor-pointer" onclick="carregarPaginaInicial()"
+                <a class="flex w-52 h-52 rounded-full overflow-hidden cursor-pointer" data-action="home"
                     aria-label="Voltar para a página inicial">
                     <img alt="Logo Paraíso dos Peludinhos amarelo com azul, círculo amarelo com desenho azul de casa e dois animais"
                         class="w-full h-full object-contain" height="56" src="./assets/resources/logo.svg" width="56" />
@@ -23,21 +23,18 @@
 
             <ul class="hidden md:flex items-center space-x-6 text-[#1f2a5a] text-sm font-normal">
                 <li>
-                    <a class="text-[#1f2a5a] font-semibold hover:text-yellow-400 transition cursor-pointer"
-                        onclick="carregarPaginaInicial()">
+                    <a class="text-[#1f2a5a] font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="home">
                         Home
                     </a>
                 </li>
 
                 <li>
-                    <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer"
-                        onclick="carregarPaginaCadastroAnimal()" aria-current="page">
+                    <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="cadastro">
                         Cadastro de Animais</a>
                 </li>
 
                 <li>
-                    <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer"
-                        onclick="carregarPaginaAdocao()" aria-current="page">
+                    <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="adocao">
                         Adote um Animal
                     </a>
                 </li>
@@ -72,10 +69,7 @@
         <i class="fab fa-whatsapp fa-lg"></i>
     </a>
     
-    <script src="assets/js/routes/rota-cadastro-animais.js"></script>
-    <script src="assets/js/adocao.js"></script>
-    <script src="assets/js/cadastro_animais.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script type="module" src="assets/js/main.js"></script>
 </body>
 
 </html>
