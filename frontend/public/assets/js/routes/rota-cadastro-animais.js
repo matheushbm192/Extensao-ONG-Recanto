@@ -24,12 +24,17 @@ function enviarCadastro() {
     }
     const formData = new FormData(form);
     console.log(formData);
+    console.log(formData);
     button.disabled = true;
     button.textContent = 'Enviando...';
     fetch('http://localhost:3000/api/petsPost', {
         method: 'POST',
         body: formData,
     })
+        .then(res => {
+        if (!res.ok)
+            throw new Error('Erro no envio');
+        return res.text();
         .then(res => {
         if (!res.ok)
             throw new Error('Erro no envio');
@@ -43,6 +48,7 @@ function enviarCadastro() {
         .catch(() => {
         document.getElementById('mensagemErro')?.classList.remove('hidden');
     })
+        .finally(() => {
         .finally(() => {
         button.disabled = false;
         button.textContent = 'Cadastrar Animal';
