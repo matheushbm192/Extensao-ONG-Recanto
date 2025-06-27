@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc --watch",                   
-    "start": "lite-server",                  
-    "build": "tsc"  
+    "dev": "tsc --watch",
+    "start": "lite-server",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
