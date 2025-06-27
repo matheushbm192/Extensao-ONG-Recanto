@@ -15,7 +15,6 @@ export function initializeCadastroPage() {
         }
     }, 100);
 }
-//import { exibirMensagemTemporaria } from '../cadastro_animais';
 function enviarCadastro() {
     const form = document.getElementById('formulario-cadastro-animal');
     const button = document.getElementById('btn-cadastrar');
