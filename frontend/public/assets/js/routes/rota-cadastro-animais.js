@@ -59,24 +59,4 @@ function enviarCadastro() {
         button.disabled = false;
         button.textContent = 'Cadastrar Animal';
     });
-    /*fetch('http://localhost:3000/api/petsPost', {
-      method: 'POST',
-      body: formData,
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Erro no envio');
-        return res.text();
-      })
-      .then((res) => {
-        console.log(res);
-        exibirMensagemTemporaria('mensagem');
-        form.reset();
-      })
-      .catch(() => {
-        exibirMensagemTemporaria('mensagemErro');
-      })
-      .finally(() => {
-        button.disabled = false;
-        button.textContent = 'Cadastrar Animal';
-      });*/
 }
