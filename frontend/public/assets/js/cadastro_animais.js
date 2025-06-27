@@ -50,3 +50,12 @@ if (cepInput) {
         }
     });
 }
+/*export function exibirMensagemTemporaria(id: string, tempo: number = 2000): void {
+    const mensagem = document.getElementById(id);
+    if (mensagem) {
+      mensagem.classList.remove('hidden');
+      setTimeout(() => {
+        mensagem.classList.add('hidden');
+      }, tempo);
+    }
+  }*/
