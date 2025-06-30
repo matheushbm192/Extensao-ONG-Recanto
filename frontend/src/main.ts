@@ -1,5 +1,6 @@
 import { renderPage, initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
+import { initializeCadastroUsuarioPage } from "./cadastroUsuario.js";
 
 // Event listeners para navegação
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'adocao':
                     carregarPaginaAdocao();
+                    break;
+                case 'cadastro-usuario':
+                    carregarPaginaCadastroUsuario();
                     break;
             }
         }
@@ -106,6 +110,31 @@ function carregarPaginaAdocao() {
         }).then(() => {
             // Inicializa a página de adoção após carregar o HTML
             initializeAdocaoPage();
+        });
+}
+
+function carregarPaginaCadastroUsuario() {
+    fetch('http://localhost:3000/tela/cadastroUsuario')
+        .then(async (response) => {
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error || 'Erro ao carregar tela cadastro de usuário');
+            }
+            return response.text();
+        }).then((html) => {
+            const container = document.getElementById("principal");
+            if (container) {
+                container.innerHTML = html;
+            } else {
+                console.warn('Container para resposta não encontrado');
+            }
+        })
+        .catch((error) => {
+            console.error('Erro ao carregar tela cadastro de usuário:', error);
+            alert('Erro ao carregar tela cadastro de usuário. Verifique a conexão com a internet.');
+        }).then(() => {
+            // Inicializa a página de cadastro de usuário após carregar o HTML
+            initializeCadastroUsuarioPage();
         });
 }
 
