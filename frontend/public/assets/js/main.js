@@ -1,5 +1,6 @@
 import { initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
+import { initializeLogin } from "./login.js";
 // Event listeners para navegação
 document.addEventListener('DOMContentLoaded', () => {
     // Event listener para todos os elementos com data-action
@@ -17,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'adocao':
                     carregarPaginaAdocao();
                     break;
+                case 'login':
+                    carregarPaginaLogin();
             }
         }
     });
@@ -98,5 +101,33 @@ function carregarPaginaAdocao() {
     }).then(() => {
         // Inicializa a página de adoção após carregar o HTML
         initializeAdocaoPage();
+    });
+}
+function carregarPaginaLogin() {
+    fetch('http://localhost:3000/tela/login')
+        .then(async (response) => {
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(error || 'Erro ao carregar tela home');
+        }
+        //receberemos um html
+        return response.text();
+    }).then((html) => {
+        const container = document.getElementById("principal"); // div onde será inserido o HTML
+        if (container) {
+            console.log("Carrega cadastro");
+            console.log(container);
+            container.innerHTML = html;
+        }
+        else {
+            console.warn('Container para resposta não encontrado');
+        }
+    })
+        .catch((error) => {
+        console.error('Erro ao carregar tela login:', error);
+        alert('Erro ao carregar tela login. Verifique a conexão com a internet.');
+    }).then(() => {
+        // Inicializa a página de cadastro após carregar o HTML
+        initializeLogin();
     });
 }
