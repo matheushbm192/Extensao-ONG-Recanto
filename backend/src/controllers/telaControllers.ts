@@ -35,3 +35,12 @@ export const getTelaLogin = async (req: Request, res: Response) => {
     }
 }
 
+export const getTelaCadastroUsuario = async (req: Request, res: Response) => {
+    try {
+        const filePath = path.join(__dirname, '..', '..', 'pages', 'cadastroUsuario.html')
+        res.sendFile(filePath)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
