@@ -91,6 +91,7 @@ export class PetCTR {
       console.log("Pet inserido com sucesso:", resultado);
 
       res.status(201).send('<p>Animal cadastrado com sucesso!</p>');
+      
     } catch (error: any) {
       console.error("=== ERRO CAPTURADO NO CONTROLLER ===");
       console.error("Erro completo:", error);
