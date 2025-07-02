@@ -1,8 +1,8 @@
 import { renderPage, initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
-
 import { initializeCadastroUsuarioPage } from "./cadastroUsuario.js";
+
 
 // Event listeners para navegação
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'adocao':
                     carregarPaginaAdocao();
+                    break;
+                case 'login':
+                    carregarPaginaLogin();
+                    break;
+                case 'cadastro-usuario':
+                    carregarPaginaCadastroUsuario();
                     break;
             }
         }
@@ -136,6 +142,8 @@ function carregarPaginaCadastroUsuario() {
             initializeCadastroUsuarioPage();
         });
 }
+
+
 
 function carregarPaginaLogin() {
 
