@@ -1,3 +1,5 @@
+import { carregarPaginaInicial } from "./main.ts"
+
 export function initializeLogin() {
   // Pequeno delay para garantir que o HTML da página foi injetado
   setTimeout(() => {
@@ -41,7 +43,7 @@ export function initializeLogin() {
         localStorage.setItem('token', data.token);
 
         alert('Login realizado com sucesso!');
-        window.location.href = '/dashboard.html'; // ou chame carregarPaginaInicial();
+        carregarPaginaInicial();
       } catch (error) {
         console.error('Erro ao fazer login:', error);
         alert('Erro ao fazer login. Verifique seu e-mail e senha.');

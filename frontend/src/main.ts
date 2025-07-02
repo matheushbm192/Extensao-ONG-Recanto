@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarPaginaInicial();
 });
 
-function carregarPaginaInicial() {
+export function carregarPaginaInicial() {
 
     fetch('http://localhost:3000/tela/home')
         .then(async (response) => {

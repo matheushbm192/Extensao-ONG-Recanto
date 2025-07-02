@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Carrega a página inicial automaticamente
     carregarPaginaInicial();
 });
-function carregarPaginaInicial() {
+export function carregarPaginaInicial() {
     fetch('http://localhost:3000/tela/home')
         .then(async (response) => {
         if (!response.ok) {
