@@ -37,11 +37,23 @@ function enviarCadastro() {
     })
         .then((res) => {
         console.log(res);
-        document.getElementById('mensagem')?.classList.remove('hidden');
+        const mensagem = document.getElementById('mensagem');
+        if (mensagem) {
+            mensagem.classList.remove('hidden');
+            setTimeout(() => {
+                mensagem.classList.add('hidden');
+            }, 2000); // 2 segundos
+        }
         form.reset();
     })
         .catch(() => {
-        document.getElementById('mensagemErro')?.classList.remove('hidden');
+        const mensagemErro = document.getElementById('mensagemErro');
+        if (mensagemErro) {
+            mensagemErro.classList.remove('hidden');
+            setTimeout(() => {
+                mensagemErro.classList.add('hidden');
+            }, 2000); // 2 segundos
+        }
     })
         .finally(() => {
         button.disabled = false;

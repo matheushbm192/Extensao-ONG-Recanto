@@ -1,3 +1,4 @@
+
 // Função de inicialização que será chamada quando a página for carregada
 export function initializeCadastroPage(): void {
   console.log("Inicializando página de cadastro");
@@ -16,7 +17,6 @@ export function initializeCadastroPage(): void {
     }
   }, 100);
 }
-
 function enviarCadastro() {
   const form = document.getElementById('formulario-cadastro-animal') as HTMLFormElement;
   const button = document.getElementById('btn-cadastrar') as HTMLButtonElement;
@@ -41,12 +41,27 @@ function enviarCadastro() {
     })
     .then((res) => {
       console.log(res);
-      document.getElementById('mensagem')?.classList.remove('hidden');
+    
+      const mensagem = document.getElementById('mensagem');
+      if (mensagem) {
+        mensagem.classList.remove('hidden');
+        setTimeout(() => {
+          mensagem.classList.add('hidden');
+        }, 2000); // 2 segundos
+      }
+    
       form.reset();
     })
     .catch(() => {
-      document.getElementById('mensagemErro')?.classList.remove('hidden');
+      const mensagemErro = document.getElementById('mensagemErro');
+      if (mensagemErro) {
+        mensagemErro.classList.remove('hidden');
+        setTimeout(() => {
+          mensagemErro.classList.add('hidden');
+        }, 2000); // 2 segundos
+      }
     })
+    
     .finally(() => {
       button.disabled = false;
       button.textContent = 'Cadastrar Animal';

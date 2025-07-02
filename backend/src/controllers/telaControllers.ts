@@ -26,6 +26,14 @@ export const getTelaCadastrarAnimais = async (req: Request, res: Response) => {
         res.send(error)
     }
 }
+export const getTelaLogin = async (req: Request, res: Response) => {
+    try {
+        const filePath = path.join(__dirname, '..', '..', 'pages', 'login.html')
+        res.sendFile(filePath)
+    } catch (error) {
+        res.send(error)
+    }
+}
 
 export const getTelaCadastroUsuario = async (req: Request, res: Response) => {
     try {

@@ -4,12 +4,12 @@
                 class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 border border-gray-200" 
                 enctype="multipart/form-data">
                 <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nome">Nome do Animal</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nome">Nome do Animal<span style="color: red;">*</span> </label>
                     <input id="nome" name="nome" type="text" placeholder="Nome do animal" required
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                 </div>
                 <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="raca">Raça do Animal</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="raca">Raça do Animal<span style="color: red;">*</span></label>
                     <input id="raca" name="raca" type="text" placeholder="Raça do animal" required
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                 </div>
@@ -28,13 +28,13 @@
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             pattern="\d{5}-?\d{3}" title="Formato de CEP: 00000-000 ou 00000000"
                             onkeyup="formatarCEP(event)" maxlength="9" />
-                        <small class="text-gray-500 text-xs">Opcional: Ao preencher o CEP, outros campos podem ser
-                            preenchidos automaticamente.</small>
+                        <!--<small class="text-gray-500 text-xs">Opcional: Ao preencher o CEP, outros campos podem ser
+                            preenchidos automaticamente.</small>-->
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div class="md:col-span-2">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="logradouro">Rua / Logradouro</label>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="logradouro">Rua / Logradouro<span style="color: red;">*</span></label>
                             <input id="logradouro" name="logradouro" type="text" placeholder="Ex: Rua das Flores" required
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                         </div>
@@ -53,19 +53,19 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="bairro">Bairro</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="bairro">Bairro<span style="color: red;">*</span></label>
                         <input id="bairro" name="bairro" type="text" placeholder="Ex: Centro" required
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="cidade">Cidade</label>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="cidade">Cidade<span style="color: red;">*</span></label>
                             <input id="cidade" name="cidade" type="text" placeholder="Ex: Belo Horizonte" required
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                         </div>
                         <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="estado">Estado</label>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="estado">Estado<span style="color: red;">*</span></label>
                             <select id="estado" name="estado" required
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="" disabled selected>Selecione o Estado</option>
@@ -108,12 +108,12 @@
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="sexo">Sexo</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="sexo">Sexo<span style="color: red;">*</span></label>
                     <select id="sexo" name="sexo" required
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <option value="" disabled selected>Selecione o sexo</option>
-                        <option value="macho">Macho</option>
-                        <option value="femea">Fêmea</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Fêmea">Fêmea</option>
                     </select>
                 </div>
 
