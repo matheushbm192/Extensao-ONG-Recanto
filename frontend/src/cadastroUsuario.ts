@@ -1,4 +1,4 @@
-import { Usuario } from "./models/usuarioModel";
+import { UsuarioComum } from "./models/usuarioModel";
 
 
 // Função para inicializar a página de cadastro de usuário
@@ -17,7 +17,7 @@ async function handleFormSubmit(event: Event): Promise<void> {
     const formData = new FormData(form);
     
     // Coletar dados do formulário
-    const usuario: Usuario = {
+    const usuario: UsuarioComum = {
     nomeCompleto: formData.get('nomeCompleto') as string,
     email: formData.get('email') as string,
     senha: formData.get('senha') as string,
@@ -103,7 +103,7 @@ async function handleFormSubmit(event: Event): Promise<void> {
 }
 
 // Função para cadastrar usuário (simulada por enquanto)
-async function cadastrarUsuario(usuario: Usuario): Promise<void> {
+async function cadastrarUsuario(usuario: UsuarioComum): Promise<void> {
     // Simular uma chamada de API
     return new Promise((resolve) => {
         setTimeout(() => {
