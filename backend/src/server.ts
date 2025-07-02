@@ -2,6 +2,7 @@ import express, { application } from 'express';
 import cors from 'cors';
 import petRoutes from "./routes/petRoutes"
 import telaRoutes from "./routes/telaRoutes"
+import loginRoutes from "./routes/loginRoutes"
 
 import mustacheExpress from 'mustache-express'
 import path from 'path';
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', petRoutes)
 app.use('/tela',telaRoutes)
+app.use('/login', loginRoutes)
 
 app.get('/', (req, res) => {
   res.send('API da ONG Recanto dos Animais no ar!');
