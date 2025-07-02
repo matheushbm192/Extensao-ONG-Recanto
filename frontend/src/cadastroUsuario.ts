@@ -1,17 +1,5 @@
-// Interface para o usuário
-interface Usuario {
-    fullName: string;
-    email: string;
-    password: string;
-    birthDate: string;
-    cpf: string;
-    address: string;
-    phone: string;
-    socialMedia?: string;
-    education: string;
-    hasPet: 'yes' | 'no';
-    
-}
+import { Usuario } from "./models/usuarioModel";
+
 
 // Função para inicializar a página de cadastro de usuário
 export function initializeCadastroUsuarioPage(): void {
@@ -30,22 +18,24 @@ async function handleFormSubmit(event: Event): Promise<void> {
     
     // Coletar dados do formulário
     const usuario: Usuario = {
-        fullName: formData.get('fullName') as string,
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
-        birthDate: formData.get('birthDate') as string,
-        cpf: formData.get('cpf') as string,
-        address: formData.get('address') as string,
-        phone: formData.get('phone') as string,
-        socialMedia: formData.get('socialMedia') as string || undefined,
-        education: formData.get('education') as string,
-        hasPet: formData.get('hasPet') as 'yes' | 'no'
-    };
+    nomeCompleto: formData.get('nomeCompleto') as string,
+    email: formData.get('email') as string,
+    senha: formData.get('senha') as string,
+    dataNascimento: formData.get('dataNascimento') as string,
+    cpf: formData.get('cpf') as string,
+    endereco: formData.get('endereco') as string,
+    telefone: formData.get('telefone') as string,
+    redeSocial: formData.get('redeSocial') as string || undefined,
+    escolaridade: formData.get('escolaridade') as string,
+    possuiPet: formData.get('possuiPet') === "sim"? true : false as boolean,
+    contribuirOng: formData.get('contribuirOng') as "sim" | "nao" | "nao sei",
+    desejaAdotar: formData.get('desejaAdotar') as "sim" | "nao" | "nao sei"
+};
     
    
  
     // Validar dados obrigatórios
-    if (!usuario.fullName.trim()) {
+    if (!usuario.nomeCompleto.trim()) {
         alert('Por favor, preencha o nome completo.');
         return;
     }
@@ -55,12 +45,12 @@ async function handleFormSubmit(event: Event): Promise<void> {
         return;
     }
     
-    if (!usuario.password.trim()) {
+    if (!usuario.senha.trim()) {
         alert('Por favor, preencha a senha.');
         return;
     }
     
-    if (!usuario.birthDate) {
+    if (!usuario.dataNascimento) {
         alert('Por favor, preencha a data de nascimento.');
         return;
     }
@@ -70,22 +60,22 @@ async function handleFormSubmit(event: Event): Promise<void> {
         return;
     }
     
-    if (!usuario.address.trim()) {
+    if (!usuario.endereco.trim()) {
         alert('Por favor, preencha o endereço.');
         return;
     }
     
-    if (!usuario.phone.trim()) {
+    if (!usuario.telefone.trim()) {
         alert('Por favor, preencha o telefone.');
         return;
     }
     
-    if (!usuario.education) {
+    if (!usuario.escolaridade) {
         alert('Por favor, selecione sua formação.');
         return;
     }
     
-    if (!usuario.hasPet) {
+    if (!usuario.possuiPet) {
         alert('Por favor, selecione se você tem animalzinho.');
         return;
     }
