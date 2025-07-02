@@ -3,24 +3,6 @@ export function initializeCadastroUsuarioPage() {
     const form = document.getElementById('userForm');
     if (form) {
         form.addEventListener('submit', handleFormSubmit);
-        // Adicionar listener para mostrar/ocultar detalhes do pet
-        const hasPetRadios = document.querySelectorAll('input[name="hasPet"]');
-        hasPetRadios.forEach(radio => {
-            radio.addEventListener('change', togglePetDetails);
-        });
-    }
-}
-// Função para mostrar/ocultar detalhes do pet
-function togglePetDetails() {
-    const hasPetYes = document.getElementById('hasPetYes');
-    const petDetails = document.getElementById('petDetails');
-    if (hasPetYes && petDetails) {
-        if (hasPetYes.checked) {
-            petDetails.classList.remove('hidden');
-        }
-        else {
-            petDetails.classList.add('hidden');
-        }
     }
 }
 // Função para lidar com o envio do formulário
@@ -41,8 +23,6 @@ async function handleFormSubmit(event) {
         education: formData.get('education'),
         hasPet: formData.get('hasPet')
     };
-    // Se tem pet, adicionar informações do pet
-    
     // Validar dados obrigatórios
     if (!usuario.fullName.trim()) {
         alert('Por favor, preencha o nome completo.');
@@ -81,7 +61,6 @@ async function handleFormSubmit(event) {
         return;
     }
     // Validar informações do pet se aplicável
-
     try {
         // Aqui você pode adicionar uma chamada para a API se necessário
         // Por enquanto, vamos apenas simular o sucesso
@@ -90,11 +69,6 @@ async function handleFormSubmit(event) {
         showSuccessMessage();
         // Limpar formulário
         form.reset();
-        // Ocultar detalhes do pet
-        const petDetails = document.getElementById('petDetails');
-        if (petDetails) {
-            petDetails.classList.add('hidden');
-        }
     }
     catch (error) {
         console.error('Erro ao cadastrar usuário:', error);

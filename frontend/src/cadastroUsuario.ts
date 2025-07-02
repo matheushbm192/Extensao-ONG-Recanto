@@ -10,37 +10,14 @@ interface Usuario {
     socialMedia?: string;
     education: string;
     hasPet: 'yes' | 'no';
-    petType?: string;
-    petAge?: string;
-    petName?: string;
+    
 }
 
 // Função para inicializar a página de cadastro de usuário
 export function initializeCadastroUsuarioPage(): void {
     const form = document.getElementById('userForm') as HTMLFormElement;
-    
     if (form) {
         form.addEventListener('submit', handleFormSubmit);
-        
-        // Adicionar listener para mostrar/ocultar detalhes do pet
-        const hasPetRadios = document.querySelectorAll('input[name="hasPet"]');
-        hasPetRadios.forEach(radio => {
-            radio.addEventListener('change', togglePetDetails);
-        });
-    }
-}
-
-// Função para mostrar/ocultar detalhes do pet
-function togglePetDetails(): void {
-    const hasPetYes = document.getElementById('hasPetYes') as HTMLInputElement;
-    const petDetails = document.getElementById('petDetails') as HTMLDivElement;
-    
-    if (hasPetYes && petDetails) {
-        if (hasPetYes.checked) {
-            petDetails.classList.remove('hidden');
-        } else {
-            petDetails.classList.add('hidden');
-        }
     }
 }
 
@@ -65,13 +42,8 @@ async function handleFormSubmit(event: Event): Promise<void> {
         hasPet: formData.get('hasPet') as 'yes' | 'no'
     };
     
-    // Se tem pet, adicionar informações do pet
-    if (usuario.hasPet === 'yes') {
-        usuario.petType = formData.get('petType') as string;
-        usuario.petAge = formData.get('petAge') as string;
-        usuario.petName = formData.get('petName') as string;
-    }
-    
+   
+ 
     // Validar dados obrigatórios
     if (!usuario.fullName.trim()) {
         alert('Por favor, preencha o nome completo.');
@@ -119,20 +91,7 @@ async function handleFormSubmit(event: Event): Promise<void> {
     }
     
     // Validar informações do pet se aplicável
-    if (usuario.hasPet === 'yes') {
-        if (!usuario.petType?.trim()) {
-            alert('Por favor, preencha o tipo do animal.');
-            return;
-        }
-        if (!usuario.petAge?.trim()) {
-            alert('Por favor, preencha a idade do animal.');
-            return;
-        }
-        if (!usuario.petName?.trim()) {
-            alert('Por favor, preencha o nome do animal.');
-            return;
-        }
-    }
+ 
     
     try {
         // Aqui você pode adicionar uma chamada para a API se necessário
@@ -145,11 +104,7 @@ async function handleFormSubmit(event: Event): Promise<void> {
         // Limpar formulário
         form.reset();
         
-        // Ocultar detalhes do pet
-        const petDetails = document.getElementById('petDetails') as HTMLDivElement;
-        if (petDetails) {
-            petDetails.classList.add('hidden');
-        }
+    
         
     } catch (error) {
         console.error('Erro ao cadastrar usuário:', error);
