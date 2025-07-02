@@ -1,7 +1,6 @@
 import { Router } from "express"
 
-import { getTelaHome, getTelaAdocao, getTelaCadastrarAnimais, getTelaLogin } from '../controllers/telaControllers';
-import { getTelaHome, getTelaAdocao, getTelaCadastrarAnimais, getTelaCadastroUsuario } from '../controllers/telaControllers';
+import { getTelaHome, getTelaAdocao, getTelaCadastrarAnimais, getTelaLogin, getTelaCadastroUsuario } from '../controllers/telaControllers';
 
 const router = Router()
 
