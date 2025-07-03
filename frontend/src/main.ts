@@ -1,8 +1,8 @@
 import { renderPage, initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
-
 import { initializeCadastroUsuarioPage } from "./cadastroUsuario.js";
+
 
 // Event listeners para navegação
 document.addEventListener('DOMContentLoaded', () => {
