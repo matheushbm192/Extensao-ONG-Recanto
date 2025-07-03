@@ -3,6 +3,8 @@ import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
 import { initializeCadastroUsuarioPage } from "./cadastroUsuario.js";
 
+import { getUserFromToken } from "./utils/auth.js";
+
 
 // Event listeners para navegação
 document.addEventListener('DOMContentLoaded', () => {

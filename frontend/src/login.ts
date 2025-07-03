@@ -37,13 +37,14 @@ export function initializeLogin() {
           throw new Error(error || 'Falha ao fazer login');
         }
 
-        const data = await response.json();
+        // backend retorna somenete o token
+        const token = await response.json();
 
-        // Supondo que o backend retorne um token JWT
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', token);
 
         alert('Login realizado com sucesso!');
         carregarPaginaInicial();
+        
       } catch (error) {
         console.error('Erro ao fazer login:', error);
         alert('Erro ao fazer login. Verifique seu e-mail e senha.');
