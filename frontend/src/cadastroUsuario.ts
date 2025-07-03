@@ -1,25 +1,5 @@
-// Interface para o usuário
-interface Usuario {
-    fullName: string;
-    email: string;
-    password: string;
-    birthDate: string;
-    cpf: string;
-    // Campos de endereço separados
-    cep: string;
-    logradouro: string;
-    numero?: string;
-    complemento?: string;
-    bairro: string;
-    cidade: string;
-    estado: string;
-    phone: string;
-    socialMedia?: string;
-    education: string;
-    hasPet: 'yes' | 'no';
-    wantsToAdopt: 'yes' | 'no';
-    wantsToContribute: 'yes' | 'no';
-}
+import { UsuarioComum } from "./models/usuarioModel";
+
 
 // Função para inicializar a página de cadastro de usuário
 export function initializeCadastroUsuarioPage(): void {
@@ -37,32 +17,53 @@ async function handleFormSubmit(event: Event): Promise<void> {
     const formData = new FormData(form);
     
     // Coletar dados do formulário
-    const usuario: Usuario = {
-        fullName: formData.get('fullName') as string,
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
-        birthDate: formData.get('birthDate') as string,
-        cpf: formData.get('cpf') as string,
-        // Campos de endereço
-        cep: formData.get('cep') as string,
-        logradouro: formData.get('logradouro') as string,
-        numero: formData.get('numero') as string || undefined,
-        complemento: formData.get('complemento') as string || undefined,
-        bairro: formData.get('bairro') as string,
-        cidade: formData.get('cidade') as string,
-        estado: formData.get('estado') as string,
-        phone: formData.get('phone') as string,
-        socialMedia: formData.get('socialMedia') as string || undefined,
-        education: formData.get('education') as string,
-        hasPet: formData.get('hasPet') as 'yes' | 'no',
-        wantsToAdopt: formData.get('wantsToAdopt') as 'yes' | 'no',
-        wantsToContribute: formData.get('wantsToContribute') as 'yes' | 'no'
-    };
+    const usuario: UsuarioComum = {
+    nome: formData.get('nome') as string,
+    sobrenome: formData.get('sobrenome') as string,
+    email: formData.get('email') as string,
+    senha: formData.get('senha') as string,
+    dataNascimento: formData.get('dataNascimento') as string,
+    cpf: formData.get('cpf') as string,
+    cep: formData.get('cep') as string,
+    logradouro: formData.get('logradouro') as string,
+    numero: formData.get('numero') as string || undefined,
+    complemento: formData.get('complemento') as string || undefined,
+    bairro: formData.get('bairro') as string,
+    cidade: formData.get('cidade') as string,
+    estado: formData.get('estado') as string,
+    telefone: formData.get('telefone') as string,
+    redeSocial: formData.get('redeSocial') as string || undefined,
+    escolaridade: formData.get('escolaridade') as string,
+    possuiPet: formData.get('possuiPet') === "sim"? true : false as boolean,
+    contribuirOng: formData.get('contribuirOng') as "sim" | "nao" | "nao sei",
+    desejaAdotar: formData.get('desejaAdotar') as "sim" | "nao" | "nao sei"
+};
+    // const usuario: Usuario = {
+    //     fullName: formData.get('fullName') as string,
+    //     email: formData.get('email') as string,
+    //     password: formData.get('password') as string,
+    //     birthDate: formData.get('birthDate') as string,
+    //     cpf: formData.get('cpf') as string,
+    //     // Campos de endereço
+    //     cep: formData.get('cep') as string,
+    //     logradouro: formData.get('logradouro') as string,
+    //     numero: formData.get('numero') as string || undefined,
+    //     complemento: formData.get('complemento') as string || undefined,
+    //     bairro: formData.get('bairro') as string,
+    //     cidade: formData.get('cidade') as string,
+    //     estado: formData.get('estado') as string,
+    //     phone: formData.get('phone') as string,
+    //     socialMedia: formData.get('socialMedia') as string || undefined,
+    //     education: formData.get('education') as string,
+    //     hasPet: formData.get('hasPet') as 'yes' | 'no',
+    //     wantsToAdopt: formData.get('wantsToAdopt') as 'yes' | 'no',
+    //     wantsToContribute: formData.get('wantsToContribute') as 'yes' | 'no'
+    // };
     
    
  
     // Validar dados obrigatórios
-    if (!usuario.fullName.trim()) {
+    if (!usuario.nomeCompleto.trim()) {
         alert('Por favor, preencha o nome completo.');
         return;
     }
@@ -72,12 +73,12 @@ async function handleFormSubmit(event: Event): Promise<void> {
         return;
     }
     
-    if (!usuario.password.trim()) {
+    if (!usuario.senha.trim()) {
         alert('Por favor, preencha a senha.');
         return;
     }
     
-    if (!usuario.birthDate) {
+    if (!usuario.dataNascimento) {
         alert('Por favor, preencha a data de nascimento.');
         return;
     }
@@ -108,17 +109,17 @@ async function handleFormSubmit(event: Event): Promise<void> {
         return;
     }
     
-    if (!usuario.phone.trim()) {
+    if (!usuario.telefone.trim()) {
         alert('Por favor, preencha o telefone.');
         return;
     }
     
-    if (!usuario.education) {
+    if (!usuario.escolaridade) {
         alert('Por favor, selecione sua formação.');
         return;
     }
     
-    if (!usuario.hasPet) {
+    if (!usuario.possuiPet) {
         alert('Por favor, selecione se você tem animalzinho.');
         return;
     }
@@ -156,7 +157,7 @@ async function handleFormSubmit(event: Event): Promise<void> {
 }
 
 // Função para cadastrar usuário (simulada por enquanto)
-async function cadastrarUsuario(usuario: Usuario): Promise<void> {
+async function cadastrarUsuario(usuario: UsuarioComum): Promise<void> {
     // Simular uma chamada de API
     return new Promise((resolve) => {
         setTimeout(() => {
