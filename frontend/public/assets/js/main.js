@@ -2,6 +2,7 @@ import { initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
 import { initializeCadastroUsuarioPage } from "./cadastroUsuario.js";
+import { getUserFromToken, logout } from "./utils/auth.js";
 // Event listeners para navegação
 document.addEventListener('DOMContentLoaded', () => {
     // Event listener para todos os elementos com data-action
@@ -25,6 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'cadastro-usuario':
                     carregarPaginaCadastroUsuario();
                     break;
+                case 'logout':
+                    logoutUser();
+                    break;
             }
         }
     });
@@ -44,6 +48,8 @@ export function carregarPaginaInicial() {
         const container = document.getElementById("principal"); // div onde será inserido o HTML
         if (container) {
             container.innerHTML = html;
+            // Atualiza a pagina de acordo com as permissoes de usuario/se nao existe usuario ativo
+            atualizarInterfaceUsuario();
         }
         else {
             console.warn('Container para resposta não encontrado');
@@ -160,4 +166,36 @@ function carregarPaginaLogin() {
         // Inicializa a página de cadastro após carregar o HTML
         initializeLogin();
     });
+}
+function logoutUser() {
+    logout();
+    carregarPaginaInicial();
+}
+export function atualizarInterfaceUsuario() {
+    const user = getUserFromToken();
+    const loginMenu = document.getElementById("menu-login");
+    const logoutMenu = document.getElementById("menu-logout");
+    const cadastroAnimal = document.getElementById("menu-cadastro-animal");
+    const cadastroUsuario = document.getElementById("menu-cadastro-usuario");
+    if (user) {
+        if (loginMenu)
+            loginMenu.style.display = "none";
+        if (logoutMenu)
+            logoutMenu.style.display = "inline";
+        const isAdmin = user.tipo_usuario === "admin";
+        if (cadastroAnimal)
+            cadastroAnimal.style.display = isAdmin ? "inline" : "none";
+        if (cadastroUsuario)
+            cadastroUsuario.style.display = isAdmin ? "inline" : "none";
+    }
+    else {
+        if (loginMenu)
+            loginMenu.style.display = "inline";
+        if (logoutMenu)
+            logoutMenu.style.display = "none";
+        if (cadastroAnimal)
+            cadastroAnimal.style.display = "none";
+        if (cadastroUsuario)
+            cadastroUsuario.style.display = "none";
+    }
 }

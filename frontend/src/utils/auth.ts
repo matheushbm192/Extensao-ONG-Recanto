@@ -1,4 +1,4 @@
-import { jwtDecode } from 'jwt-decode';
+declare const jwt_decode: <T = unknown>(token: string) => T;
 
 type TokenPayload = {
   id: string;
@@ -15,8 +15,7 @@ export function getUserFromToken(): TokenPayload | null {
     }
     
     try{
-        const payload = jwtDecode<TokenPayload>(token);
-        
+        const payload = jwt_decode<TokenPayload>(token);
 
         const now = Math.floor(Date.now()/ 1000)
         console.log("TOKEN")
@@ -34,4 +33,12 @@ export function getUserFromToken(): TokenPayload | null {
         localStorage.removeItem("token")
         return null
     }
+}
+
+export function isLoggedIn(): boolean {
+    return getUserFromToken() !== null
+}
+
+export function logout() {
+    localStorage.removeItem("token")
 }

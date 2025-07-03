@@ -1,6 +1,6 @@
 import { carregarPaginaInicial } from "./main.ts"
 
-export function initializeLogin() {
+export function   initializeLogin() {
   // Pequeno delay para garantir que o HTML da página foi injetado
   setTimeout(() => {
     const form = document.getElementById('login-form') as HTMLFormElement;
@@ -37,7 +37,7 @@ export function initializeLogin() {
           throw new Error(error || 'Falha ao fazer login');
         }
 
-        // backend retorna somenete o token
+        // backend retorna somente o token
         const token = await response.json();
 
         localStorage.setItem('token', token);

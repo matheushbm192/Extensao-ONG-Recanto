@@ -27,7 +27,10 @@ export class LoginRN {
             expiresIn: '1h'
         })
         
+        console.log("RN***")
+        console.log("token: " + token)
+        console.log(jwt.decode(token))
+
         return token     
     }
-
 }

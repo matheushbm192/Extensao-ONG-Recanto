@@ -27,12 +27,12 @@
                         Home
                     </a>
                 </li>
-                 <li>
+                 <li id="menu-cadastro-usuario">
                     <a class="text-yellow-400 font-semibold hover:text-ong-yellow transition cursor-pointer" data-action="cadastro-usuario">
                         Cadastro de Usuário</a>
                 </li>
 
-                <li>
+                <li id="menu-cadastro-animal">
                     <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="cadastro">
                         Cadastro de Animais</a>
                 </li>
@@ -43,11 +43,18 @@
                     </a>
                 </li>
 
-                <li>
+                <li id="menu-login">
                     <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="login">
                         Login
                     </a>
                 </li>
+
+                <li id="menu-logout" style="display: none;">
+                    <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="logout">
+                        Logout
+                    </a>
+                </li>
+
             </ul>
 
             <div class="hidden md:flex items-center space-x-4">
@@ -79,6 +86,7 @@
         <i class="fab fa-whatsapp fa-lg"></i>
     </a>
     
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
     <script type="module" src="assets/js/main.js"></script>
 </body>
 
