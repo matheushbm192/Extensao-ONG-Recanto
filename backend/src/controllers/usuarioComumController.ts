@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UsuarioComum, UsuarioComumInput } from '../models/usuarioComumModel';
+import { UsuarioComum} from '../models/usuarioComumModel';
 import { UsuarioComumRN } from '../services/usuarioComumService';
 
 const usuarioRN = new UsuarioComumRN();
@@ -25,28 +25,51 @@ export class UsuarioComumCTR {
       console.log("Body recebido:", req.body);
 
       const {
-         nome,
+         nomeCompleto, 
          email, 
          senha, 
+         dataNascimento, 
+         cpf, 
+         endereco, 
          telefone, 
-         cidade 
+         redeSocial, 
+         escolaridade, 
+         possuiPet, 
+         contribuirOng, 
+         desejaAdotar
     } = req.body;
 
       console.log("Dados recebidos:", {
-        nome,
-        email,
-        senha,
-        telefone,
-        cidade
+        nomeCompleto, 
+         email, 
+         senha, 
+         dataNascimento, 
+         cpf, 
+         endereco, 
+         telefone, 
+         redeSocial, 
+         escolaridade, 
+         possuiPet, 
+         contribuirOng, 
+         desejaAdotar
       });
 
       //analisar oq pode ser nulo 
-      const novoUsuario: UsuarioComumInput = {
-        nome,
-        email,
-        senha,
-        telefone,
-        cidade
+      const novoUsuario: UsuarioComum = {
+         id_usuario: '',
+       nomeCompleto, 
+       email, 
+       senha, 
+       dataNascimento, 
+       cpf, 
+       endereco, 
+       telefone, 
+       redeSocial: redeSocial || null,
+       escolaridade, 
+       possuiPet, 
+       contribuirOng, 
+       desejaAdotar,
+       created_at: new Date().toISOString()
       };
 
       // Chama a regra de negócio
