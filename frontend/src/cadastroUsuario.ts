@@ -1,177 +1,7 @@
 import { UsuarioComum } from "./models/usuarioModel";
 
-
-// Função para inicializar a página de cadastro de usuário
-export function initializeCadastroUsuarioPage(): void {
-    const form = document.getElementById('userForm') as HTMLFormElement;
-    if (form) {
-        form.addEventListener('submit', handleFormSubmit);
-    }
-}
-
-// Função para lidar com o envio do formulário
-async function handleFormSubmit(event: Event): Promise<void> {
-    event.preventDefault();
-    
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-    
-    // Coletar dados do formulário
-    const usuario: UsuarioComum = {
-    nome: formData.get('nome') as string,
-    sobrenome: formData.get('sobrenome') as string,
-    email: formData.get('email') as string,
-    senha: formData.get('senha') as string,
-    dataNascimento: formData.get('dataNascimento') as string,
-    cpf: formData.get('cpf') as string,
-    cep: formData.get('cep') as string,
-    logradouro: formData.get('logradouro') as string,
-    numero: formData.get('numero') as string || undefined,
-    complemento: formData.get('complemento') as string || undefined,
-    bairro: formData.get('bairro') as string,
-    cidade: formData.get('cidade') as string,
-    estado: formData.get('estado') as string,
-    telefone: formData.get('telefone') as string,
-    redeSocial: formData.get('redeSocial') as string || undefined,
-    escolaridade: formData.get('escolaridade') as string,
-    possuiPet: formData.get('possuiPet') === "sim"? true : false as boolean,
-    contribuirOng: formData.get('contribuirOng') as "sim" | "nao" | "nao sei",
-    desejaAdotar: formData.get('desejaAdotar') as "sim" | "nao" | "nao sei"
-};
-    // const usuario: Usuario = {
-    //     fullName: formData.get('fullName') as string,
-    //     email: formData.get('email') as string,
-    //     password: formData.get('password') as string,
-    //     birthDate: formData.get('birthDate') as string,
-    //     cpf: formData.get('cpf') as string,
-    //     // Campos de endereço
-    //     cep: formData.get('cep') as string,
-    //     logradouro: formData.get('logradouro') as string,
-    //     numero: formData.get('numero') as string || undefined,
-    //     complemento: formData.get('complemento') as string || undefined,
-    //     bairro: formData.get('bairro') as string,
-    //     cidade: formData.get('cidade') as string,
-    //     estado: formData.get('estado') as string,
-    //     phone: formData.get('phone') as string,
-    //     socialMedia: formData.get('socialMedia') as string || undefined,
-    //     education: formData.get('education') as string,
-    //     hasPet: formData.get('hasPet') as 'yes' | 'no',
-    //     wantsToAdopt: formData.get('wantsToAdopt') as 'yes' | 'no',
-    //     wantsToContribute: formData.get('wantsToContribute') as 'yes' | 'no'
-    // };
-    
-   
- 
-    // Validar dados obrigatórios
-    if (!usuario.nomeCompleto.trim()) {
-        alert('Por favor, preencha o nome completo.');
-        return;
-    }
-    
-    if (!usuario.email.trim()) {
-        alert('Por favor, preencha o e-mail.');
-        return;
-    }
-    
-    if (!usuario.senha.trim()) {
-        alert('Por favor, preencha a senha.');
-        return;
-    }
-    
-    if (!usuario.dataNascimento) {
-        alert('Por favor, preencha a data de nascimento.');
-        return;
-    }
-    
-    if (!usuario.cpf.trim()) {
-        alert('Por favor, preencha o CPF.');
-        return;
-    }
-    
-    // Validações de endereço
-    if (!usuario.logradouro.trim()) {
-        alert('Por favor, preencha o logradouro.');
-        return;
-    }
-    
-    if (!usuario.bairro.trim()) {
-        alert('Por favor, preencha o bairro.');
-        return;
-    }
-    
-    if (!usuario.cidade.trim()) {
-        alert('Por favor, preencha a cidade.');
-        return;
-    }
-    
-    if (!usuario.estado) {
-        alert('Por favor, selecione o estado.');
-        return;
-    }
-    
-    if (!usuario.telefone.trim()) {
-        alert('Por favor, preencha o telefone.');
-        return;
-    }
-    
-    if (!usuario.escolaridade) {
-        alert('Por favor, selecione sua formação.');
-        return;
-    }
-    
-    if (!usuario.possuiPet) {
-        alert('Por favor, selecione se você tem animalzinho.');
-        return;
-    }
-    
-    if (!usuario.wantsToAdopt) {
-        alert('Por favor, selecione se deseja adotar um animal.');
-        return;
-    }
-    
-    if (!usuario.wantsToContribute) {
-        alert('Por favor, selecione se gostaria de contribuir com a ONG.');
-        return;
-    }
-    
-    // Validar informações do pet se aplicável
- 
-    
-    try {
-        // Aqui você pode adicionar uma chamada para a API se necessário
-        // Por enquanto, vamos apenas simular o sucesso
-        await cadastrarUsuario(usuario);
-        
-        // Mostrar mensagem de sucesso
-        showSuccessMessage();
-        
-        // Limpar formulário
-        form.reset();
-        
-    
-        
-    } catch (error) {
-        console.error('Erro ao cadastrar usuário:', error);
-        alert('Erro ao realizar cadastro. Tente novamente.');
-    }
-}
-
-// Função para cadastrar usuário (simulada por enquanto)
-async function cadastrarUsuario(usuario: UsuarioComum): Promise<void> {
-    // Simular uma chamada de API
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('Usuário cadastrado:', usuario);
-            resolve();
-        }, 1000);
-    });
-}
-
-// Função para mostrar mensagem de sucesso
-function showSuccessMessage(): void {
-    // Criar mensagem de sucesso dinamicamente se não existir
+function mostrarMensagemSucesso(): void {
     let successMessage = document.getElementById('successMessageUser');
-    
     if (!successMessage) {
         successMessage = document.createElement('div');
         successMessage.id = 'successMessageUser';
@@ -190,70 +20,120 @@ function showSuccessMessage(): void {
         `;
         document.body.appendChild(successMessage);
     }
-    
-    // Mostrar mensagem
     successMessage.classList.remove('opacity-0', 'translate-y-[-20px]');
-    successMessage.classList.add('opacity-100', 'translate-y-0');
-    
-    // Ocultar mensagem após 3 segundos
     setTimeout(() => {
-        successMessage.classList.add('opacity-0', 'translate-y-[-20px]');
-        setTimeout(() => {
-            successMessage.remove();
-        }, 500);
+        successMessage?.classList.add('opacity-0', 'translate-y-[-20px]');
     }, 3000);
 }
-function formatarCEP(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let value: string = input.value.replace(/\D/g, ''); // Remove tudo que não for dígito
 
-    if (value.length > 8) {
-        value = value.substring(0, 8);
-    }
-
-    if (value.length > 5) {
-        value = value.substring(0, 5) + '-' + value.substring(5);
-    }
-
-    input.value = value;
+async function cadastrarUsuario(usuario: UsuarioComum): Promise<void> {
+    // Aqui você pode implementar a chamada real para a API
+    console.log('Cadastro de usuário (simulado):', usuario);
+    return new Promise((resolve) => setTimeout(resolve, 1000));
 }
 
-// Expor a função globalmente para compatibilidade com onkeyup
-(window as any).formatarCEP = formatarCEP;
-
-// Seleciona o campo de CEP
-const cepInput = document.getElementById('cep') as HTMLInputElement | null;
-
-if (cepInput) {
-    // Adiciona o evento ao sair do campo
-    cepInput.addEventListener('blur', function () {
-        const cep = this.value.replace(/\D/g, '');
-
-        if (cep.length === 8) {
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(response => response.json())
-                .then((data: any) => {
-                    if (!data.erro) {
-                        const rua = document.getElementById('rua') as HTMLInputElement | null;
-                        const bairro = document.getElementById('bairro') as HTMLInputElement | null;
-                        const cidade = document.getElementById('cidade') as HTMLInputElement | null;
-                        const estado = document.getElementById('estado') as HTMLSelectElement | null;
-                        const numero = document.getElementById('numero') as HTMLInputElement | null;
-
-                        if (rua) rua.value = data.logradouro || '';
-                        if (bairro) bairro.value = data.bairro || '';
-                        if (cidade) cidade.value = data.localidade || '';
-                        if (estado) estado.value = data.uf || '';
-                        if (numero) numero.focus();
-                    } else {
-                        console.warn('CEP não encontrado ou inválido.');
-                        // Você pode limpar os campos aqui se quiser
-                        
-                    }
-                })
-                .catch((error: unknown) => {
-                    console.error('Erro ao buscar CEP:', error);
-                });
-        }
-    });
+async function tratarEnvioFormulario(event: Event): Promise<void> {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    // Coletar dados do formulário
+    const usuario: UsuarioComum = {
+        nome: formData.get('nome') as string,
+        sobrenome: formData.get('sobrenome') as string,
+        email: formData.get('email') as string,
+        senha: formData.get('senha') as string,
+        dataNascimento: formData.get('dataNascimento') as string,
+        cpf: formData.get('cpf') as string,
+        cep: formData.get('cep') as string,
+        logradouro: formData.get('logradouro') as string,
+        numero: formData.get('numero') as (string | undefined) || undefined,
+        complemento: formData.get('complemento') as (string | undefined) || undefined,
+        bairro: formData.get('bairro') as string,
+        cidade: formData.get('cidade') as string,
+        estado: formData.get('estado') as string,
+        telefone: formData.get('telefone') as string,
+        redeSocial: formData.get('redeSocial') as (string | undefined) || undefined,
+        escolaridade: formData.get('escolaridade') as string,
+        possuiPet: formData.get('possuiPet') === 'sim',
+        desejaAdotar: formData.get('desejaAdotar') as 'sim' | 'nao' | 'nao sei',
+        contribuirOng: formData.get('contribuirOng') as 'sim' | 'nao' | 'nao sei',
+    };
+    // Validações básicas
+    if (!usuario.nome?.trim()) {
+        alert('Por favor, preencha o nome.');
+        return;
+    }
+    if (!usuario.sobrenome?.trim()) {
+        alert('Por favor, preencha o sobrenome.');
+        return;
+    }
+    if (!usuario.email.trim()) {
+        alert('Por favor, preencha o e-mail.');
+        return;
+    }
+    if (!usuario.senha.trim()) {
+        alert('Por favor, preencha a senha.');
+        return;
+    }
+    if (!usuario.dataNascimento) {
+        alert('Por favor, preencha a data de nascimento.');
+        return;
+    }
+    if (!usuario.cpf.trim()) {
+        alert('Por favor, preencha o CPF.');
+        return;
+    }
+    if (!usuario.logradouro.trim()) {
+        alert('Por favor, preencha o logradouro.');
+        return;
+    }
+    if (!usuario.bairro.trim()) {
+        alert('Por favor, preencha o bairro.');
+        return;
+    }
+    if (!usuario.cidade.trim()) {
+        alert('Por favor, preencha a cidade.');
+        return;
+    }
+    if (!usuario.estado) {
+        alert('Por favor, selecione o estado.');
+        return;
+    }
+    if (!usuario.telefone.trim()) {
+        alert('Por favor, preencha o telefone.');
+        return;
+    }
+    if (!usuario.escolaridade) {
+        alert('Por favor, selecione sua formação.');
+        return;
+    }
+    if (usuario.possuiPet === undefined) {
+        alert('Por favor, selecione se você tem animalzinho.');
+        return;
+    }
+    if (!usuario.desejaAdotar) {
+        alert('Por favor, selecione se deseja adotar um animal.');
+        return;
+    }
+    if (!usuario.contribuirOng) {
+        alert('Por favor, selecione se gostaria de contribuir com a ONG.');
+        return;
+    }
+    try {
+        await cadastrarUsuario(usuario);
+        mostrarMensagemSucesso();
+        form.reset();
+    } catch (error) {
+        console.error('Erro ao cadastrar usuário:', error);
+        alert('Erro ao realizar cadastro. Tente novamente.');
+    }
 }
+
+export function inicializarCadastroUsuario(): void {
+    const form = document.getElementById('userForm') as HTMLFormElement;
+    if (form) {
+        form.addEventListener('submit', tratarEnvioFormulario);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', inicializarCadastroUsuario);

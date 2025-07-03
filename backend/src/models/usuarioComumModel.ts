@@ -1,3 +1,4 @@
+/*
 export interface UsuarioComum {
     id_usuario: string
     nomeCompleto: string;
@@ -14,3 +15,13 @@ export interface UsuarioComum {
     desejaAdotar:  "sim" | "nao" | "nao sei";
     created_at: string
 }
+
+// Interface para input de usuário (dados mínimos necessários)
+export interface UsuarioComumInput {
+    nome?: string;
+    email: string;
+    senha: string;
+    telefone: string;
+    cidade: string;
+}
+*/
