@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UsuarioComum, UsuarioComumInput } from '../models/usuarioComumModel';
+import { UsuarioComum } from '../models/usuarioComumModel';
 import { UsuarioComumRN } from '../services/usuarioComumService';
 
 const usuarioRN = new UsuarioComumRN();

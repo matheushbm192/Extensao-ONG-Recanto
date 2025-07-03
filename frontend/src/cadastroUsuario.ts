@@ -24,7 +24,6 @@ async function handleFormSubmit(event: Event): Promise<void> {
     senha: formData.get('senha') as string,
     dataNascimento: formData.get('dataNascimento') as string,
     cpf: formData.get('cpf') as string,
-    cep: formData.get('cep') as string,
     logradouro: formData.get('logradouro') as string,
     numero: formData.get('numero') as string || undefined,
     complemento: formData.get('complemento') as string || undefined,
@@ -37,37 +36,19 @@ async function handleFormSubmit(event: Event): Promise<void> {
     possuiPet: formData.get('possuiPet') === "sim"? true : false as boolean,
     contribuirOng: formData.get('contribuirOng') as "sim" | "nao" | "nao sei",
     desejaAdotar: formData.get('desejaAdotar') as "sim" | "nao" | "nao sei"
-};
-    // const usuario: Usuario = {
-    //     fullName: formData.get('fullName') as string,
-    //     email: formData.get('email') as string,
-    //     password: formData.get('password') as string,
-    //     birthDate: formData.get('birthDate') as string,
-    //     cpf: formData.get('cpf') as string,
-    //     // Campos de endereço
-    //     cep: formData.get('cep') as string,
-    //     logradouro: formData.get('logradouro') as string,
-    //     numero: formData.get('numero') as string || undefined,
-    //     complemento: formData.get('complemento') as string || undefined,
-    //     bairro: formData.get('bairro') as string,
-    //     cidade: formData.get('cidade') as string,
-    //     estado: formData.get('estado') as string,
-    //     phone: formData.get('phone') as string,
-    //     socialMedia: formData.get('socialMedia') as string || undefined,
-    //     education: formData.get('education') as string,
-    //     hasPet: formData.get('hasPet') as 'yes' | 'no',
-    //     wantsToAdopt: formData.get('wantsToAdopt') as 'yes' | 'no',
-    //     wantsToContribute: formData.get('wantsToContribute') as 'yes' | 'no'
-    // };
+    };
     
-   
- 
     // Validar dados obrigatórios
-    if (!usuario.nomeCompleto.trim()) {
+    if (!usuario.nome.trim()) {
         alert('Por favor, preencha o nome completo.');
         return;
     }
     
+    if (!usuario.sobrenome.trim()) {
+        alert('Por favor, preencha o nome completo.');
+        return;
+    }
+
     if (!usuario.email.trim()) {
         alert('Por favor, preencha o e-mail.');
         return;
@@ -88,7 +69,6 @@ async function handleFormSubmit(event: Event): Promise<void> {
         return;
     }
     
-    // Validações de endereço
     if (!usuario.logradouro.trim()) {
         alert('Por favor, preencha o logradouro.');
         return;
@@ -124,22 +104,18 @@ async function handleFormSubmit(event: Event): Promise<void> {
         return;
     }
     
-    if (!usuario.wantsToAdopt) {
+    if (!usuario.desejaAdotar) {
         alert('Por favor, selecione se deseja adotar um animal.');
         return;
     }
     
-    if (!usuario.wantsToContribute) {
+    if (!usuario.contribuirOng) {
         alert('Por favor, selecione se gostaria de contribuir com a ONG.');
         return;
     }
-    
-    // Validar informações do pet se aplicável
  
-    
     try {
-        // Aqui você pode adicionar uma chamada para a API se necessário
-        // Por enquanto, vamos apenas simular o sucesso
+      
         await cadastrarUsuario(usuario);
         
         // Mostrar mensagem de sucesso

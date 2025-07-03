@@ -11,14 +11,11 @@ export interface UsuarioComum {
     possuiPet: boolean;
     contribuirOng: "sim" | "nao" | "nao sei" ;
     desejaAdotar:  "sim" | "nao" | "nao sei";    
-    cep: string;
     logradouro: string;
     numero: string | undefined;
     complemento: string | undefined;
     bairro: string;
     cidade:  string;
     estado: string;
-    
-    
-    
+ 
 }
