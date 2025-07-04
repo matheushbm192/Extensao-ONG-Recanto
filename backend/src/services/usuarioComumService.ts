@@ -14,8 +14,11 @@ export class UsuarioComumRN {
     console.log("Dados recebidos:", usuarioData);
 
     // Validações obrigatórias
-    if (!usuarioData.nomeCompleto) {
+    if (!usuarioData.nome) {
       throw new Error('Nome completo é obrigatório.');
+    }
+    if (!usuarioData.sobrenome) {
+      throw new Error('Sobrenome é obrigatório.');
     }
     if (!usuarioData.email) {
       throw new Error('Email é obrigatório.');
@@ -29,10 +32,22 @@ export class UsuarioComumRN {
     if (!usuarioData.cpf) {
       throw new Error('CPF é obrigatório.');
     }
-    if (!usuarioData.endereco) {
-      throw new Error('Endereço é obrigatório.');
+    if (!usuarioData.cep) {
+      throw new Error('CEP é obrigatório.');
     }
-    if (!usuarioData.telefone) {
+    if (!usuarioData.logradouro) {
+      throw new Error('Logradouro é obrigatório.');
+    }
+    if (!usuarioData.bairro) {
+      throw new Error('Bairro é obrigatório.');
+    }
+    if (!usuarioData.cidade) {
+      throw new Error('Cidade é obrigatória.');
+    }
+    if (!usuarioData.estado) {
+      throw new Error('Estado é obrigatório.');
+    }
+    if (!usuarioData.telefone) {    
       throw new Error('Telefone é obrigatório.');
     }
     if (!usuarioData.escolaridade) {

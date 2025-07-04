@@ -25,50 +25,71 @@ export class UsuarioComumCTR {
       console.log("Body recebido:", req.body);
 
       const {
-         nomeCompleto, 
+         nome, 
+         sobrenome,
          email, 
          senha, 
          dataNascimento, 
          cpf, 
-         endereco, 
          telefone, 
          redeSocial, 
          escolaridade, 
          possuiPet, 
          contribuirOng, 
-         desejaAdotar
+         desejaAdotar,
+         cep,
+         logradouro,
+         numero,
+         complemento,
+         bairro,
+         cidade,
+         estado
     } = req.body;
 
       console.log("Dados recebidos:", {
-        nomeCompleto, 
+        nome,
+        sobrenome,
          email, 
          senha, 
          dataNascimento, 
          cpf, 
-         endereco, 
          telefone, 
          redeSocial, 
          escolaridade, 
          possuiPet, 
          contribuirOng, 
-         desejaAdotar
+         desejaAdotar,
+         cep,
+         logradouro,
+         numero,
+         complemento,
+         bairro,
+         cidade,
+         estado
       });
 
       //analisar oq pode ser nulo 
       const novoUsuario: UsuarioComum = {
          id_usuario: '',
-       nomeCompleto, 
+       nome,
+       sobrenome,
        email, 
        senha, 
        dataNascimento, 
        cpf, 
-       endereco, 
        telefone, 
        redeSocial: redeSocial || null,
        escolaridade, 
        possuiPet, 
        contribuirOng, 
        desejaAdotar,
+       cep,
+       logradouro,
+       numero,
+       complemento,
+       bairro,
+       cidade,
+       estado,
        created_at: new Date().toISOString()
       };
 
