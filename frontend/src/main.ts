@@ -152,7 +152,6 @@ function carregarPaginaCadastroUsuario() {
 }
 
 
-
 function carregarPaginaLogin() {
 
     fetch('http://localhost:3000/tela/login')

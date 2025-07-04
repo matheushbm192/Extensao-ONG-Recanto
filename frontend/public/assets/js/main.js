@@ -171,7 +171,7 @@ function logoutUser() {
     logout();
     carregarPaginaInicial();
 }
-export function atualizarInterfaceUsuario() {
+function atualizarInterfaceUsuario() {
     const user = getUserFromToken();
     const loginMenu = document.getElementById("menu-login");
     const logoutMenu = document.getElementById("menu-logout");
