@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UsuarioComum } from '../models/usuarioComumModel';
 import { UsuarioComumRN } from '../services/usuarioComumService';
+import { randomUUID } from 'crypto';
 
 const usuarioRN = new UsuarioComumRN();
 
@@ -25,51 +26,70 @@ export class UsuarioComumCTR {
       console.log("Body recebido:", req.body);
 
       const {
-         nomeCompleto, 
-         email, 
-         senha, 
-         dataNascimento, 
-         cpf, 
-         endereco, 
-         telefone, 
-         redeSocial, 
-         escolaridade, 
-         possuiPet, 
-         contribuirOng, 
-         desejaAdotar
+        nome,
+        sobrenome,
+        email,
+        senha,
+        dataNascimento,
+        cpf,    
+        telefone,
+        redeSocial,
+        escolaridade,
+        possuiPet,
+        contribuirOng,
+        desejaAdotar,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
+        cidade,
+        estado
     } = req.body;
 
       console.log("Dados recebidos:", {
-        nomeCompleto, 
-         email, 
-         senha, 
-         dataNascimento, 
-         cpf, 
-         endereco, 
-         telefone, 
-         redeSocial, 
-         escolaridade, 
-         possuiPet, 
-         contribuirOng, 
-         desejaAdotar
+        nome,
+        sobrenome,
+        email,
+        senha,
+        dataNascimento,
+        cpf,    
+        telefone,
+        redeSocial,
+        escolaridade,
+        possuiPet,
+        contribuirOng,
+        desejaAdotar,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
+        cidade,
+        estado
       });
 
       //analisar oq pode ser nulo 
       const novoUsuario: UsuarioComum = {
-         id_usuario: '',
-       nomeCompleto, 
-       email, 
-       senha, 
-       dataNascimento, 
-       cpf, 
-       endereco, 
-       telefone, 
-       redeSocial: redeSocial || null,
-       escolaridade, 
-       possuiPet, 
-       contribuirOng, 
-       desejaAdotar,
-       created_at: new Date().toISOString()
+        id_usuario: randomUUID(),
+        nome,
+        sobrenome,
+        email,
+        senha,
+        dataNascimento,
+        cpf,
+        telefone,
+        redeSocial,
+        escolaridade,
+        possuiPet,
+        contribuirOng,
+        desejaAdotar,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
+        cidade,
+        estado,
+        created_at: new Date().toISOString(),
+        tipo_usuario: 'comum'
       };
 
       // Chama a regra de negócio
