@@ -20,6 +20,9 @@ export class UsuarioComumRN {
     if (!usuarioData.sobrenome) {
       throw new Error('Sobrenome é obrigatório.');
     }
+    if (!usuarioData.sobrenome) {
+      throw new Error('Sobrenome é obrigatório.');
+    }
     if (!usuarioData.email) {
       throw new Error('Email é obrigatório.');
     }
@@ -44,7 +47,7 @@ export class UsuarioComumRN {
     if (!usuarioData.estado) {
       throw new Error('Estado é obrigatório.');
     }
-    if (!usuarioData.telefone) {
+    if (!usuarioData.telefone) {    
       throw new Error('Telefone é obrigatório.');
     }
     if (!usuarioData.escolaridade) {
