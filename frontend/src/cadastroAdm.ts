@@ -129,11 +129,47 @@ function mostrarMensagemSucesso(): void {
     }, 3000);
 }
 
-async function cadastrarAdministrador(adm: UsuarioAdministrador): Promise<void> {
-    // Aqui você pode implementar a chamada real para a API
-    console.log('Cadastro de administrador (simulado):', adm);
-    return new Promise((resolve) => setTimeout(resolve, 1000));
+async function cadastrarAdministrador(
+    adm: UsuarioAdministrador,
+    form: HTMLFormElement,
+    button: HTMLButtonElement
+): Promise<void> {
+    button.disabled = true;
+    button.textContent = 'Enviando...';
+
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch('http://localhost:3000/usuario/usuarioAdministradorPost', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) throw new Error('Erro no envio');
+
+        const res = await response.json();
+        console.log(res);
+
+        const mensagem = document.getElementById('mensagem');
+        if (mensagem) {
+            mensagem.classList.remove('hidden');
+            setTimeout(() => mensagem.classList.add('hidden'), 2000);
+        }
+
+        form.reset();
+    } catch (error) {
+        const mensagemErro = document.getElementById('mensagemErro');
+        if (mensagemErro) {
+            mensagemErro.textContent = 'Erro ao cadastrar administrador.';
+            mensagemErro.classList.remove('hidden');
+            setTimeout(() => mensagemErro.classList.add('hidden'), 2000);
+        }
+    } finally {
+        button.disabled = false;
+        button.textContent = 'Cadastrar';
+    }
 }
+
 
 async function tratarEnvioFormulario(event: Event): Promise<void> {
     event.preventDefault();
@@ -148,10 +184,10 @@ async function tratarEnvioFormulario(event: Event): Promise<void> {
     });
     // Coletar dados do formulário
     const adm: UsuarioAdministrador = {
-        nomeCompleto: formData.get('fullName') as string,
+        nome: formData.get('nome') as string,
         email: formData.get('email') as string,
-        senha: formData.get('password') as string,
-        dataNascimento: formData.get('birthDate') as string,
+        senha: formData.get('senha') as string,
+        dataNascimento: formData.get('dataNascimento') as string,
         cpf: formData.get('cpf') as string,
         cep: formData.get('cep') as string,
         logradouro: formData.get('logradouro') as string,
@@ -160,16 +196,18 @@ async function tratarEnvioFormulario(event: Event): Promise<void> {
         bairro: formData.get('bairro') as string,
         cidade: formData.get('cidade') as string,
         estado: formData.get('estado') as string,
-        telefone: formData.get('phone') as string,
+        telefone: formData.get('telefone') as string,
         redeSocial: formData.get('socialMedia') as (string | undefined) || undefined,
-        escolaridade: formData.get('education') as string,
-        possuiPet: formData.get('hasPet') === 'yes',
+        escolaridade: formData.get('escolaridade') as string,
+        possuiPet: formData.get('temPet') === 'sim',
         quantosAnimais: formData.get('quantAnimais') as (string | undefined) || undefined,
         especiePet: formData.get('especiePet') as (string | undefined) || undefined,
-        funcaoVoluntario: formData.get('função') as (string | undefined) || undefined,
+        funcao: formData.get('funcao') as (string | undefined) || undefined,
     };
+
     // Validações básicas
-    if (!adm.nomeCompleto?.trim()) {
+    if (!adm.nome.trim()) {
+        console.log(adm.nome)
         alert('Por favor, preencha o nome completo.');
         return;
     }
@@ -218,7 +256,8 @@ async function tratarEnvioFormulario(event: Event): Promise<void> {
         return;
     }
     try {
-        await cadastrarAdministrador(adm);
+        const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+        await cadastrarAdministrador(adm, form, button);
         mostrarMensagemSucesso();
         form.reset();
         alternarCamposPet();
@@ -233,6 +272,7 @@ export function inicializarCadastroAdm(): void {
     if (form) {
         form.addEventListener('submit', tratarEnvioFormulario);
     }
+
     const temPetSim = document.getElementById('temPetSim') as HTMLInputElement | null;
     const temPetNao = document.getElementById('naoTemPet') as HTMLInputElement | null;
     const quantAnimaisInput = document.getElementById('quantAnimais') as HTMLInputElement | null;
@@ -248,7 +288,8 @@ export function inicializarCadastroAdm(): void {
 }
 
 export function initializeCadastroAdm() {
-  inicializarCadastroAdm();
+    console.log("Entrou em inicializar cadastro ADM");
+    inicializarCadastroAdm();
 }
 
 window.addEventListener('DOMContentLoaded', inicializarCadastroAdm); 

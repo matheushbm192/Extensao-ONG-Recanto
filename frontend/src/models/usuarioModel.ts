@@ -25,7 +25,7 @@ export interface UsuarioComum {
 }
 
 export interface UsuarioAdministrador {
-    nomeCompleto: string;
+    nome: string;
     email: string;
     senha: string;
     dataNascimento: string;
@@ -43,5 +43,5 @@ export interface UsuarioAdministrador {
     possuiPet: boolean;
     quantosAnimais?: string;
     especiePet?: string;
-    funcaoVoluntario?: string;
+    funcao?: string;
 }

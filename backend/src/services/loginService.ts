@@ -8,7 +8,7 @@ export class LoginRN {
         this.loginDAO = new LoginDAO();
     }
 
-    async authenticateUser(email: string, senha: string): Promise<string> {
+    async autenticarUsuario(email: string, senha: string): Promise<string> {
         const user = await this.loginDAO.selectUserByEmail(email)
         
         // alterar para comparacao entre senha digitada e senha criptografada no banco

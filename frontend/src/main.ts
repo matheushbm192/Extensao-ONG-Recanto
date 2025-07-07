@@ -176,6 +176,7 @@ function carregarPaginaCadastroAdm() {
             alert('Erro ao carregar tela cadastro de administrador. Verifique a conexão com a internet.');
         }).then(() => {
             // Inicializa a página de cadastro de administrador após carregar o HTML
+            console.log("Tentando entrar em initailizeCadastroADM")
             initializeCadastroAdm();
         });
 }
