@@ -1,8 +1,8 @@
 import { initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
-import { initializeCadastroUsuarioPage } from "./cadastroUsuario.js";
 import { getUserFromToken, logout } from "./utils/auth.js";
+import { initializeCadastroAdm } from "./cadastroAdm.js";
 // Event listeners para navegação
 document.addEventListener('DOMContentLoaded', () => {
     // Event listener para todos os elementos com data-action
@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'logout':
                     logoutUser();
+                    break;
+                case 'cadastro-adm':
+                    carregarPaginaCadastroAdm();
                     break;
             }
         }
@@ -136,7 +139,7 @@ function carregarPaginaCadastroUsuario() {
         alert('Erro ao carregar tela cadastro de usuário. Verifique a conexão com a internet.');
     }).then(() => {
         // Inicializa a página de cadastro de usuário após carregar o HTML
-        inicializarCadastroUsuario();
+        initializeCadastroPage();
     });
 }
 function carregarPaginaCadastroAdm() {
