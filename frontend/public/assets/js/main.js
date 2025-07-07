@@ -1,8 +1,8 @@
 import { initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
-import { initializeCadastroUsuarioPage } from "./cadastroUsuario.js";
 import { getUserFromToken, logout } from "./utils/auth.js";
+import { initializeCadastroAdm } from "./cadastroAdm.js";
 // Event listeners para navegação
 document.addEventListener('DOMContentLoaded', () => {
     // Event listener para todos os elementos com data-action
@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'logout':
                     logoutUser();
+                    break;
+                case 'cadastro-adm':
+                    carregarPaginaCadastroAdm();
                     break;
             }
         }
@@ -136,7 +139,7 @@ function carregarPaginaCadastroUsuario() {
         alert('Erro ao carregar tela cadastro de usuário. Verifique a conexão com a internet.');
     }).then(() => {
         // Inicializa a página de cadastro de usuário após carregar o HTML
-        inicializarCadastroUsuario();
+        initializeCadastroPage();
     });
 }
 function carregarPaginaCadastroAdm() {
@@ -201,7 +204,6 @@ function atualizarInterfaceUsuario() {
     const loginMenu = document.getElementById("menu-login");
     const logoutMenu = document.getElementById("menu-logout");
     const cadastroAnimal = document.getElementById("menu-cadastro-animal");
-    const cadastroUsuario = document.getElementById("menu-cadastro-usuario");
     if (user) {
         if (loginMenu)
             loginMenu.style.display = "none";
@@ -210,8 +212,6 @@ function atualizarInterfaceUsuario() {
         const isAdmin = user.tipo_usuario === "admin";
         if (cadastroAnimal)
             cadastroAnimal.style.display = isAdmin ? "inline" : "none";
-        if (cadastroUsuario)
-            cadastroUsuario.style.display = isAdmin ? "inline" : "none";
     }
     else {
         if (loginMenu)
@@ -220,7 +220,5 @@ function atualizarInterfaceUsuario() {
             logoutMenu.style.display = "none";
         if (cadastroAnimal)
             cadastroAnimal.style.display = "none";
-        if (cadastroUsuario)
-            cadastroUsuario.style.display = "none";
     }
 }

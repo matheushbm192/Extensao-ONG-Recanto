@@ -222,7 +222,6 @@ function atualizarInterfaceUsuario() {
     const loginMenu = document.getElementById("menu-login");
     const logoutMenu = document.getElementById("menu-logout");
     const cadastroAnimal = document.getElementById("menu-cadastro-animal");
-    const cadastroUsuario = document.getElementById("menu-cadastro-usuario");
 
     if(user) {
         if (loginMenu) loginMenu.style.display = "none";
@@ -231,13 +230,11 @@ function atualizarInterfaceUsuario() {
         const isAdmin = user.tipo_usuario === "admin";
 
         if (cadastroAnimal) cadastroAnimal.style.display = isAdmin ? "inline" : "none";
-        if (cadastroUsuario) cadastroUsuario.style.display = isAdmin ? "inline" : "none";
     }
     else {
         if (loginMenu) loginMenu.style.display = "inline";
         if (logoutMenu) logoutMenu.style.display = "none";
         
         if (cadastroAnimal) cadastroAnimal.style.display = "none";
-        if (cadastroUsuario) cadastroUsuario.style.display = "none";
     }
 }
