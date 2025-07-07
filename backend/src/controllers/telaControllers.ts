@@ -44,3 +44,12 @@ export const getTelaCadastroUsuario = async (req: Request, res: Response) => {
     }
 }
 
+export const getTelaCadastroAdm = async (req: Request, res: Response) => {
+    try {
+        const filePath = path.join(__dirname, '..', '..', 'pages', 'cadastroAdm.html');
+        res.sendFile(filePath);
+    } catch (error) {
+        res.send(error);
+    }
+}
+

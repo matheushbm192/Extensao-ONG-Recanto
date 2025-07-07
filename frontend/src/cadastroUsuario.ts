@@ -13,10 +13,8 @@ export function initializeCadastroUsuarioPage(): void {
 // Função para lidar com o envio do formulário
 async function handleFormSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
-    
     // Coletar dados do formulário
     const usuario: UsuarioComum = {
     nome: formData.get('nome') as string,
@@ -54,17 +52,14 @@ async function handleFormSubmit(event: Event): Promise<void> {
         alert('Por favor, preencha o e-mail.');
         return;
     }
-    
     if (!usuario.senha.trim()) {
         alert('Por favor, preencha a senha.');
         return;
     }
-    
     if (!usuario.dataNascimento) {
         alert('Por favor, preencha a data de nascimento.');
         return;
     }
-    
     if (!usuario.cpf.trim()) {
         alert('Por favor, preencha o CPF.');
         return;
@@ -74,33 +69,27 @@ async function handleFormSubmit(event: Event): Promise<void> {
         alert('Por favor, preencha o logradouro.');
         return;
     }
-    
     if (!usuario.bairro.trim()) {
         alert('Por favor, preencha o bairro.');
         return;
     }
-    
     if (!usuario.cidade.trim()) {
         alert('Por favor, preencha a cidade.');
         return;
     }
-    
     if (!usuario.estado) {
         alert('Por favor, selecione o estado.');
         return;
     }
-    
     if (!usuario.telefone.trim()) {
         alert('Por favor, preencha o telefone.');
         return;
     }
-    
     if (!usuario.escolaridade) {
         alert('Por favor, selecione sua formação.');
         return;
     }
-    
-    if (!usuario.possuiPet) {
+    if (usuario.possuiPet === undefined) {
         alert('Por favor, selecione se você tem animalzinho.');
         return;
     }

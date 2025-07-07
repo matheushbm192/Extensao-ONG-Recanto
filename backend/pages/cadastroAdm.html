@@ -17,8 +17,13 @@
             <form id="userForm" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="col-span-2">
-                        <label for="fullName" class="block text-gray-700 text-sm font-bold mb-2">Nome completo</label>
-                        <input type="text" id="fullName" name="fullName" required
+                        <label for="nome" class="block text-gray-700 text-sm font-bold mb-2">Nome </label>
+                        <input type="text" id="nome" name="nome" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="sobrenome" class="block text-gray-700 text-sm font-bold mb-2">Sobrenome</label>
+                        <input type="text" id="sobrenome" name="sobrenome" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
 
@@ -30,14 +35,14 @@
 
                     <div>
                         <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Senha</label>
-                        <input type="password" id="password" name="password" required
+                        <input type="password" id="senha" name="senha" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
 
                     <div>
                         <label for="birthDate" class="block text-gray-700 text-sm font-bold mb-2">Data de
                             nascimento</label>
-                        <input type="date" id="birthDate" name="birthDate" required
+                        <input type="date" id="dataNascimento" name="dataNascimento" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
 
@@ -47,6 +52,7 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400"
                             placeholder="000.000.000-00">
                     </div>
+                </div>
                     <fieldset class="mb-6 border border-gray-300 p-4 rounded">
                         <legend class="text-gray-700 text-sm font-bold mb-2 px-2">Endereço</legend>
 
@@ -135,10 +141,10 @@
                         </div>
                     </fieldset>
 
-
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Telefone</label>
-                        <input type="tel" id="phone" name="phone" required
+                        <input type="tel" id="telefone" name="telefone" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400"
                             placeholder="(00) 00000-0000">
                     </div>
@@ -163,7 +169,7 @@
 
                     <div>
                         <label for="education" class="block text-gray-700 text-sm font-bold mb-2">Formação</label>
-                        <select id="education" name="education" required
+                        <select id="escolaridade" name="escolaridade" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                             <option value="" disabled selected>Selecione sua formação</option>
                             <option value="ensino_medio">Ensino Médio</option>
@@ -176,40 +182,32 @@
                         <label class="block text-gray-700 text-sm font-bold mb-2">Tem animalzinho?</label>
                         <div class="mt-2">
                             <div class="flex items-center mb-2">
-                                <input type="radio" id="hasPetYes" name="hasPet" value="yes"
+                                <input type="radio" id="temPetSim" name="temPet" value="sim"
                                     class="h-4 w-4 text-yellow-400 border-gray-300 focus:ring-yellow-400">
                                 <label for="hasPetYes" class="ml-2">Sim</label>
                             </div>
                             <div class="flex items-center">
-                                <input type="radio" id="hasPetNo" name="hasPet" value="no"
+                                <input type="radio" id="naoTemPet" name="temPet" value="nao"
                                     class="h-4 w-4 text-yellow-400 border-gray-300 focus:ring-yellow-400">
                                 <label for="hasPetNo" class="ml-2">Não</label>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div id="especiePetDiv" class="mt-4 p-4 border border-gray-300 rounded-lg shadow-sm hidden">
-                            <label for="especiePet" class="block text-sm font-medium text-gray-700 mb-2">Espécie do
-                                Pet:</label>
-                            <select id="especiePet" name="especiePet"
-                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                <option value="">Selecione uma espécie</option>
-                                <option value="cachorro">Cachorro</option>
-                                <option value="gato">Gato</option>
-                                <option value="passaro">Pássaro</option>
-                                <option value="peixe">Peixe</option>
-                                <option value="roedor">Roedor</option>
-                                <option value="outro">Outro</option>
-                            </select>
-
-                            <div id="outraEspecieDiv" class="mt-4 hidden">
-                                <label for="outraEspecie" class="block text-sm font-medium text-gray-700 mb-2">Qual a
-                                    espécie?</label>
-                                <input type="text" id="outraEspecie" name="outraEspecie"
-                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-                                    placeholder="Ex: Furão, Tartaruga">
-                            </div>
+                </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div id="quantAnimaisDiv">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="numero">Quantos animais?</label>
+                            <input id="quantAnimais" name="quantAnimais" type="text" 
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                         </div>
+
+                        <!-- Container dinâmico para selects de espécie -->
+                        <div id="especiesPetsContainer" class="mt-4"></div>
+                    </div>
+                    <div class="col-span-2">
+                        <label for="funcao" class="block text-gray-700 text-sm font-bold mb-2">Qual função realizada na ONG?</label>
+                        <input type="text" id="funcao" name="funcao" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
 
                     

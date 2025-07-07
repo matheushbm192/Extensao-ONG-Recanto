@@ -136,7 +136,32 @@ function carregarPaginaCadastroUsuario() {
         alert('Erro ao carregar tela cadastro de usuário. Verifique a conexão com a internet.');
     }).then(() => {
         // Inicializa a página de cadastro de usuário após carregar o HTML
-        initializeCadastroUsuarioPage();
+        inicializarCadastroUsuario();
+    });
+}
+function carregarPaginaCadastroAdm() {
+    fetch('http://localhost:3000/tela/cadastroAdm')
+        .then(async (response) => {
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(error || 'Erro ao carregar tela cadastro de administrador');
+        }
+        return response.text();
+    }).then((html) => {
+        const container = document.getElementById("principal");
+        if (container) {
+            container.innerHTML = html;
+        }
+        else {
+            console.warn('Container para resposta não encontrado');
+        }
+    })
+        .catch((error) => {
+        console.error('Erro ao carregar tela cadastro de administrador:', error);
+        alert('Erro ao carregar tela cadastro de administrador. Verifique a conexão com a internet.');
+    }).then(() => {
+        // Inicializa a página de cadastro de administrador após carregar o HTML
+        initializeCadastroAdm();
     });
 }
 function carregarPaginaLogin() {

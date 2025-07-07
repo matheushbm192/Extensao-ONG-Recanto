@@ -1,3 +1,4 @@
+
 import { Router, Request, Response } from 'express';
 import { UsuarioComumCTR } from '../controllers/usuarioComumController';
 import { MulterRequest } from '../interfaceConfig/MulterRequest';
@@ -17,3 +18,4 @@ router.get('/usuarioComumGet', async (req: Request, res: Response) => {
 router.post('/usuarioPost', upload.none(), usuarioCTR.postUsuario);
 
 export default router;
+

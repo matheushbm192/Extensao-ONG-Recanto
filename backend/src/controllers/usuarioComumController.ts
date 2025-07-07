@@ -7,18 +7,8 @@ import { MulterRequest } from '../interfaceConfig/MulterRequest';
 const usuarioRN = new UsuarioComumRN();
 
 export class UsuarioComumCTR {
-    /*
   // GET: busca todos os usuários comuns cadastrados
-  async getAllUsuarios(req: Request, res: Response) {
-    try {
-      const usuarios = await usuarioRN.selectAllUsuarios();
-      console.log("Usuários encontrados:", usuarios);
-      return res.json({ usuarios });
-    } catch (error: any) {
-      console.error("Erro ao buscar usuários:", error);
-      res.status(500).json({ error: error.message });
-    }
-  }*/
+  // async getAllUsuarios(req: Request, res: Response) { ... }
 
   // POST: cadastra um novo usuário comum
   async postUsuario(req:  MulterRequest, res: Response) {
