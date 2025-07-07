@@ -1,7 +1,7 @@
 import database from "../database/databaseClient";
 import { UsuarioComum } from "../models/usuarioComumModel";
 
-    class UsuarioComumDAO {
+   export class UsuarioComumDAO {
        
         async insertUsuario(usuario: UsuarioComum): Promise<UsuarioComum> {
             console.log("=== DAO - INSERINDO USUÁRIO NO BANCO ===");
@@ -10,8 +10,8 @@ import { UsuarioComum } from "../models/usuarioComumModel";
             try {
                 // 1. Separa os dados da tabela USUARIO e da tabela USUARIO_COMUM
                 const {
-                    contribuirOng, desejaAdotar, // específicos do USUARIO_COMUM
-                    ...dadosUsuario // o resto vai para USUARIO
+                    contribuirOng, desejaAdotar, 
+                    ...dadosUsuario 
                 } = usuario;
 
                 // 2. Insere na tabela USUARIO e retorna o id gerado
@@ -44,7 +44,7 @@ import { UsuarioComum } from "../models/usuarioComumModel";
                     throw new Error(erroComum.message);
                 }
 
-                // 4. Retorna o objeto completo
+                // 4. Retorna o objeto
                 return {
                     ...usuarioInserido,
                     ...usuarioComumInserido
@@ -56,5 +56,3 @@ import { UsuarioComum } from "../models/usuarioComumModel";
             }
         }
     }
-
-    export default UsuarioComumDAO;

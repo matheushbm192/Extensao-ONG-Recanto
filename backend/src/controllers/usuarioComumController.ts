@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { UsuarioComum } from '../models/usuarioComumModel';
 import { UsuarioComumRN } from '../services/usuarioComumService';
 import { randomUUID } from 'crypto';
+import { MulterRequest } from '../interfaceConfig/MulterRequest';
 
 const usuarioRN = new UsuarioComumRN();
 
@@ -20,7 +21,7 @@ export class UsuarioComumCTR {
   }*/
 
   // POST: cadastra um novo usuário comum
-  async postUsuario(req: Request, res: Response) {
+  async postUsuario(req:  MulterRequest, res: Response) {
     try {
       console.log("=== INÍCIO DO POST USUÁRIO ===");
       console.log("Body recebido:", req.body);
@@ -35,7 +36,6 @@ export class UsuarioComumCTR {
         telefone,
         redeSocial,
         escolaridade,
-        possuiPet,
         contribuirOng,
         desejaAdotar,
         logradouro,
@@ -45,7 +45,8 @@ export class UsuarioComumCTR {
         cidade,
         estado
     } = req.body;
-
+      const possuiPet =  req.body.possuiPet === 'true' ;
+      
       console.log("Dados recebidos:", {
         nome,
         sobrenome,
@@ -68,6 +69,8 @@ export class UsuarioComumCTR {
       });
 
       //analisar oq pode ser nulo 
+      
+
       const novoUsuario: UsuarioComum = {
         id_usuario: randomUUID(),
         nome,

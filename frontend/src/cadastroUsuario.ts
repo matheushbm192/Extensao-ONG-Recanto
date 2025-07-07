@@ -1,4 +1,5 @@
 import { UsuarioComum } from "./models/usuarioModel";
+//import { cadastrarUsuarioComum } from "./routes/rota-cadastro-usuario-comum";
 
 
 // Função para inicializar a página de cadastro de usuário
@@ -40,12 +41,12 @@ async function handleFormSubmit(event: Event): Promise<void> {
     
     // Validar dados obrigatórios
     if (!usuario.nome.trim()) {
-        alert('Por favor, preencha o nome completo.');
+        alert('Por favor, preencha o nome .');
         return;
     }
     
     if (!usuario.sobrenome.trim()) {
-        alert('Por favor, preencha o nome completo.');
+        alert('Por favor, preencha o sobrenome.');
         return;
     }
 
@@ -115,22 +116,55 @@ async function handleFormSubmit(event: Event): Promise<void> {
     }
  
     try {
-      
-        await cadastrarUsuario(usuario);
-        
-        // Mostrar mensagem de sucesso
-        showSuccessMessage();
-        
-        // Limpar formulário
-        form.reset();
-        
-    
-        
+        const button = document.getElementById('cadastrarUsuario') as HTMLButtonElement;
+        await cadastrarUsuarioComum(formData, form, button);
+            
     } catch (error) {
         console.error('Erro ao cadastrar usuário:', error);
         alert('Erro ao realizar cadastro. Tente novamente.');
     }
 }
+
+
+async function cadastrarUsuarioComum(formData: FormData, form: HTMLFormElement, button: HTMLButtonElement): Promise<void> {
+    button.disabled = true;
+    button.textContent = 'Enviando...';
+  
+    fetch('http://localhost:3000/usuario/usuarioPost', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Erro no envio');
+        return res.json(); 
+      })
+      .then((res) => {
+        console.log(res);
+  
+        const mensagem = document.getElementById('mensagem');
+        if (mensagem) {
+          mensagem.classList.remove('hidden');
+          setTimeout(() => {
+            mensagem.classList.add('hidden');
+          }, 2000);
+        }
+  
+        form.reset();
+      })
+      .catch(() => {
+        const mensagemErro = document.getElementById('mensagemErro');
+        if (mensagemErro) {
+          mensagemErro.classList.remove('hidden');
+          setTimeout(() => {
+            mensagemErro.classList.add('hidden');
+          }, 2000);
+        }
+      })
+      .finally(() => {
+        button.disabled = false;
+        button.textContent = 'Cadastrar Usuário';
+      });
+  }
 
 // Função para cadastrar usuário (simulada por enquanto)
 async function cadastrarUsuario(usuario: UsuarioComum): Promise<void> {
