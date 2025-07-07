@@ -7,7 +7,7 @@ Este projeto fullstack é composto por um **backend em Node.js com TypeScript** 
 ## 📁 Estrutura geral do projeto
 
 ```
-meu-projeto/
+Extensao-ONG-Recanto/
 │
 ├── backend/             # Lógica do servidor, API e regras de negócio
 ├── frontend/            # Interface do usuário (site)
@@ -27,7 +27,10 @@ backend/
 │   ├── services/        # Regras de negócio
 │   ├── models/          # Estruturas de dados (interfaces, DTOs)
 │   ├── routes/          # Define as rotas da API
-│   └── database/        # Conexão e acesso ao banco de dados
+│   ├── database/        # Conexão e acesso ao banco de dados (Supabase)
+│   └── DAO/             # Data Access Object (acesso ao banco)
+├── imagens/             # Imagens salvas pelo sistema
+├── pages/               # Páginas HTML do backend
 ├── dist/                # Código JavaScript compilado
 ├── tsconfig.json        # Configurações do TypeScript
 ├── package.json         # Scripts e dependências do projeto
@@ -44,13 +47,13 @@ backend/
 
 2. **Instalar dependências**
    ```bash
-   npm install express
-   npm install --save-dev typescript ts-node-dev @types/node @types/express
+   npm install express cors multer
+   npm install --save-dev typescript ts-node-dev @types/node @types/express @types/cors @types/multer
    ```
 
 3. **Criar estrutura de pastas**
    ```bash
-   mkdir src src/controllers src/services src/models src/routes src/database
+   mkdir src src/controllers src/services src/models src/routes src/database src/DAO imagens pages
    ```
 
 4. **Gerar arquivo tsconfig.json**
@@ -58,15 +61,15 @@ backend/
    npx tsc --init
    ```
    **Configurações principais:**
-   - `"rootDir": "./src"` → onde está o código TS
-   - `"outDir": "./dist"` → para onde vai o JS compilado
-   - `"moduleResolution": "node"` → resolve módulos como o Node faz
-   - `"esModuleInterop": true` → para usar `import express from 'express'`
+   - `"rootDir": "./src"`
+   - `"outDir": "./dist"`
+   - `"moduleResolution": "node"`
+   - `"esModuleInterop": true`
 
 5. **Scripts úteis no `package.json`**
    ```json
    "scripts": {
-     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
      "build": "tsc",
      "start": "node dist/index.js"
    }
@@ -155,7 +158,7 @@ frontend/
 
 ## 🔌 Comunicação Front <-> Back
 
-A comunicação entre frontend e backend será feita via requisições HTTP usando `fetch`. Exemplo:
+A comunicação entre frontend e backend é feita via requisições HTTP usando `fetch`. Exemplo:
 
 ```ts
 fetch('http://localhost:4000/api/usuarios')
