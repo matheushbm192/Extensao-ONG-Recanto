@@ -42,6 +42,6 @@ export interface UsuarioAdministrador {
     escolaridade: string;
     possuiPet: boolean;
     quantosAnimais?: string;
-    especiePet?: string;
+    especiePet?: string[];
     funcao?: string;
 }

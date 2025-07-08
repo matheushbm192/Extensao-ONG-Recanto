@@ -182,6 +182,10 @@ async function tratarEnvioFormulario(event: Event): Promise<void> {
         const value = (select as HTMLSelectElement).value;
         if (value) especiesPets.push(value);
     });
+
+    console.log("ESPECIES PET!!!!")
+    console.log(especiesPets)
+    console.log("--------------------------")
     // Coletar dados do formulário
     const adm: UsuarioAdministrador = {
         nome: formData.get('nome') as string,
@@ -201,7 +205,7 @@ async function tratarEnvioFormulario(event: Event): Promise<void> {
         escolaridade: formData.get('escolaridade') as string,
         possuiPet: formData.get('temPet') === 'sim',
         quantosAnimais: formData.get('quantAnimais') as (string | undefined) || undefined,
-        especiePet: formData.get('especiePet') as (string | undefined) || undefined,
+        especiePet: especiesPets,
         funcao: formData.get('funcao') as (string | undefined) || undefined,
     };
 
@@ -251,6 +255,11 @@ async function tratarEnvioFormulario(event: Event): Promise<void> {
         alert('Por favor, selecione sua formação.');
         return;
     }
+
+    console.log("POSSUI PET???", adm.possuiPet)
+    console.log("Quantos animais???", adm.quantosAnimais)
+    console.log(adm.especiePet)
+    
     if (adm.possuiPet && (!adm.quantosAnimais || !adm.especiePet)) {
         alert('Por favor, preencha quantos animais e a espécie do pet.');
         return;
@@ -288,7 +297,6 @@ export function inicializarCadastroAdm(): void {
 }
 
 export function initializeCadastroAdm() {
-    console.log("Entrou em inicializar cadastro ADM");
     inicializarCadastroAdm();
 }
 

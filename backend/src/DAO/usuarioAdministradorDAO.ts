@@ -5,7 +5,7 @@ export class UsuarioAdministradorDAO {
     
     async insertUsuario(usuario: UsuarioAdministrador): Promise<UsuarioAdministrador> {
         try {
-            const { funcao, ...dadosUsuario } = usuario
+            const { funcao, especiesPets, ...dadosUsuario } = usuario
 
             const { data: usuarioInserido, error: erroUsuario } = await database
                 .from('USUARIO')
@@ -24,11 +24,13 @@ export class UsuarioAdministradorDAO {
                 .from('USUARIO_ADMINISTRADOR')
                 .insert({
                     id: idUsuario,
-                    funcao
+                    funcao,
+                    especiesPets
                 })
                 .select()
                 .single();
-
+            
+            console.log("DAO -> USUARIO ADMINISTRADOR INSERIDO")
             console.log(usuarioAdministradorInserido)
 
             if (erroAdministrador) {

@@ -29,7 +29,8 @@ export class UsuarioAdministradorCTR {
         complemento,
         bairro,
         cidade,
-        estado
+        estado,
+        especiesPets
     } = req.body;
       const possuiPet =  req.body.possuiPet === 'true' ;
       
@@ -50,7 +51,8 @@ export class UsuarioAdministradorCTR {
         complemento,
         bairro,
         cidade,
-        estado
+        estado,
+        especiesPets
       });      
 
       const novoUsuario: UsuarioAdministrador = {
@@ -72,6 +74,7 @@ export class UsuarioAdministradorCTR {
         bairro,
         cidade,
         estado,
+        especiesPets,
         created_at: new Date().toISOString(),
         tipo_usuario: 'admin'
       };
