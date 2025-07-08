@@ -1,11 +1,13 @@
 import { carregarPaginaInicial } from "./main.ts"
 
-export function   initializeLogin() {
-  // Pequeno delay para garantir que o HTML da página foi injetado
+export function initializeLogin() {
   setTimeout(() => {
     const form = document.getElementById('login-form') as HTMLFormElement;
     const emailInput = document.getElementById('email') as HTMLInputElement;
     const senhaInput = document.getElementById('senha') as HTMLInputElement;
+
+    const mensagemSucesso = document.getElementById('mensagem') as HTMLElement;
+    const mensagemErro = document.getElementById('mensagemErro') as HTMLElement;
 
     if (!form || !emailInput || !senhaInput) {
       console.error('Formulário ou campos não encontrados na tela de login.');
@@ -19,7 +21,11 @@ export function   initializeLogin() {
       const senha = senhaInput.value.trim();
 
       if (!email || !senha) {
-        alert('Por favor, preencha todos os campos.');
+        if (mensagemErro) {
+          mensagemErro.classList.remove('hidden');
+          mensagemErro.querySelector('p')!.textContent = 'Por favor, preencha todos os campos.';
+          setTimeout(() => mensagemErro.classList.add('hidden'), 3000);
+        }
         return;
       }
 
@@ -37,17 +43,27 @@ export function   initializeLogin() {
           throw new Error(error || 'Falha ao fazer login');
         }
 
-        // backend retorna somente o token
         const token = await response.json();
-
         localStorage.setItem('token', token);
 
-        alert('Login realizado com sucesso!');
+        if (mensagemErro) mensagemErro.classList.add('hidden');
+        if (mensagemSucesso) {
+          mensagemSucesso.classList.remove('hidden');
+          mensagemSucesso.querySelector('p')!.textContent = 'Login realizado com sucesso!';
+          setTimeout(() => mensagemSucesso.classList.add('hidden'), 3000);
+        }
+
         carregarPaginaInicial();
-        
+
       } catch (error) {
         console.error('Erro ao fazer login:', error);
-        alert('Erro ao fazer login. Verifique seu e-mail e senha.');
+
+        if (mensagemSucesso) mensagemSucesso.classList.add('hidden');
+        if (mensagemErro) {
+          mensagemErro.classList.remove('hidden');
+          mensagemErro.querySelector('p')!.textContent = 'Erro ao fazer login. Verifique seu e-mail e senha.';
+          setTimeout(() => mensagemErro.classList.add('hidden'), 3000);
+        }
       }
     });
   }, 100);
