@@ -1,6 +1,7 @@
 import { initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
+import { initializeCadastroVoluntarioPage } from "./cadastroVoluntario.js";
 import { getUserFromToken, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
 // Event listeners para navegação
@@ -31,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'cadastro-adm':
                     carregarPaginaCadastroAdm();
+                    break;
+                case 'voluntario':
+                    carregarPaginaCadastroVoluntario();
                     break;
             }
         }
@@ -226,4 +230,33 @@ function atualizarInterfaceUsuario() {
         if (cadastroUsuario)
             cadastroUsuario.style.display = "none";
     }
+}
+function carregarPaginaCadastroVoluntario() {
+    fetch('http://localhost:3000/tela/cadastroVoluntario')
+        .then(async (response) => {
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(error || 'Erro ao carregar tela de cadastro de voluntário');
+        }
+        // Receberemos o HTML da página de cadastro de voluntário
+        return response.text();
+    })
+        .then((html) => {
+        const container = document.getElementById("principal"); // div onde será inserido o HTML
+        if (container) {
+            console.log("Carregando página de cadastro de voluntário");
+            container.innerHTML = html;
+        }
+        else {
+            console.warn('Container para resposta não encontrado');
+        }
+    })
+        .catch((error) => {
+        console.error('Erro ao carregar tela de cadastro de voluntário:', error);
+        alert('Erro ao carregar tela de cadastro de voluntário. Verifique a conexão com a internet.');
+    })
+        .then(() => {
+        // Inicializa a página de cadastro após carregar o HTML
+        initializeCadastroVoluntarioPage();
+    });
 }

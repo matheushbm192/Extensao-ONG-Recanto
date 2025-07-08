@@ -45,3 +45,25 @@ export interface UsuarioAdministrador {
     especiePet?: string;
     funcaoVoluntario?: string;
 }
+
+export interface Voluntario {
+    nome: string;
+    sobrenome: string;
+    email: string;
+    senha: string;
+    dataNascimento: string;
+    cpf: string;
+    telefone: string;
+    redeSocial?: string;
+    escolaridade: string;
+    habilidade: string;
+    experiencia?: string;
+    logradouro: string;
+    numero?: string;
+    complemento?: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    expectativas: string;
+
+}
