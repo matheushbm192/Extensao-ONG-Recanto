@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramas de Comunicação - ONG Recanto dos Animais</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .diagram-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .diagram-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .download-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 14px;
+        }
+        .download-btn:hover {
+            background: #2980b9;
+        }
+        .btn-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Diagramas de Comunicação - ONG Recanto dos Animais</h1>
+        
+        <div class="btn-container">
+            <button class="download-btn" onclick="downloadAllDiagrams()">📥 Baixar Todos os Diagramas</button>
+        </div>
+
+        <!-- Diagrama 1: Arquitetura Geral -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">🏗️ Arquitetura Geral do Sistema</h2>
+            <div class="mermaid" id="arquitetura">
+graph TB
+    subgraph "Cliente (Navegador)"
+        UI[Interface do Usuário<br/>HTML/CSS/TypeScript]
+        Auth[Autenticação<br/>JWT Token]
+    end
+    
+    subgraph "Frontend (Porta 3001)"
+        Main[main.ts<br/>Gerenciador de Rotas]
+        Pages[Páginas TypeScript<br/>login.ts, adocao.ts, etc.]
+        Routes[Rotas Frontend<br/>rota-cadastro-*.ts]
+        Models[Modelos<br/>petModel.ts, usuarioModel.ts]
+    end
+    
+    subgraph "Backend (Porta 3000)"
+        Server[server.ts<br/>Express Server]
+        RoutesAPI[Rotas da API<br/>loginRoutes, petRoutes, etc.]
+        Controllers[Controllers<br/>loginController, petController, etc.]
+        Services[Services<br/>loginService, petService, etc.]
+        DAO[Data Access Objects<br/>loginDAO, petDAO, etc.]
+    end
+    
+    subgraph "Banco de Dados"
+        Supabase[(Supabase<br/>PostgreSQL)]
+    end
+    
+    subgraph "Armazenamento"
+        Images[Imagens<br/>Upload de Pets]
+    end
+    
+    %% Comunicação Frontend -> Backend
+    UI --> Main
+    Main --> Pages
+    Pages --> Routes
+    Routes -->|HTTP Requests| Server
+    
+    %% Comunicação Backend Interna
+    Server --> RoutesAPI
+    RoutesAPI --> Controllers
+    Controllers --> Services
+    Services --> DAO
+    DAO --> Supabase
+    
+    %% Upload de Imagens
+    Routes -->|Multipart Form| Controllers
+    Controllers --> Images
+    
+    %% Autenticação
+    Auth -->|JWT Token| Routes
+    Auth -->|JWT Token| Controllers
+    
+    %% Estilo
+    classDef frontend fill:#e1f5fe
+    classDef backend fill:#f3e5f5
+    classDef database fill:#e8f5e8
+    classDef storage fill:#fff3e0
+    
+    class UI,Main,Pages,Routes,Models frontend
+    class Server,RoutesAPI,Controllers,Services,DAO backend
+    class Supabase database
+    class Images storage
+            </div>
+            <div class="btn-container">
+                <button class="download-btn" onclick="downloadDiagram('arquitetura', '01-arquitetura-geral')">📥 Baixar Arquitetura</button>
+            </div>
+        </div>
+
+        <!-- Diagrama 2: Login -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">🔐 Fluxo de Autenticação (Login)</h2>
+            <div class="mermaid" id="login">
+sequenceDiagram
+    participant U as Usuário
+    participant F as Frontend (login.ts)
+    participant B as Backend (loginRoutes)
+    participant C as LoginController
+    participant S as LoginService
+    participant D as LoginDAO
+    participant DB as Supabase
+    
+    U->>F: Preenche formulário de login
+    F->>B: POST /login {email, senha}
+    B->>C: loginHandler()
+    C->>S: authenticateUser()
+    S->>D: selectUserByEmail()
+    D->>DB: SELECT * FROM usuarios WHERE email = ?
+    DB-->>D: Dados do usuário
+    D-->>S: Usuário encontrado
+    S->>S: Verifica senha e gera JWT
+    S-->>C: Token JWT
+    C-->>B: Token JWT
+    B-->>F: Token JWT (200 OK)
+    F->>F: Salva token no localStorage
+    F-->>U: Redireciona para home
+            </div>
+            <div class="btn-container">
+                <button class="download-btn" onclick="downloadDiagram('login', '02-fluxo-login')">📥 Baixar Login</button>
+            </div>
+        </div>
+
+        <!-- Diagrama 3: Cadastro de Usuário -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">👤 Cadastro de Usuário</h2>
+            <div class="mermaid" id="cadastro-usuario">
+sequenceDiagram
+    participant U as Usuário
+    participant F as Frontend (cadastroUsuario.ts)
+    participant B as Backend (usuarioRoutes)
+    participant C as UsuarioComumController
+    participant S as UsuarioComumService
+    participant D as UsuarioComumDAO
+    participant DB as Supabase
+    
+    U->>F: Preenche formulário de cadastro
+    F->>B: POST /usuario/usuarioPost (FormData)
+    B->>C: postUsuario()
+    C->>S: cadastrarUsuario()
+    S->>D: insertUsuario()
+    D->>DB: INSERT INTO usuarios (...)
+    DB-->>D: Usuário criado
+    D-->>S: Confirmação
+    S-->>C: Sucesso
+    C-->>B: 200 OK
+    B-->>F: Confirmação
+    F-->>U: Mensagem de sucesso
+            </div>
+            <div class="btn-container">
+                <button class="download-btn" onclick="downloadDiagram('cadastro-usuario', '03-cadastro-usuario')">📥 Baixar Cadastro Usuário</button>
+            </div>
+        </div>
+
+        <!-- Diagrama 4: Cadastro de Pet -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">🐕 Cadastro de Pet</h2>
+            <div class="mermaid" id="cadastro-pet">
+sequenceDiagram
+    participant U as Usuário
+    participant F as Frontend (cadastro_animais.ts)
+    participant B as Backend (petRoutes)
+    participant C as PetController
+    participant S as PetService
+    participant D as PetDAO
+    participant DB as Supabase
+    participant FS as Sistema de Arquivos
+    
+    U->>F: Preenche formulário + upload foto
+    F->>B: POST /api/petsPost (Multipart FormData)
+    B->>C: postPet()
+    C->>FS: Salva imagem
+    FS-->>C: Caminho da imagem
+    C->>S: cadastrarPet()
+    S->>D: insertPet()
+    D->>DB: INSERT INTO pets (...)
+    DB-->>D: Pet criado
+    D-->>S: Confirmação
+    S-->>C: Sucesso
+    C-->>B: 200 OK
+    B-->>F: Confirmação
+    F-->>U: Mensagem de sucesso
+            </div>
+            <div class="btn-container">
+                <button class="download-btn" onclick="downloadDiagram('cadastro-pet', '04-cadastro-pet')">📥 Baixar Cadastro Pet</button>
+            </div>
+        </div>
+
+        <!-- Diagrama 5: Listagem de Pets -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">🏠 Listagem de Pets (Adoção)</h2>
+            <div class="mermaid" id="adocao">
+sequenceDiagram
+    participant U as Usuário
+    participant F as Frontend (adocao.ts)
+    participant B as Backend (petRoutes)
+    participant C as PetController
+    participant S as PetService
+    participant D as PetDAO
+    participant DB as Supabase
+    
+    U->>F: Acessa página de adoção
+    F->>B: GET /api/petGet
+    B->>C: getAllPets()
+    C->>S: buscarTodosPets()
+    S->>D: selectAllPets()
+    D->>DB: SELECT * FROM pets
+    DB-->>D: Lista de pets
+    D-->>S: Pets encontrados
+    S-->>C: Lista de pets
+    C-->>B: JSON com pets
+    B-->>F: Lista de pets
+    F->>F: Renderiza cards dos pets
+    F-->>U: Exibe pets disponíveis
+            </div>
+            <div class="btn-container">
+                <button class="download-btn" onclick="downloadDiagram('adocao', '05-listagem-pets')">📥 Baixar Listagem Pets</button>
+            </div>
+        </div>
+
+        <!-- Diagrama 6: Estrutura de Dados -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">🗄️ Estrutura de Dados (Modelo ER)</h2>
+            <div class="mermaid" id="estrutura-dados">
+erDiagram
+    USUARIOS {
+        int id PK
+        string nome
+        string sobrenome
+        string email
+        string senha
+        date dataNascimento
+        string cpf
+        string telefone
+        string redeSocial
+        string escolaridade
+        boolean possuiPet
+        boolean contribuirOng
+        boolean desejaAdotar
+        string tipo_usuario
+        string logradouro
+        string numero
+        string complemento
+        string bairro
+        string cidade
+        string estado
+    }
+    
+    PETS {
+        int id PK
+        string nome
+        string raca
+        string sexo
+        int idade
+        string foto_url
+        string descricao
+        string status
+        timestamp created_at
+    }
+    
+    ADOCOES {
+        int id PK
+        int usuario_id FK
+        int pet_id FK
+        date data_adocao
+        string status
+        timestamp created_at
+    }
+    
+    USUARIOS ||--o{ ADOCOES : "faz"
+    PETS ||--o{ ADOCOES : "é adotado"
+            </div>
+            <div class="btn-container">
+                <button class="download-btn" onclick="downloadDiagram('estrutura-dados', '06-estrutura-dados')">📥 Baixar Estrutura de Dados</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+
+        // Função para baixar um diagrama específico
+        function downloadDiagram(elementId, filename) {
+            const element = document.getElementById(elementId);
+            const svg = element.querySelector('svg');
+            
+            if (svg) {
+                const svgData = new XMLSerializer().serializeToString(svg);
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                img.onload = function() {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    
+                    canvas.toBlob(function(blob) {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = filename + '.png';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    });
+                };
+                
+                img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+            }
+        }
+
+        // Função para baixar todos os diagramas
+        function downloadAllDiagrams() {
+            const diagrams = [
+                {id: 'arquitetura', name: '01-arquitetura-geral'},
+                {id: 'login', name: '02-fluxo-login'},
+                {id: 'cadastro-usuario', name: '03-cadastro-usuario'},
+                {id: 'cadastro-pet', name: '04-cadastro-pet'},
+                {id: 'adocao', name: '05-listagem-pets'},
+                {id: 'estrutura-dados', name: '06-estrutura-dados'}
+            ];
+            
+            diagrams.forEach((diagram, index) => {
+                setTimeout(() => {
+                    downloadDiagram(diagram.id, diagram.name);
+                }, index * 1000); // Delay de 1 segundo entre cada download
+            });
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant U as Usuário
+    participant F as Frontend (adocao.ts)
+    participant B as Backend (petRoutes)
+    participant C as PetController
+    participant S as PetService
+    participant D as PetDAO
+    participant DB as Supabase
+    
+    U->>F: Acessa página de adoção
+    F->>B: GET /api/petGet
+    B->>C: getAllPets()
+    C->>S: buscarTodosPets()
+    S->>D: selectAllPets()
+    D->>DB: SELECT * FROM pets
+    DB-->>D: Lista de pets
+    D-->>S: Pets encontrados
+    S-->>C: Lista de pets
+    C-->>B: JSON com pets
+    B-->>F: Lista de pets
+    F->>F: Renderiza cards dos pets
+    F-->>U: Exibe pets disponíveis 

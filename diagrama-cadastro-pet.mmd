@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant U as Usuário
+    participant F as Frontend (cadastro_animais.ts)
+    participant B as Backend (petRoutes)
+    participant C as PetController
+    participant S as PetService
+    participant D as PetDAO
+    participant DB as Supabase
+    participant FS as Sistema de Arquivos
+    
+    U->>F: Preenche formulário + upload foto
+    F->>B: POST /api/petsPost (Multipart FormData)
+    B->>C: postPet()
+    C->>FS: Salva imagem
+    FS-->>C: Caminho da imagem
+    C->>S: cadastrarPet()
+    S->>D: insertPet()
+    D->>DB: INSERT INTO pets (...)
+    DB-->>D: Pet criado
+    D-->>S: Confirmação
+    S-->>C: Sucesso
+    C-->>B: 200 OK
+    B-->>F: Confirmação
+    F-->>U: Mensagem de sucesso 

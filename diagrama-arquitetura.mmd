@@ -1,0 +1,60 @@
+graph TB
+    subgraph "Cliente (Navegador)"
+        UI[Interface do Usuário<br/>HTML/CSS/TypeScript]
+        Auth[Autenticação<br/>JWT Token]
+    end
+    
+    subgraph "Frontend (Porta 3001)"
+        Main[main.ts<br/>Gerenciador de Rotas]
+        Pages[Páginas TypeScript<br/>login.ts, adocao.ts, etc.]
+        Routes[Rotas Frontend<br/>rota-cadastro-*.ts]
+        Models[Modelos<br/>petModel.ts, usuarioModel.ts]
+    end
+    
+    subgraph "Backend (Porta 3000)"
+        Server[server.ts<br/>Express Server]
+        RoutesAPI[Rotas da API<br/>loginRoutes, petRoutes, etc.]
+        Controllers[Controllers<br/>loginController, petController, etc.]
+        Services[Services<br/>loginService, petService, etc.]
+        DAO[Data Access Objects<br/>loginDAO, petDAO, etc.]
+    end
+    
+    subgraph "Banco de Dados"
+        Supabase[(Supabase<br/>PostgreSQL)]
+    end
+    
+    subgraph "Armazenamento"
+        Images[Imagens<br/>Upload de Pets]
+    end
+    
+    %% Comunicação Frontend -> Backend
+    UI --> Main
+    Main --> Pages
+    Pages --> Routes
+    Routes -->|HTTP Requests| Server
+    
+    %% Comunicação Backend Interna
+    Server --> RoutesAPI
+    RoutesAPI --> Controllers
+    Controllers --> Services
+    Services --> DAO
+    DAO --> Supabase
+    
+    %% Upload de Imagens
+    Routes -->|Multipart Form| Controllers
+    Controllers --> Images
+    
+    %% Autenticação
+    Auth -->|JWT Token| Routes
+    Auth -->|JWT Token| Controllers
+    
+    %% Estilo
+    classDef frontend fill:#e1f5fe
+    classDef backend fill:#f3e5f5
+    classDef database fill:#e8f5e8
+    classDef storage fill:#fff3e0
+    
+    class UI,Main,Pages,Routes,Models frontend
+    class Server,RoutesAPI,Controllers,Services,DAO backend
+    class Supabase database
+    class Images storage

@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant U as Usuário
+    participant F as Frontend (login.ts)
+    participant B as Backend (loginRoutes)
+    participant C as LoginController
+    participant S as LoginService
+    participant D as LoginDAO
+    participant DB as Supabase
+    
+    U->>F: Preenche formulário de login
+    F->>B: POST /login {email, senha}
+    B->>C: loginHandler()
+    C->>S: authenticateUser()
+    S->>D: selectUserByEmail()
+    D->>DB: SELECT * FROM usuarios WHERE email = ?
+    DB-->>D: Dados do usuário
+    D-->>S: Usuário encontrado
+    S->>S: Verifica senha e gera JWT
+    S-->>C: Token JWT
+    C-->>B: Token JWT
+    B-->>F: Token JWT (200 OK)
+    F->>F: Salva token no localStorage
+    F-->>U: Redireciona para home 

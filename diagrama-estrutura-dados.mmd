@@ -1,0 +1,47 @@
+erDiagram
+    USUARIOS {
+        int id PK
+        string nome
+        string sobrenome
+        string email
+        string senha
+        date dataNascimento
+        string cpf
+        string telefone
+        string redeSocial
+        string escolaridade
+        boolean possuiPet
+        boolean contribuirOng
+        boolean desejaAdotar
+        string tipo_usuario
+        string logradouro
+        string numero
+        string complemento
+        string bairro
+        string cidade
+        string estado
+    }
+    
+    PETS {
+        int id PK
+        string nome
+        string raca
+        string sexo
+        int idade
+        string foto_url
+        string descricao
+        string status
+        timestamp created_at
+    }
+    
+    ADOCOES {
+        int id PK
+        int usuario_id FK
+        int pet_id FK
+        date data_adocao
+        string status
+        timestamp created_at
+    }
+    
+    USUARIOS ||--o{ ADOCOES : "faz"
+    PETS ||--o{ ADOCOES : "é adotado" 
