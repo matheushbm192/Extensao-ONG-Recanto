@@ -204,6 +204,7 @@ function atualizarInterfaceUsuario() {
     const loginMenu = document.getElementById("menu-login");
     const logoutMenu = document.getElementById("menu-logout");
     const cadastroAnimal = document.getElementById("menu-cadastro-animal");
+    const cadastroAdmnistrador = document.getElementById("menu-cadastro-administrador");
     if (user) {
         if (loginMenu)
             loginMenu.style.display = "none";
@@ -212,6 +213,8 @@ function atualizarInterfaceUsuario() {
         const isAdmin = user.tipo_usuario === "admin";
         if (cadastroAnimal)
             cadastroAnimal.style.display = isAdmin ? "inline" : "none";
+        if (cadastroAdmnistrador)
+            cadastroAdmnistrador.style.display = isAdmin ? "inline" : "none";
     }
     else {
         if (loginMenu)
@@ -220,5 +223,7 @@ function atualizarInterfaceUsuario() {
             logoutMenu.style.display = "none";
         if (cadastroAnimal)
             cadastroAnimal.style.display = "none";
+        if (cadastroAdmnistrador)
+            cadastroAdmnistrador.style.display = "none";
     }
 }
