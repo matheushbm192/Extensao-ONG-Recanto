@@ -1,4 +1,4 @@
-import { Pet, PetInput } from '../models/petModel';
+import { Pet } from '../models/petModel';
 import PetDAO from '../DAO/petDAO';
 
 export class PetRN {
@@ -8,7 +8,7 @@ export class PetRN {
     this.petDao = new PetDAO();
   }
 
-  async insertPet(petData: PetInput): Promise<Pet> {
+  async insertPet(petData: Pet): Promise<Pet> {
     console.log("=== PETRN - VALIDANDO DADOS ===");
     console.log("Dados recebidos:", petData);
     
