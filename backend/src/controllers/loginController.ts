@@ -4,7 +4,7 @@ import { LoginRN } from "../services/loginService";
 const loginRN = new LoginRN()
 
 export class LoginCTR {
-    loginHandler = async (req: Request, res: Response) => {
+    solicitarLogin = async (req: Request, res: Response) => {
         const { email, senha } = req.body;
 
         try {

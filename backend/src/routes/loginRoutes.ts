@@ -5,7 +5,7 @@ const loginCTR = new LoginCTR
 const router = Router()
 
 router.post('/', async (req: Request, res: Response) => {
-  await loginCTR.loginHandler(req, res)
+  await loginCTR.solicitarLogin(req, res)
 })
 
 export default router
