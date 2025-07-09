@@ -103,160 +103,142 @@ function alternarCamposPet() {
     }
 }
 
+// function mostrarMensagemSucesso(): void {
+//     let successMessage = document.getElementById('successMessageAdm');
+//     if (!successMessage) {
+//         successMessage = document.createElement('div');
+//         successMessage.id = 'successMessageAdm';
+//         successMessage.className = 'fixed top-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md transform transition-all duration-500 opacity-0 translate-y-[-20px]';
+//         successMessage.innerHTML = `
+//             <div class="flex">
+//                 <div class="flex-shrink-0">
+//                     <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+//                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+//                     </svg>
+//                 </div>
+//                 <div class="ml-3">
+//                     <p class="text-sm">Cadastro de administrador realizado com sucesso!</p>
+//                 </div>
+//             </div>
+//         `;
+//         document.body.appendChild(successMessage);
+//     }
+//     successMessage.classList.remove('opacity-0', 'translate-y-[-20px]');
+//     setTimeout(() => {
+//         successMessage?.classList.add('opacity-0', 'translate-y-[-20px]');
+//     }, 3000);
+// }
+
+async function tratarEnvioFormulario(event: Event): Promise<void> {
+    event.preventDefault();
+    console.log("Tentativa de envio de formulário");
 
 
-async function cadastrarAdministrador(
-    adm: UsuarioAdministrador,
-    form: HTMLFormElement,
-    button: HTMLButtonElement
-): Promise<void> {
+    const form = event.target as HTMLFormElement;
+    const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+    // Se botão já está desabilitado, evita novo envio
+    if (button.disabled) {
+        return; // já está enviando, ignora
+    }
+
+    // Desabilita o botão para evitar clique múltiplo
     button.disabled = true;
     button.textContent = 'Enviando...';
 
-    const formData = new FormData(form);
-
     try {
-        const response = await fetch('http://localhost:3000/usuario/usuarioAdministradorPost', {
-            method: 'POST',
-            body: formData,
+        const formData = new FormData(form);
+
+        const especiesPets: string[] = [];
+        const selects = document.querySelectorAll('select[name="especiesPets[]"]');
+        selects.forEach((select) => {
+            const value = (select as HTMLSelectElement).value;
+            if (value) especiesPets.push(value);
         });
 
-        if (!response.ok) throw new Error('Erro no envio');
+        const adm: UsuarioAdministrador = {
+            nome: formData.get('nome') as string,
+            sobrenome: formData.get('sobrenome') as string,
+            email: formData.get('email') as string,
+            senha: formData.get('senha') as string,
+            dataNascimento: formData.get('dataNascimento') as string,
+            cpf: formData.get('cpf') as string,
+            cep: formData.get('cep') as string,
+            logradouro: formData.get('logradouro') as string,
+            numero: formData.get('numero') as (string | undefined) || undefined,
+            complemento: formData.get('complemento') as (string | undefined) || undefined,
+            bairro: formData.get('bairro') as string,
+            cidade: formData.get('cidade') as string,
+            estado: formData.get('estado') as string,
+            telefone: formData.get('telefone') as string,
+            redeSocial: formData.get('redeSocial') as (string | undefined) || undefined,
+            escolaridade: formData.get('escolaridade') as string,
+            possuiPet: formData.get('temPet') === 'sim',
+            quantosAnimais: formData.get('quantAnimais') as (string | undefined) || undefined,
+            especiePet: especiesPets,
+            funcao: formData.get('funcao') as string,
+        };
 
-        const res = await response.json();
-        console.log(res);
+        // Validações básicas
+        if (!adm.nome.trim()) return alert('Preencha o nome.');
+        if (!adm.email.trim()) return alert('Preencha o e-mail.');
+        if (!adm.senha.trim()) return alert('Preencha a senha.');
+        if (!adm.dataNascimento) return alert('Preencha a data de nascimento.');
+        if (!adm.cpf.trim()) return alert('Preencha o CPF.');
+        if (!adm.logradouro.trim()) return alert('Preencha o logradouro.');
+        if (!adm.bairro.trim()) return alert('Preencha o bairro.');
+        if (!adm.cidade.trim()) return alert('Preencha a cidade.');
+        if (!adm.estado) return alert('Preencha o estado.');
+        if (!adm.telefone.trim()) return alert('Preencha o telefone.');
+        if (!adm.escolaridade) return alert('Preencha a escolaridade.');
+        if (!adm.funcao.trim()) return alert('Preencha a função.');
+        if (adm.possuiPet && (!adm.quantosAnimais || especiesPets.length === 0)) {
+            return alert('Preencha quantos animais e a espécie.');
+        }
 
-        const mensagem = document.getElementById('mensagem');
+        console.log("🚀 Enviando requisição para cadastrar administrador");
+
+        const response = await fetch('http://localhost:3000/usuario/usuarioAdministradorPost', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(adm),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert(errorData.error || 'Erro ao cadastrar administrador.');
+            return;
+        }
+
+        const mensagem = document.getElementById('mensagem-sucesso');
         if (mensagem) {
-            mensagem.classList.remove('hidden');
-            setTimeout(() => mensagem.classList.add('hidden'), 2000);
+          mensagem.classList.remove('hidden');
+          setTimeout(() => {
+            mensagem.classList.add('hidden');
+          }, 2000);
         }
 
         form.reset();
     } catch (error) {
+        console.error("Erro ao cadastrar administrador:", error);
         const mensagemErro = document.getElementById('mensagemErro');
         if (mensagemErro) {
-            mensagemErro.textContent = 'Erro ao cadastrar administrador.';
-            mensagemErro.classList.remove('hidden');
-            setTimeout(() => mensagemErro.classList.add('hidden'), 2000);
+          mensagemErro.classList.remove('hidden');
+          setTimeout(() => {
+            mensagemErro.classList.add('hidden');
+          }, 2000);
         }
+        
+
     } finally {
+        // Reativa botão após fim do envio
         button.disabled = false;
         button.textContent = 'Cadastrar';
     }
 }
 
-
-async function tratarEnvioFormulario(event: Event): Promise<void> {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-    // Coletar espécies dos pets
-    const especiesPets: string[] = [];
-    const selects = document.querySelectorAll('select[name="especiesPets[]"]');
-    selects.forEach((select) => {
-        const value = (select as HTMLSelectElement).value;
-        if (value) especiesPets.push(value);
-    });
-
-    console.log("ESPECIES PET!!!!")
-    console.log(especiesPets)
-    console.log("--------------------------")
-    // Coletar dados do formulário
-    const adm: UsuarioAdministrador = {
-        nome: formData.get('nome') as string,
-        sobrenome: formData.get('sobrenome') as string,
-        email: formData.get('email') as string,
-        senha: formData.get('senha') as string,
-        dataNascimento: formData.get('dataNascimento') as string,
-        cpf: formData.get('cpf') as string,
-    
-        logradouro: formData.get('logradouro') as string,
-        numero: formData.get('numero') as (string | undefined) || undefined,
-        complemento: formData.get('complemento') as (string | undefined) || undefined,
-        bairro: formData.get('bairro') as string,
-        cidade: formData.get('cidade') as string,
-        estado: formData.get('estado') as string,
-        telefone: formData.get('telefone') as string,
-        redeSocial: formData.get('redeSocial') as (string | undefined) || undefined,
-        escolaridade: formData.get('escolaridade') as string,
-        possuiPet: formData.get('temPet') === 'sim',
-        quantosAnimais: formData.get('quantAnimais') as (string | undefined) || undefined,
-        especiePet: especiesPets,
-        funcao: formData.get('funcao') as string
-    };
-
-    // Validações básicas
-    if (!adm.nome.trim()) {
-        alert('Por favor, preencha o nome completo.');
-        return;
-    }
-
-    if (!adm.sobrenome.trim()) {
-        alert('Por favor, preencha o nome completo.');
-        return;
-    }
-
-    if (!adm.email.trim()) {
-        alert('Por favor, preencha o e-mail.');
-        return;
-    }
-    if (!adm.senha.trim()) {
-        alert('Por favor, preencha a senha.');
-        return;
-    }
-    if (!adm.dataNascimento) {
-        alert('Por favor, preencha a data de nascimento.');
-        return;
-    }
-    if (!adm.cpf.trim()) {
-        alert('Por favor, preencha o CPF.');
-        return;
-    }
-    if (!adm.logradouro.trim()) {
-        alert('Por favor, preencha o logradouro.');
-        return;
-    }
-    if (!adm.bairro.trim()) {
-        alert('Por favor, preencha o bairro.');
-        return;
-    }
-    if (!adm.cidade.trim()) {
-        alert('Por favor, preencha a cidade.');
-        return;
-    }
-    if (!adm.estado) {
-        alert('Por favor, selecione o estado.');
-        return;
-    }
-    if (!adm.telefone.trim()) {
-        alert('Por favor, preencha o telefone.');
-        return;
-    }
-    if (!adm.escolaridade) {
-        alert('Por favor, selecione sua formação.');
-        return;
-    }
-
-    console.log("POSSUI PET???", adm.possuiPet)
-    console.log("Quantos animais???", adm.quantosAnimais)
-    console.log(adm.especiePet)
-    
-    if (adm.possuiPet && (!adm.quantosAnimais || !adm.especiePet)) {
-        alert('Por favor, preencha quantos animais e a espécie do pet.');
-        return;
-    }
-    try {
-        const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-        await cadastrarAdministrador(adm, form, button);
-        
-        form.reset();
-        alternarCamposPet();
-    } catch (error) {
-        console.error('Erro ao cadastrar administrador:', error);
-        alert('Erro ao realizar cadastro. Tente novamente.');
-    }
-}
 
 export function inicializarCadastroAdm(): void {
     const form = document.getElementById('userForm') as HTMLFormElement;

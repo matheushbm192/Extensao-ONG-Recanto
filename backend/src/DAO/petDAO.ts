@@ -1,6 +1,6 @@
 import { promises } from "dns";
 import database from "../database/databaseClient";
-import { Pet, PetInput } from "../models/petModel";
+import { Pet } from "../models/petModel";
 
 class PetDAO {
     // retorna todos os pets cadastrados no sistema
@@ -16,7 +16,7 @@ class PetDAO {
     }
 
     //DAO - ENVIA PARA O BANCO
-    async insertPet(pet: PetInput): Promise<Pet>{
+    async insertPet(pet: Pet): Promise<Pet>{
         console.log("=== DAO - INSERINDO PET NO BANCO ===");
         console.log("Dados a serem inseridos:", pet);
         

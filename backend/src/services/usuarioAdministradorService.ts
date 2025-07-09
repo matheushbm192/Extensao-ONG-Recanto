@@ -10,7 +10,22 @@ export class UsuarioAdministradorRN {
 
   async insertUsuarioAdministrador(usuarioData: UsuarioAdministrador): Promise<UsuarioAdministrador> {
 
-    if (!usuarioData.nome) {
+    this.validarCampos(usuarioData);
+
+    try {
+      const resultado = await this.usuarioAdministradorDao.insertUsuario(usuarioData);
+      console.log("RN RETORNO DO DAO PARA A RN")
+      console.log(resultado)
+      
+      return resultado;
+    } catch (error) {
+      console.error("Erro na inserção de usuário:", error);
+      throw error;
+    }
+  }
+
+  validarCampos(usuarioData: UsuarioAdministrador) {
+        if (!usuarioData.nome) {
       throw new Error('Primeiro nome é obrigatório.');
     }
 
@@ -56,15 +71,6 @@ export class UsuarioAdministradorRN {
 
     if(!usuarioData.funcao) {
         throw new Error('Especifique a funcao do usuario!')
-    }
-
-    try {
-      const resultado = await this.usuarioAdministradorDao.insertUsuario(usuarioData);
-      console.log("Usuário inserido com sucesso:", resultado);
-      return resultado;
-    } catch (error) {
-      console.error("Erro na inserção de usuário:", error);
-      throw error;
     }
   }
 }

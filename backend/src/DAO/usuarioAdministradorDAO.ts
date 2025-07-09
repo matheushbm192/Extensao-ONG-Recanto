@@ -2,45 +2,67 @@ import database from "../database/databaseClient";
 import { UsuarioAdministrador } from "../models/usuarioAdministradorModel";
 
 export class UsuarioAdministradorDAO {
+  async insertUsuario(usuario: UsuarioAdministrador): Promise<UsuarioAdministrador> {
+    try {
+      const { funcao, especiePet, ...dadosUsuario } = usuario;
+      console.log("Email sendo inserido no banco:", dadosUsuario.email);
+      console.trace("🔁 CHAMADA DO DAO");
+
+      // Verificação direta de existência de email ou cpf
+      const { data: existente, error: erroVerificacao } = await database
+        .from("USUARIO")
+        .select("id_usuario")
+        .or(`email.eq.${dadosUsuario.email},cpf.eq.${dadosUsuario.cpf}`)
+
+      if (erroVerificacao) {
+        console.log("EXISTE ESSE USUARIO JA CADASTRADO NO BANCO")
+        throw new Error("Erro ao verificar existência de usuário.");
+      }
+
+      console.log(existente)
     
-    async insertUsuario(usuario: UsuarioAdministrador): Promise<UsuarioAdministrador> {
-        try {
-            const { funcao, especiesPets, ...dadosUsuario } = usuario
+      if (existente && existente.length > 0) {
+         throw new Error("Já existe um usuário com este email ou CPF.");
+      }
 
-            const { data: usuarioInserido, error: erroUsuario } = await database
-                .from('USUARIO')
-                .insert(dadosUsuario)
-                .select()
-                .single()
+      console.log("NAO EXISTE ESSE EMAIL NO BANCO!!!")
 
-            if (erroUsuario) {
-                console.error("Erro ao inserir na tabela USUARIO:", erroUsuario)
-                throw new Error(erroUsuario.message)
-            }
+      // Inserir USUARIO
+      const { data: usuarioInserido, error: erroUsuario } = await database
+        .from("USUARIO")
+        .insert(dadosUsuario)
+        .select()
+        .single();
 
-            const idUsuario = usuarioInserido.id_usuario
+      if (erroUsuario || !usuarioInserido) {
+        console.error("Erro ao inserir na tabela USUARIO:", erroUsuario);
+        throw new Error(erroUsuario?.message || "Erro desconhecido ao inserir usuário.");
+      }
 
-            const { data: usuarioAdministradorInserido, error: erroAdministrador } = await database
-                .from('USUARIO_ADMINISTRADOR')
-                .insert({
-                    id: idUsuario,
-                    funcao,
-                    especiesPets
-                })
-                .select()
-                .single();
-            
-            console.log("DAO -> USUARIO ADMINISTRADOR INSERIDO")
-            console.log(usuarioAdministradorInserido)
+      // Inserir USUARIO_ADMINISTRADOR
+      const { data: usuarioAdministradorInserido, error: erroAdministrador } = await database
+        .from("USUARIO_ADMINISTRADOR")
+        .insert({
+          id: usuarioInserido.id_usuario,
+          funcao,
+          especiePet
+        })
+        .select()
+        .single();
 
-            if (erroAdministrador) {
-                console.error("Erro ao inserir na tabela USUARIO_ADMINISTRADOR:", erroAdministrador)
-                throw new Error(erroAdministrador.message)
-            }
-            return usuarioAdministradorInserido as UsuarioAdministrador
+      if (erroAdministrador || !usuarioAdministradorInserido) {
+        console.error("Erro ao inserir na tabela USUARIO_ADMINISTRADOR:", erroAdministrador);
+        throw new Error(erroAdministrador?.message || "Erro ao salvar administrador.");
+      }
 
-        } catch (e: any) {
-            throw new Error(e.message)
-        }
+      console.log("DAO -> USUARIO ADMINISTRADOR INSERIDO");
+      console.log(usuarioAdministradorInserido);
+
+      return usuarioAdministradorInserido as UsuarioAdministrador;
+
+    } catch (e: any) {
+      console.error("❌ ERRO NO DAO:", e.message);
+      throw new Error(e.message);
     }
+  }
 }
