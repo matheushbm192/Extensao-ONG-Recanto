@@ -31,3 +31,31 @@ export interface UsuarioAdministrador extends Usuario {
     especiePet?: string;
     funcao: string;
 }
+
+export interface Voluntario extends Usuario {
+    nome: string;
+    sobrenome: string;
+    email: string;
+    senha: string;
+    dataNascimento: string;
+    cpf: string;
+    telefone: string;
+    redeSocial?: string;
+    escolaridade: string;
+    
+    logradouro: string;
+    numero?: string;
+    complemento?: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    
+    habilidade: string;
+    experiencia?: string;
+    possuiPet: boolean;
+    quantosAnimais?: string;
+    especiePet?: string;
+    funcao: string;
+}
+
+

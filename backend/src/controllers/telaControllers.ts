@@ -53,3 +53,12 @@ export const getTelaCadastroAdm = async (req: Request, res: Response) => {
     }
 }
 
+export const getTelaCadastroVoluntario = async (req: Request, res: Response) => {
+    try {
+        const filePath = path.join(__dirname, '..', '..', 'pages', 'cadastroVoluntario.html');
+        res.sendFile(filePath);
+    } catch (error) {
+        res.send(error);
+    }
+}
+
