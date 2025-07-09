@@ -148,31 +148,38 @@ async function tratarEnvioFormulario(event: Event): Promise<void> {
     });
     // Coletar dados do formulário
     const adm: UsuarioAdministrador = {
-        nomeCompleto: formData.get('fullName') as string,
+        nome: formData.get('nome') as string,
+        sobrenome: formData.get('sobrenome') as string,
         email: formData.get('email') as string,
-        senha: formData.get('password') as string,
-        dataNascimento: formData.get('birthDate') as string,
+        senha: formData.get('senha') as string,
+        dataNascimento: formData.get('dataNascimento') as string,
         cpf: formData.get('cpf') as string,
-        cep: formData.get('cep') as string,
+    
         logradouro: formData.get('logradouro') as string,
         numero: formData.get('numero') as (string | undefined) || undefined,
         complemento: formData.get('complemento') as (string | undefined) || undefined,
         bairro: formData.get('bairro') as string,
         cidade: formData.get('cidade') as string,
         estado: formData.get('estado') as string,
-        telefone: formData.get('phone') as string,
-        redeSocial: formData.get('socialMedia') as (string | undefined) || undefined,
-        escolaridade: formData.get('education') as string,
-        possuiPet: formData.get('hasPet') === 'yes',
+        telefone: formData.get('telefone') as string,
+        redeSocial: formData.get('redeSocial') as (string | undefined) || undefined,
+        escolaridade: formData.get('escolaridade') as string,
+        possuiPet: formData.get('temPet') === 'sim',
         quantosAnimais: formData.get('quantAnimais') as (string | undefined) || undefined,
         especiePet: formData.get('especiePet') as (string | undefined) || undefined,
-        funcaoVoluntario: formData.get('função') as (string | undefined) || undefined,
+        funcao: formData.get('função') as string,
     };
     // Validações básicas
-    if (!adm.nomeCompleto?.trim()) {
+    if (!adm.nome.trim()) {
         alert('Por favor, preencha o nome completo.');
         return;
     }
+
+    if (!adm.sobrenome.trim()) {
+        alert('Por favor, preencha o nome completo.');
+        return;
+    }
+
     if (!adm.email.trim()) {
         alert('Por favor, preencha o e-mail.');
         return;
