@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import { MulterRequest } from '../interfaceConfig/MulterRequest';
-import { Pet, PetInput } from '../models/petModel'
+import { Pet } from '../models/petModel'
 import { PetRN } from '../services/petService';
 import mustache from 'mustache';
 import fs from 'fs';
 import path from 'path';
+import { randomUUID } from 'crypto';
 
 const petRN = new PetRN();
 
@@ -67,7 +68,9 @@ export class PetCTR {
       const foto_url = req.file ? `/uploads/${req.file.filename}` : null;
       console.log("Foto URL:", foto_url);
 
-      const novoPet: PetInput = {
+     
+      const novoPet: Pet = {
+        id_pet: randomUUID() ,
         nome,
         raca: raca || null,
         especie: especie || null,
@@ -80,8 +83,9 @@ export class PetCTR {
         complemento: complemento || null,
         bairro,
         cidade,
-        estado
-    };
+        estado,
+        created_at: new Date().toISOString()
+      };
 
       console.log("Pet a ser inserido:", novoPet);
 
