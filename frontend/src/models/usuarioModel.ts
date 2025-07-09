@@ -1,4 +1,4 @@
-export interface UsuarioComum {
+export interface Usuario {
     nome: string;
     sobrenome: string;
     email: string;
@@ -9,8 +9,6 @@ export interface UsuarioComum {
     redeSocial?: string;
     escolaridade: string;
     possuiPet: boolean;
-    contribuirOng: "sim" | "nao" | "nao sei" ;
-    desejaAdotar:  "sim" | "nao" | "nao sei";    
     logradouro: string;
     numero: string | undefined;
     complemento: string | undefined;
@@ -18,30 +16,32 @@ export interface UsuarioComum {
     cidade:  string;
     estado: string;
     
-    // Propriedades adicionais para compatibilidade com o código existente
-    nomeCompleto?: string;
-    wantsToAdopt?: "sim" | "nao" | "nao sei";
-    wantsToContribute?: "sim" | "nao" | "nao sei";
 }
 
-export interface UsuarioAdministrador {
-    nome: string;
-    email: string;
-    senha: string;
-    dataNascimento: string;
-    cpf: string;
-    cep: string;
-    logradouro: string;
-    numero?: string;
-    complemento?: string;
-    bairro: string;
-    cidade: string;
-    estado: string;
-    telefone: string;
-    redeSocial?: string;
-    escolaridade: string;
+export interface UsuarioComum extends Usuario {
+   
+    contribuirOng: "sim" | "nao" | "nao sei" ;
+    desejaAdotar:  "sim" | "nao" | "nao sei";   
+}
+
+export interface UsuarioAdministrador extends Usuario {
+    
+    
+    quantosAnimais?: string;
+    especiePet?: string;
+    funcao: string;
+}
+
+export interface UsuarioVoluntario extends Usuario {
+    
+    
+    
+    habilidade: string;
+    experiencia?: string;
     possuiPet: boolean;
     quantosAnimais?: string;
-    especiePet?: string[];
-    funcao?: string;
+    especiePet?: string;
+    funcao: string;
 }
+
+

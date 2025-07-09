@@ -227,3 +227,32 @@ function atualizarInterfaceUsuario() {
             cadastroAdmnistrador.style.display = "none";
     }
 }
+function carregarPaginaCadastroVoluntario() {
+    fetch('http://localhost:3000/tela/cadastroVoluntario')
+        .then(async (response) => {
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(error || 'Erro ao carregar tela de cadastro de voluntário');
+        }
+        // Receberemos o HTML da página de cadastro de voluntário
+        return response.text();
+    })
+        .then((html) => {
+        const container = document.getElementById("principal"); // div onde será inserido o HTML
+        if (container) {
+            console.log("Carregando página de cadastro de voluntário");
+            container.innerHTML = html;
+        }
+        else {
+            console.warn('Container para resposta não encontrado');
+        }
+    })
+        .catch((error) => {
+        console.error('Erro ao carregar tela de cadastro de voluntário:', error);
+        alert('Erro ao carregar tela de cadastro de voluntário. Verifique a conexão com a internet.');
+    })
+        .then(() => {
+        // Inicializa a página de cadastro após carregar o HTML
+        initializeCadastroVoluntarioPage();
+    });
+}
