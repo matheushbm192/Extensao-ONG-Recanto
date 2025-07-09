@@ -6,6 +6,90 @@ export function initializeCadastroVoluntarioPage(): void {
     if (form) {
         form.addEventListener('submit', handleFormSubmitVoluntario);
     }
+    
+    // Adicionar event listeners para os campos de pet
+    setupPetFields();
+}
+
+function setupPetFields(): void {
+    const temPetSim = document.getElementById('temPetSim') as HTMLInputElement | null;
+    const temPetNao = document.getElementById('naoTemPet') as HTMLInputElement | null;
+    const quantAnimaisInput = document.getElementById('quantAnimais') as HTMLInputElement | null;
+    const quantAnimaisDiv = document.getElementById('quantAnimaisDiv') as HTMLDivElement | null;
+    const especiesPetsContainer = document.getElementById('especiesPetsContainer') as HTMLDivElement | null;
+
+    if (temPetSim && temPetNao && quantAnimaisInput && quantAnimaisDiv && especiesPetsContainer) {
+        // Event listener para quando "Sim" for selecionado
+        temPetSim.addEventListener('change', () => {
+            if (temPetSim.checked) {
+                quantAnimaisDiv.style.display = 'block';
+                especiesPetsContainer.style.display = 'block';
+            }
+        });
+
+        // Event listener para quando "Não" for selecionado
+        temPetNao.addEventListener('change', () => {
+            if (temPetNao.checked) {
+                quantAnimaisDiv.style.display = 'none';
+                especiesPetsContainer.style.display = 'none';
+                quantAnimaisInput.value = '';
+                especiesPetsContainer.innerHTML = '';
+            }
+        });
+
+        // Event listener para o campo de quantidade de animais
+        quantAnimaisInput.addEventListener('input', () => {
+            const quantidade = parseInt(quantAnimaisInput.value);
+            if (!isNaN(quantidade) && quantidade > 0) {
+                especiesPetsContainer.innerHTML = ''; // Limpa selects antigos
+                for (let i = 1; i <= quantidade; i++) {
+                    especiesPetsContainer.appendChild(criarSelectEspecie(i));
+                }
+                especiesPetsContainer.style.display = 'block';
+            } else {
+                especiesPetsContainer.style.display = 'none';
+            }
+        });
+    }
+}
+
+function criarSelectEspecie(numero: number): HTMLDivElement {
+    const div = document.createElement('div');
+    div.className = 'mb-4';
+    
+    const label = document.createElement('label');
+    label.className = 'block text-gray-700 text-sm font-bold mb-2';
+    label.textContent = `Espécie do ${numero}º animal:`;
+    
+    const select = document.createElement('select');
+    select.name = 'especiePet';
+    select.className = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline';
+    select.required = true;
+    
+    const opcoes = [
+        { value: '', text: 'Selecione a espécie' },
+        { value: 'cachorro', text: 'Cachorro' },
+        { value: 'gato', text: 'Gato' },
+        { value: 'passarinho', text: 'Passarinho' },
+        { value: 'hamster', text: 'Hamster' },
+        { value: 'coelho', text: 'Coelho' },
+        { value: 'outro', text: 'Outro' }
+    ];
+    
+    opcoes.forEach(opcao => {
+        const option = document.createElement('option');
+        option.value = opcao.value;
+        option.textContent = opcao.text;
+        if (opcao.value === '') {
+            option.disabled = true;
+            option.selected = true;
+        }
+        select.appendChild(option);
+    });
+    
+    div.appendChild(label);
+    div.appendChild(select);
+    return div;
 }
 
 // Função para lidar com o envio do formulário de voluntário
@@ -14,8 +98,17 @@ async function handleFormSubmitVoluntario(event: Event): Promise<void> {
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
 
+    // Coletar todos os valores de especiePet
+    const especiesPets = form.querySelectorAll('select[name="especiePet"]');
+    const especiesPetsValues: string[] = [];
+    especiesPets.forEach((select) => {
+        const value = (select as HTMLSelectElement).value;
+        if (value) {
+            especiesPetsValues.push(value);
+        }
+    });
+
     const voluntario: UsuarioVoluntario = {
-        expectativas: formData.get('expectativas') as string,
         nome: formData.get('nome') as string,
         sobrenome: formData.get('sobrenome') as string,
         email: formData.get('email') as string,
@@ -29,10 +122,14 @@ async function handleFormSubmitVoluntario(event: Event): Promise<void> {
         cidade: formData.get('cidade') as string,
         estado: formData.get('estado') as string,
         telefone: formData.get('telefone') as string,
-        redeSocial: formData.get('redeSocial') as string || undefined,  // corrigido para o nome correto do campo
+        redeSocial: formData.get('redeSocial') as string || undefined,
         escolaridade: formData.get('escolaridade') as string,
-        habilidade: formData.get('funcao') as string,                     // corrigido para pegar do campo certo
-        experiencia: formData.get('quantAnimais') as string || undefined  // opcional (pode ser trocado conforme necessário)
+        possuiPet: formData.get('temPet') === 'sim', // corrigido para usar o campo correto do HTML
+        habilidade: formData.get('habilidades') as string, // corrigido para usar o campo correto do HTML
+        experiencia: formData.get('experiencia') as string || undefined,
+        quantosAnimais: formData.get('quantAnimais') as string || undefined,
+        especiePet: especiesPetsValues.length > 0 ? especiesPetsValues.join(', ') : undefined,
+        funcao: formData.get('funcao') as string // campo obrigatório conforme o modelo
     };
 
     // Validações básicas
@@ -49,8 +146,8 @@ async function handleFormSubmitVoluntario(event: Event): Promise<void> {
         { campo: voluntario.estado, mensagem: 'Por favor, selecione o estado.' },
         { campo: voluntario.telefone, mensagem: 'Por favor, preencha o telefone.' },
         { campo: voluntario.escolaridade, mensagem: 'Por favor, selecione a escolaridade.' },
-        { campo: voluntario.habilidade, mensagem: 'Por favor, informe como deseja se voluntariar.' },
-        { campo: voluntario.expectativas, mensagem: 'Por favor, informe suas expectativas.' }
+        {campo: voluntario.funcao, mensagem: 'Por favor, preencha a funçõa exercida na ONG'}
+        
     ];
 
     for (const { campo, mensagem } of camposObrigatorios) {
@@ -105,6 +202,6 @@ async function cadastrarVoluntarioComum(formData: FormData, form: HTMLFormElemen
         })
         .finally(() => {
             button.disabled = false;
-            button.textContent = 'Enviar Candidatura';
+            button.textContent = 'Enviar Cadastro';
         });
 }

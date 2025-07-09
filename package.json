@@ -1,0 +1,20 @@
+{
+  "name": "extensao-ong-recanto",
+  "version": "1.0.0",
+  "description": "Sistema de extensão para ONG Recanto",
+  "main": "index.js",
+  "scripts": {
+    "generate-diagram": "node generate-class-diagram.js",
+    "generate-diagram-html": "node generate-class-diagram.js && plantuml -tpng class-diagram.puml && plantuml -tsvg class-diagram.puml",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev"
+  },
+  "keywords": ["ong", "adocao", "animais", "typescript"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "plantuml": "^0.0.1"
+  }
+} 
