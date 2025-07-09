@@ -1,4 +1,4 @@
-import { Voluntario } from "./models/usuarioModel";
+import { UsuarioVoluntario } from "./models/usuarioModel";
 
 // Função para inicializar a página de cadastro de voluntário
 export function initializeCadastroVoluntarioPage(): void {
@@ -14,7 +14,7 @@ async function handleFormSubmitVoluntario(event: Event): Promise<void> {
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
 
-    const voluntario: Voluntario = {
+    const voluntario: UsuarioVoluntario = {
         expectativas: formData.get('expectativas') as string,
         nome: formData.get('nome') as string,
         sobrenome: formData.get('sobrenome') as string,

@@ -32,23 +32,8 @@ export interface UsuarioAdministrador extends Usuario {
     funcao: string;
 }
 
-export interface Voluntario extends Usuario {
-    nome: string;
-    sobrenome: string;
-    email: string;
-    senha: string;
-    dataNascimento: string;
-    cpf: string;
-    telefone: string;
-    redeSocial?: string;
-    escolaridade: string;
+export interface UsuarioVoluntario extends Usuario {
     
-    logradouro: string;
-    numero?: string;
-    complemento?: string;
-    bairro: string;
-    cidade: string;
-    estado: string;
     
     habilidade: string;
     experiencia?: string;
