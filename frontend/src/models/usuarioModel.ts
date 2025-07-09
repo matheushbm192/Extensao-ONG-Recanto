@@ -35,6 +35,7 @@ export interface UsuarioAdministrador extends Usuario {
 export interface UsuarioVoluntario extends Usuario {
     
     
+    
     habilidade: string;
     experiencia?: string;
     possuiPet: boolean;
