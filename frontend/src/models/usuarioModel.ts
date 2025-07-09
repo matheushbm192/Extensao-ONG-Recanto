@@ -28,7 +28,7 @@ export interface UsuarioAdministrador extends Usuario {
     
     
     quantosAnimais?: string;
-    especiePet?: string;
+    especiePet?: string[];
     funcao: string;
 }
 
@@ -40,7 +40,7 @@ export interface UsuarioVoluntario extends Usuario {
     experiencia?: string;
     possuiPet: boolean;
     quantosAnimais?: string;
-    especiePet?: string;
+    especiePet?: string[];
     funcao: string;
 }
 

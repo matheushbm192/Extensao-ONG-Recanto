@@ -1,6 +1,7 @@
 import { initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
+import { initializeCadastroVoluntarioPage } from "./cadastroVoluntario.js";
 import { getUserFromToken, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
 // Event listeners para navegação
@@ -31,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'cadastro-adm':
                     carregarPaginaCadastroAdm();
+                    break;
+                case 'voluntario':
+                    carregarPaginaCadastroVoluntario();
                     break;
             }
         }
@@ -205,26 +209,36 @@ function atualizarInterfaceUsuario() {
     const logoutMenu = document.getElementById("menu-logout");
     const cadastroAnimal = document.getElementById("menu-cadastro-animal");
     const cadastroAdmnistrador = document.getElementById("menu-cadastro-administrador");
+    const cadastrarUsuarioComum = document.getElementById("menu-cadastro-usuario");
+    const cadastrarUsuarioVoluntario = document.getElementById("menu-cadastro-voluntario");
     if (user) {
         if (loginMenu)
             loginMenu.style.display = "none";
         if (logoutMenu)
             logoutMenu.style.display = "inline";
+        if (cadastrarUsuarioComum)
+            cadastrarUsuarioComum.style.display = "none";
         const isAdmin = user.tipo_usuario === "admin";
         if (cadastroAnimal)
             cadastroAnimal.style.display = isAdmin ? "inline" : "none";
         if (cadastroAdmnistrador)
             cadastroAdmnistrador.style.display = isAdmin ? "inline" : "none";
+        if (cadastrarUsuarioVoluntario)
+            cadastrarUsuarioVoluntario.style.display = isAdmin ? "inline" : "none";
     }
     else {
         if (loginMenu)
             loginMenu.style.display = "inline";
         if (logoutMenu)
             logoutMenu.style.display = "none";
+        if (cadastrarUsuarioComum)
+            cadastrarUsuarioComum.style.display = "inline";
         if (cadastroAnimal)
             cadastroAnimal.style.display = "none";
         if (cadastroAdmnistrador)
             cadastroAdmnistrador.style.display = "none";
+        if (cadastrarUsuarioVoluntario)
+            cadastrarUsuarioVoluntario.style.display = "none";
     }
 }
 function carregarPaginaCadastroVoluntario() {

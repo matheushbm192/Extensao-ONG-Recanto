@@ -128,7 +128,7 @@ async function handleFormSubmitVoluntario(event: Event): Promise<void> {
         habilidade: formData.get('habilidades') as string, // corrigido para usar o campo correto do HTML
         experiencia: formData.get('experiencia') as string || undefined,
         quantosAnimais: formData.get('quantAnimais') as string || undefined,
-        especiePet: especiesPetsValues.length > 0 ? especiesPetsValues.join(', ') : undefined,
+        especiePet: especiesPetsValues as string[] || undefined,
         funcao: formData.get('funcao') as string // campo obrigatório conforme o modelo
     };
 

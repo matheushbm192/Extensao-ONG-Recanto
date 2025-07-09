@@ -12,7 +12,7 @@
 
 <body class="relative bg-white">
     <header class="absolute top-0 left-0 w-full z-30">
-        <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
+        <nav class="max-w-8xl mx-auto flex items-center justify-between px-4 py-4">
             <div>
                 <a class="flex w-52 h-52 rounded-full overflow-hidden cursor-pointer" data-action="home"
                     aria-label="Voltar para a página inicial">
@@ -21,19 +21,17 @@
                 </a>
             </div>
 
-            <ul class="hidden md:flex items-center space-x-6 text-[#1f2a5a] text-sm font-normal">
+            <ul class="hidden md:flex items-center space-x-6  text-sm font-normal">
                 <li>
-                    <a class="text-[#1f2a5a] font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="home">
+                    <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="home">
                         Home
                     </a>
                 </li>
-                 <li id="menu-cadastro-usuario">
-                    <a class="text-yellow-400 font-semibold hover:text-ong-yellow transition cursor-pointer" data-action="cadastro-usuario">
-                        Cadastro de Usuário</a>
-                </li>
-                 <li id="menu-cadastro-administrador">
-                    <a class="text-yellow-400 font-semibold hover:text-ong-yellow transition cursor-pointer" data-action="cadastro-adm">
-                        Cadastro de Administrador</a>
+                
+                <li>
+                    <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="adocao">
+                        Adote um Animal
+                    </a>
                 </li>
 
                 <li id="menu-cadastro-animal">
@@ -41,16 +39,20 @@
                         Cadastro de Animais</a>
                 </li>
 
-                <li>
-                    <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="adocao">
-                        Adote um Animal
-                    </a>
-                </li>
-
-                <li>
+                <li id="menu-cadastro-voluntario">
                     <a class="text-yellow-400 font-semibold hover:text-yellow-400 transition cursor-pointer" data-action="voluntario">
                         Cadastrar voluntário
                     </a>
+                </li>
+
+                <li id="menu-cadastro-administrador">
+                    <a class="text-yellow-400 font-semibold hover:text-ong-yellow transition cursor-pointer" data-action="cadastro-adm">
+                        Cadastro de Administrador</a>
+                </li>
+
+                <li id="menu-cadastro-usuario">
+                    <a class="text-yellow-400 font-semibold hover:text-ong-yellow transition cursor-pointer" data-action="cadastro-usuario">
+                        Cadastro de Usuário</a>
                 </li>
 
                 <li id="menu-login">
