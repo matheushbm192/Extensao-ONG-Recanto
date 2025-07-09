@@ -9,13 +9,13 @@ export interface Usuario {
     redeSocial?: string;
     escolaridade: string;
     possuiPet: boolean;
+    cep?: string;
     logradouro: string;
     numero: string | undefined;
     complemento: string | undefined;
     bairro: string;
     cidade:  string;
     estado: string;
-    
 }
 
 export interface UsuarioComum extends Usuario {
@@ -25,17 +25,12 @@ export interface UsuarioComum extends Usuario {
 }
 
 export interface UsuarioAdministrador extends Usuario {
-    
-    
     quantosAnimais?: string;
     especiePet?: string[];
     funcao: string;
 }
 
-export interface UsuarioVoluntario extends Usuario {
-    
-    
-    
+export interface UsuarioVoluntario extends Usuario {    
     habilidade: string;
     experiencia?: string;
     possuiPet: boolean;
