@@ -9,7 +9,6 @@ export class UsuarioAdministradorRN {
   }
 
   async insertUsuarioAdministrador(usuarioData: UsuarioAdministrador): Promise<UsuarioAdministrador> {
-
     this.validarCampos(usuarioData);
 
     try {
@@ -66,11 +65,11 @@ export class UsuarioAdministradorRN {
     }
 
     if(usuarioData.tipo_usuario != "admin") {
-        throw new Error('Usuario nao possui privilegios administrativos')
+        throw new Error('Usuario não possui privilégios administrativos')
     }
 
     if(!usuarioData.funcao) {
-        throw new Error('Especifique a funcao do usuario!')
+        throw new Error('A função do administrador é obrigatória.')
     }
   }
 }

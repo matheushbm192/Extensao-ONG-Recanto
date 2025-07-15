@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Usuario } from '../models/usuarioModel';
 import { UsuarioComum } from '../models/usuarioComumModel';
 import { UsuarioComumRN } from '../services/usuarioComumService';
 import { randomUUID } from 'crypto';
@@ -7,14 +8,9 @@ import { MulterRequest } from '../interfaceConfig/MulterRequest';
 const usuarioRN = new UsuarioComumRN();
 
 export class UsuarioComumCTR {
-  // GET: busca todos os usuários comuns cadastrados
-  // async getAllUsuarios(req: Request, res: Response) { ... }
-
-  // POST: cadastra um novo usuário comum
-  async postUsuario(req:  MulterRequest, res: Response) {
+  async postUsuario(req: MulterRequest, res: Response) {
     try {
-      console.log("=== INÍCIO DO POST USUÁRIO ===");
-      console.log("Body recebido:", req.body);
+      console.log("NOVA REQUISIÇÃO RECEBIDA EM /usuarioPost");
 
       const {
         nome,
@@ -22,7 +18,7 @@ export class UsuarioComumCTR {
         email,
         senha,
         dataNascimento,
-        cpf,    
+        cpf,
         telefone,
         redeSocial,
         escolaridade,
@@ -34,32 +30,9 @@ export class UsuarioComumCTR {
         bairro,
         cidade,
         estado
-    } = req.body;
-      const possuiPet =  req.body.possuiPet === 'true' ;
-      
-      console.log("Dados recebidos:", {
-        nome,
-        sobrenome,
-        email,
-        senha,
-        dataNascimento,
-        cpf,    
-        telefone,
-        redeSocial,
-        escolaridade,
-        possuiPet,
-        contribuirOng,
-        desejaAdotar,
-        logradouro,
-        numero,
-        complemento,
-        bairro,
-        cidade,
-        estado
-      });
+      } = req.body;
 
-      //analisar oq pode ser nulo 
-      
+      const possuiPet = req.body.possuiPet === 'true';
 
       const novoUsuario: UsuarioComum = {
         id_usuario: randomUUID(),
@@ -85,21 +58,18 @@ export class UsuarioComumCTR {
         tipo_usuario: 'comum'
       };
 
-      // Chama a regra de negócio
-      console.log("Chamando UsuarioRN.insertUsuario...");
       const resultado = await usuarioRN.insertUsuario(novoUsuario);
-      console.log("Usuário inserido com sucesso:", resultado);
 
-      res.status(201).send('<p>Usuário cadastrado com sucesso!</p>');
+      res.status(201).json({ message: "Usuário comum cadastrado com sucesso!", data: resultado });
 
     } catch (error: any) {
-        console.error("=== ERRO CAPTURADO NO CONTROLLER ===");
-        console.error("Erro completo:", error);
+      console.log("ERRO CAPTURADO NO CONTROLLER");
+      console.error("Erro:", error.message);
 
       if (error.message.includes('obrigatório') || error.message.includes('não pode ser')) {
-        res.status(400).send('<p>Erro de validação: ' + error.message + '</p>');
+        res.status(400).json({ error: 'Erro de validação: ' + error.message });
       } else {
-        res.status(500).send('<p>Erro interno do servidor: ' + error.message + '</p>');
+        res.status(500).json({ error: 'Erro interno do servidor: ' + error.message });
       }
     }
   }

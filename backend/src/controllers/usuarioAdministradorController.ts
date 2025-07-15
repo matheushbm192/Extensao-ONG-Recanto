@@ -10,7 +10,7 @@
   export class UsuarioAdministradorCTR {
     async postUsuario(req:  MulterRequest, res: Response) {
       try {
-        console.log("🌐 NOVA REQUISIÇÃO RECEBIDA EM /usuarioAdministradorPost");
+        console.log("NOVA REQUISIÇÃO RECEBIDA EM /usuarioAdministradorPost");
 
         const {
           nome,
