@@ -3,6 +3,9 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.10"
+    "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "jest": "^30.0.4",
+    "ts-jest": "^29.4.0"
   }
 }
