@@ -149,7 +149,7 @@ describe('UsuarioComumRN', () => {
   it('deve lançar erro se desejaAdotar não for "sim", "nao" ou "nao sei"', async () => {
     const usuarioInvalido = { ...usuarioValido, desejaAdotar: 'talvez' as any };
     const usuarioRN = new UsuarioComumRN();
-    await expect(usuarioRN.insertUsuario(usuarioInvalido)).rejects.toThrow('Campo "Deseja adotar um pet?" deve ser "Sim", "Não" ou "Não sei".');
+    await expect(usuarioRN.insertUsuario(usuarioInvalido)).rejects.toThrow('Campo "Deseja adotar um pet?" deve ser "sim", "nao" ou "nao sei".');
     expect(mockInsertUsuario).not.toHaveBeenCalled();
   });
 

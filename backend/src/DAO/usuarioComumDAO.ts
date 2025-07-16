@@ -8,11 +8,32 @@ import { UsuarioComum } from "../models/usuarioComumModel";
             console.log("Dados a serem inseridos:", usuario);
 
             try {
+
                 // 1. Separa os dados da tabela USUARIO e da tabela USUARIO_COMUM
                 const {
                     contribuirOng, desejaAdotar, 
                     ...dadosUsuario 
                 } = usuario;
+
+                console.log("Email sendo inserido no banco:", dadosUsuario.email);
+               
+          
+                // Verificação direta de existência de email ou cpf
+                const { data: existente, error: erroVerificacao } = await database
+                  .from("USUARIO")
+                  .select("id_usuario")
+                  .or(`email.eq.${dadosUsuario.email},cpf.eq.${dadosUsuario.cpf}`)
+          
+                if (erroVerificacao) {
+                  console.log("EXISTE ESSE USUARIO JA CADASTRADO NO BANCO")
+                  throw new Error("Erro ao verificar existência de usuário.");
+                }
+          
+                console.log(existente)
+              
+                if (existente && existente.length > 0) {
+                   throw new Error("Já existe um usuário com este email ou CPF.");
+                }
 
                 // 2. Insere na tabela USUARIO e retorna o id gerado
                 const { data: usuarioInserido, error: erroUsuario } = await database

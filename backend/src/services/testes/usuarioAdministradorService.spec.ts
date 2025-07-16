@@ -58,14 +58,14 @@ describe('UsuarioAdministradorRN', () => {
   it('deve lançar erro se tipo_usuario não for admin', async () => {
     const adminInvalido = { ...adminValido, tipo_usuario: 'comum' };
     const adminRN = new UsuarioAdministradorRN();
-    await expect(adminRN.insertUsuarioAdministrador(adminInvalido as any)).rejects.toThrow('Usuario nao possui privilegios administrativos');
+    await expect(adminRN.insertUsuarioAdministrador(adminInvalido as any)).rejects.toThrow('Usuario não possui privilégios administrativos');
     expect(mockInsertUsuario).not.toHaveBeenCalled();
   });
 
   it('deve lançar erro se funcao não for informada', async () => {
     const adminInvalido = { ...adminValido, funcao: '' };
     const adminRN = new UsuarioAdministradorRN();
-    await expect(adminRN.insertUsuarioAdministrador(adminInvalido as any)).rejects.toThrow('Especifique a funcao do usuario!');
+    await expect(adminRN.insertUsuarioAdministrador(adminInvalido as any)).rejects.toThrow('A função do administrador é obrigatória.');
     expect(mockInsertUsuario).not.toHaveBeenCalled();
   });
 

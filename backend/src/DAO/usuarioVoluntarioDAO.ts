@@ -8,7 +8,7 @@ export class UsuarioVoluntarioDAO{
        
       const {  quantosAnimais , experiencia, habilidade, funcao, especiePet, ...dadosUsuario } = usuario;
       console.log("Email sendo inserido no banco:", dadosUsuario.email);
-      console.trace("CHAMADA DO DAO");
+      
 
       // Verificação direta de existência de email ou cpf
       const { data: existente, error: erroVerificacao } = await database
