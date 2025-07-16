@@ -1,7 +1,7 @@
 import { renderPage, initializeAdocaoPage } from "./adocao.js";
 import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
-import { initializeCadastroUsuarioPage } from "./cadastroUsuario.js";
+import { initializeCadastroUsuarioComumPage } from "./cadastroUsuario.js";
 import { initializeCadastroVoluntarioPage } from "./cadastroVoluntario.js";
 
 import { getUserFromToken, isLoggedIn, logout } from "./utils/auth.js";
@@ -155,7 +155,7 @@ function carregarPaginaCadastroUsuario() {
             alert('Erro ao carregar tela cadastro de usuário. Verifique a conexão com a internet.');
         }).then(() => {
             // Inicializa a página de cadastro de usuário após carregar o HTML
-            initializeCadastroPage();
+            initializeCadastroUsuarioComumPage();
         });
 }
 

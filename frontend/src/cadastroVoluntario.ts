@@ -116,7 +116,7 @@ async function handleFormSubmitVoluntario(event: Event): Promise<void> {
         dataNascimento: formData.get('dataNascimento') as string,
         cpf: formData.get('cpf') as string,
         logradouro: formData.get('logradouro') as string,
-        numero: formData.get('numero') as string || undefined,
+        numero: formData.get('numero') as string, //número não deveria ser obrigatório?
         complemento: formData.get('complemento') as string || undefined,
         bairro: formData.get('bairro') as string,
         cidade: formData.get('cidade') as string,
@@ -124,12 +124,12 @@ async function handleFormSubmitVoluntario(event: Event): Promise<void> {
         telefone: formData.get('telefone') as string,
         redeSocial: formData.get('redeSocial') as string || undefined,
         escolaridade: formData.get('escolaridade') as string,
-        possuiPet: formData.get('temPet') === 'sim', // corrigido para usar o campo correto do HTML
-        habilidade: formData.get('habilidades') as string, // corrigido para usar o campo correto do HTML
+        possuiPet: formData.get('temPet') === 'sim', 
+        habilidade: formData.get('habilidades') as string, 
         experiencia: formData.get('experiencia') as string || undefined,
         quantosAnimais: formData.get('quantAnimais') as string || undefined,
         especiePet: especiesPetsValues as string[] || undefined,
-        funcao: formData.get('funcao') as string // campo obrigatório conforme o modelo
+        funcao: formData.get('funcao') as string 
     };
 
     // Validações básicas
@@ -170,7 +170,7 @@ async function cadastrarVoluntarioComum(formData: FormData, form: HTMLFormElemen
     button.disabled = true;
     button.textContent = 'Enviando...';
 
-    fetch('http://localhost:3000/voluntario/voluntarioPost', {
+    fetch('http://localhost:3000/usuario/usuarioVoluntarioPost', {
         method: 'POST',
         body: formData,
     })
