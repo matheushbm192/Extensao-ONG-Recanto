@@ -3,8 +3,8 @@ import { UsuarioComum } from "./models/usuarioModel";
 
 
 // Função para inicializar a página de cadastro de usuário
-export function initializeCadastroUsuarioPage(): void {
-    const form = document.getElementById('userForm') as HTMLFormElement;
+export function initializeCadastroUsuarioComumPage(): void {
+    const form = document.getElementById('formulario-cadastro-usuario-comum') as HTMLFormElement;
     if (form) {
         form.addEventListener('submit', handleFormSubmit);
     }
@@ -155,53 +155,9 @@ async function cadastrarUsuarioComum(formData: FormData, form: HTMLFormElement, 
       });
   }
 
-// Função para cadastrar usuário (simulada por enquanto)
-async function cadastrarUsuario(usuario: UsuarioComum): Promise<void> {
-    // Simular uma chamada de API
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('Usuário cadastrado:', usuario);
-            resolve();
-        }, 1000);
-    });
-}
 
-// Função para mostrar mensagem de sucesso
-function showSuccessMessage(): void {
-    // Criar mensagem de sucesso dinamicamente se não existir
-    let successMessage = document.getElementById('successMessageUser');
-    
-    if (!successMessage) {
-        successMessage = document.createElement('div');
-        successMessage.id = 'successMessageUser';
-        successMessage.className = 'fixed top-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md transform transition-all duration-500 opacity-0 translate-y-[-20px]';
-        successMessage.innerHTML = `
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <div class="ml-3">
-                    <p class="text-sm">Cadastro realizado com sucesso!</p>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(successMessage);
-    }
-    
-    // Mostrar mensagem
-    successMessage.classList.remove('opacity-0', 'translate-y-[-20px]');
-    successMessage.classList.add('opacity-100', 'translate-y-0');
-    
-    // Ocultar mensagem após 3 segundos
-    setTimeout(() => {
-        successMessage.classList.add('opacity-0', 'translate-y-[-20px]');
-        setTimeout(() => {
-            successMessage.remove();
-        }, 500);
-    }, 3000);
-}
+
+
 function formatarCEP(event: Event): void {
     const input = event.target as HTMLInputElement;
     let value: string = input.value.replace(/\D/g, ''); // Remove tudo que não for dígito

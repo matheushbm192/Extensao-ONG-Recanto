@@ -14,7 +14,7 @@
 
         <!-- Conteúdo do formulário (sobre a imagem) -->
         <div class="relative z-10">
-            <form id="userForm" class="space-y-6">
+            <form id="formulario-cadastro-usuario-comum" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="col-span-2">
                         <label for="nome" class="block text-gray-700 text-sm font-bold mb-2">Nome</label>
@@ -195,19 +195,19 @@
                         <label class="block text-gray-700 text-sm font-bold mb-2">Deseja adotar um animal?</label>
                         <div class="mt-2">
                             <div class="flex items-center mb-2">
-                                <input type="radio" id="wantsToAdoptYes" name="desejaAdotar" value="sim"
+                                <input type="radio" id="desejaAdotarSim" name="desejaAdotar" value="sim"
                                     class="h-4 w-4 text-yellow-400 border-gray-300 focus:ring-yellow-400">
-                                <label for="wantsToAdoptYes" class="ml-2">Sim</label>
+                                <label for="desejaAdotarSim" class="ml-2">Sim</label>
                             </div>
                             <div class="flex items-center">
-                                <input type="radio" id="wantsToAdoptNo" name="desejaAdotar" value="nao"
+                                <input type="radio" id="desejaAdotarNao" name="desejaAdotar" value="nao"
                                     class="h-4 w-4 text-yellow-400 border-gray-300 focus:ring-yellow-400">
-                                <label for="wantsToAdoptNo" class="ml-2">Não</label>
+                                <label for="desejaAdotarNao" class="ml-2">Não</label>
                             </div>
                             <div class="flex items-center">
-                                <input type="radio" id="wantsToAdoptNo" name="desejaAdotar" value="nao sei"
+                                <input type="radio" id="desejaAdotarNaoSei" name="desejaAdotar" value="nao sei"
                                     class="h-4 w-4 text-yellow-400 border-gray-300 focus:ring-yellow-400">
-                                <label for="wantsToAdoptNo" class="ml-2">Não sei</label>
+                                <label for="desejaAdotarNaoSei" class="ml-2">Não sei</label>
                             </div>
                         </div>
                     </div>
@@ -216,19 +216,19 @@
                             ONG?</label>
                         <div class="mt-2">
                             <div class="flex items-center mb-2">
-                                <input type="radio" id="wantsToContributeYes" name="contribuirOng" value="sim"
+                                <input type="radio" id="contribuirOngSim" name="contribuirOng" value="sim"
                                     class="h-4 w-4 text-yellow-400 border-gray-300 focus:ring-yellow-400">
-                                <label for="wantsToContributeYes" class="ml-2">Sim</label>
+                                <label for="contribuirOngSim" class="ml-2">Sim</label>
                             </div>
                             <div class="flex items-center">
-                                <input type="radio" id="wantsToContributeNo" name="contribuirOng" value="nao"
+                                <input type="radio" id="contribuirOngNao" name="contribuirOng" value="nao"
                                     class="h-4 w-4 text-yellow-400 border-gray-300 focus:ring-yellow-400">
-                                <label for="wantsToContributeNo" class="ml-2">Não</label>
+                                <label for="contribuirOngNao" class="ml-2">Não</label>
                             </div>
                             <div class="flex items-center">
-                                <input type="radio" id="wantsToContributeNaoSei" name="contribuirOng" value="nao sei"
+                                <input type="radio" id="contribuirOngNaoSei" name="contribuirOng" value="nao sei"
                                     class="h-4 w-4 text-yellow-400 border-gray-300 focus:ring-yellow-400">
-                                <label for="wantsToContributeNaoSei" class="ml-2">Não sei</label>
+                                <label for="contribuirOngNaoSei" class="ml-2">Não sei</label>
                             </div>
                         </div>
                     </div>
@@ -253,4 +253,3 @@
         </div>
     </div>
 </section>
-<script src="/assets/js/cadastroUsuario.js"></script>

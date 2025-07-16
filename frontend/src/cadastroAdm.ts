@@ -103,31 +103,7 @@ function alternarCamposPet() {
     }
 }
 
-// function mostrarMensagemSucesso(): void {
-//     let successMessage = document.getElementById('successMessageAdm');
-//     if (!successMessage) {
-//         successMessage = document.createElement('div');
-//         successMessage.id = 'successMessageAdm';
-//         successMessage.className = 'fixed top-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md transform transition-all duration-500 opacity-0 translate-y-[-20px]';
-//         successMessage.innerHTML = `
-//             <div class="flex">
-//                 <div class="flex-shrink-0">
-//                     <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-//                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-//                     </svg>
-//                 </div>
-//                 <div class="ml-3">
-//                     <p class="text-sm">Cadastro de administrador realizado com sucesso!</p>
-//                 </div>
-//             </div>
-//         `;
-//         document.body.appendChild(successMessage);
-//     }
-//     successMessage.classList.remove('opacity-0', 'translate-y-[-20px]');
-//     setTimeout(() => {
-//         successMessage?.classList.add('opacity-0', 'translate-y-[-20px]');
-//     }, 3000);
-// }
+
 
 async function tratarEnvioFormulario(event: Event): Promise<void> {
     event.preventDefault();

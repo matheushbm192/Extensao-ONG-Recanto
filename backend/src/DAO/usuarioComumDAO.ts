@@ -32,7 +32,7 @@ import { UsuarioComum } from "../models/usuarioComumModel";
                 const { data: usuarioComumInserido, error: erroComum } = await database
                     .from('USUARIO_COMUM')
                     .insert({
-                        id_usuario: idUsuario,
+                        id: idUsuario,
                         contribuirOng,
                         desejaAdotar
                     })
