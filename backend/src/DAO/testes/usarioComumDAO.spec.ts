@@ -19,7 +19,7 @@ beforeEach(() => {
 describe("UsuarioComumDAO", () => {
   const usuarioComumDAO = new UsuarioComumDAO();
 
-  const usuarioComum: UsuarioComum = {                      
+  const usuarioComum: UsuarioComum = {
     id_usuario: "uuid-exemplo" as UUID,
     created_at: "2024-01-01T00:00:00Z",
     tipo_usuario: "comum",
@@ -42,7 +42,7 @@ describe("UsuarioComumDAO", () => {
     contribuirOng: "sim",
     desejaAdotar: "nao"
   };
-  
+
   it("deve inserir um usuário comum com sucesso", async () => {
     const selectOr = jest.fn().mockResolvedValue({ data: [], error: null });
     const usuarioSingle = jest.fn().mockResolvedValue({ data: { id_usuario: usuarioComum.id_usuario }, error: null });
@@ -74,18 +74,32 @@ describe("UsuarioComumDAO", () => {
 
   it("deve lançar erro se já existir usuário com email ou CPF", async () => {
     const selectOr = jest.fn().mockResolvedValue({ data: [{ id_usuario: usuarioComum.id_usuario }], error: null });
-    (database.from as jest.Mock).mockImplementation(() => ({
-      select: jest.fn().mockReturnValue({ or: selectOr })
-    }));
+
+    (database.from as jest.Mock).mockImplementation((table: string) => {
+      if (table === "USUARIO") {
+        return {
+          select: jest.fn().mockReturnValue({ or: selectOr }),
+          insert: jest.fn() // prevenir erro de função ausente
+        };
+      }
+      return {};
+    });
 
     await expect(usuarioComumDAO.insertUsuario(usuarioComum)).rejects.toThrow("Já existe um usuário com este email ou CPF.");
   });
 
   it("deve lançar erro ao verificar existência do usuário", async () => {
     const selectOr = jest.fn().mockResolvedValue({ data: null, error: { message: "Erro ao verificar" } });
-    (database.from as jest.Mock).mockImplementation(() => ({
-      select: jest.fn().mockReturnValue({ or: selectOr })
-    }));
+
+    (database.from as jest.Mock).mockImplementation((table: string) => {
+      if (table === "USUARIO") {
+        return {
+          select: jest.fn().mockReturnValue({ or: selectOr }),
+          insert: jest.fn() // prevenir erro de função ausente
+        };
+      }
+      return {};
+    });
 
     await expect(usuarioComumDAO.insertUsuario(usuarioComum)).rejects.toThrow("Erro ao verificar existência de usuário.");
   });
