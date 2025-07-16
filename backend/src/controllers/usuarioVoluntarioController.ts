@@ -10,7 +10,7 @@ const usuarioVoluntarioRN = new UsuarioVoluntarioRN();
 export class UsuarioVoluntarioCTR {
   async postUsuario(req: MulterRequest, res: Response) {
     try {
-      console.log("🌐 NOVA REQUISIÇÃO RECEBIDA EM /usuarioVoluntarioPost");
+      console.log(" NOVA REQUISIÇÃO RECEBIDA EM /usuarioVoluntarioPost");
 
       const {
         nome,

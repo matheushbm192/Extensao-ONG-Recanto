@@ -6,7 +6,7 @@ export class UsuarioAdministradorDAO {
     try {
       const { funcao, especiePet, ...dadosUsuario } = usuario;
       console.log("Email sendo inserido no banco:", dadosUsuario.email);
-      console.trace("🔁 CHAMADA DO DAO");
+      console.trace("CHAMADA DO DAO");
 
       // Verificação direta de existência de email ou cpf
       const { data: existente, error: erroVerificacao } = await database
@@ -61,7 +61,7 @@ export class UsuarioAdministradorDAO {
       return usuarioAdministradorInserido as UsuarioAdministrador;
 
     } catch (e: any) {
-      console.error("❌ ERRO NO DAO:", e.message);
+      console.error("ERRO NO DAO:", e.message);
       throw new Error(e.message);
     }
   }

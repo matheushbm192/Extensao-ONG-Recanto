@@ -170,7 +170,7 @@ async function cadastrarVoluntarioComum(formData: FormData, form: HTMLFormElemen
     button.disabled = true;
     button.textContent = 'Enviando...';
 
-    fetch('http://localhost:3000/voluntario/voluntarioPost', {
+    fetch('http://localhost:3000/usuario/usuarioVoluntarioPost', {
         method: 'POST',
         body: formData,
     })
