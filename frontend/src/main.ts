@@ -237,8 +237,9 @@ function atualizarInterfaceUsuario() {
         if (cadastrarUsuarioComum) cadastrarUsuarioComum.style.display = "none";
 
         const isAdmin = user.tipo_usuario === "admin";
+        const isVoluntario = user.tipo_usuario === "voluntario";
 
-        if (cadastroAnimal) cadastroAnimal.style.display = isAdmin ? "inline" : "none";
+        if (cadastroAnimal) cadastroAnimal.style.display = (isAdmin || isVoluntario) ? "inline" : "none";
         if (cadastroAdmnistrador) cadastroAdmnistrador.style.display = isAdmin ? "inline" : "none"
         if (cadastrarUsuarioVoluntario) cadastrarUsuarioVoluntario.style.display = isAdmin ? "inline" : "none";
 
