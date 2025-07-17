@@ -13,7 +13,7 @@ export async function cadastrarVoluntario(formData: FormData, form: HTMLFormElem
         .then((res) => {
             console.log(res);
 
-            const mensagem = document.getElementById('mensagem');
+            const mensagem = document.getElementById('mensagem-sucesso');
             if (mensagem) {
                 mensagem.classList.remove('hidden');
                 setTimeout(() => {

@@ -17,44 +17,50 @@
             <form id="userForm" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="col-span-2">
-                        <label for="nome" class="block text-gray-700 text-sm font-bold mb-2">Nome </label>
+                        <label for="nome" class="block text-gray-700 text-sm font-bold mb-2">Nome <span
+                            style="color: red;">*</span></label>
                         <input type="text" id="nome" name="nome" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
                     <div class="col-span-2">
-                        <label for="sobrenome" class="block text-gray-700 text-sm font-bold mb-2">Sobrenome</label>
+                        <label for="sobrenome" class="block text-gray-700 text-sm font-bold mb-2">Sobrenome<span
+                            style="color: red;">*</span></label>
                         <input type="text" id="sobrenome" name="sobrenome" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
 
                     <div>
-                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">E-mail</label>
+                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">E-mail<span
+                            style="color: red;">*</span></label>
                         <input type="email" id="email" name="email" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
 
                     <div>
-                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Senha</label>
+                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Senha<span
+                            style="color: red;">*</span></label>
                         <input type="password" id="senha" name="senha" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
 
                     <div>
                         <label for="birthDate" class="block text-gray-700 text-sm font-bold mb-2">Data de
-                            nascimento</label>
+                            nascimento<span style="color: red;">*</span></label>
                         <input type="date" id="dataNascimento" name="dataNascimento" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
 
                     <div>
-                        <label for="cpf" class="block text-gray-700 text-sm font-bold mb-2">CPF</label>
+                        <label for="cpf" class="block text-gray-700 text-sm font-bold mb-2">CPF<span
+                            style="color: red;">*</span></label>
                         <input type="text" id="cpf" name="cpf" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400"
                             placeholder="000.000.000-00">
                     </div>
                 </div>
                 <fieldset class="mb-6 border border-gray-300 p-4 rounded">
-                    <legend class="text-gray-700 text-sm font-bold mb-2 px-2">Endereço</legend>
+                    <legend class="text-gray-700 text-sm font-bold mb-2 px-2">Endereço<span
+                        style="color: red;">*</span></legend>
 
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="cep">CEP</label>
@@ -75,14 +81,16 @@
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                         </div>
                         <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="numero">Número</label>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="numero">Número<span
+                                style="color: red;">*</span></label>
                             <input id="numero" name="numero" type="text" placeholder="Ex: 123"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                         </div>
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="complemento">Complemento</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="complemento">Complemento<span
+                            style="color: red;">*</span></label>
                         <input id="complemento" name="complemento" type="text"
                             placeholder="Ex: Apto 101, Bloco B, Fundos"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
@@ -142,7 +150,8 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Telefone</label>
+                        <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Telefone<span
+                            style="color: red;">*</span></label>
                         <input type="tel" id="telefone" name="telefone" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400"
                             placeholder="(00) 00000-0000">
@@ -167,7 +176,8 @@
                     </div>
 
                     <div>
-                        <label for="education" class="block text-gray-700 text-sm font-bold mb-2">Formação</label>
+                        <label for="education" class="block text-gray-700 text-sm font-bold mb-2">Formação<span
+                            style="color: red;">*</span></label>
                         <select id="escolaridade" name="escolaridade" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                             <option value="" disabled selected>Selecione sua formação</option>
@@ -177,20 +187,23 @@
                         </select>
                     </div>
                     <div class="col-span-2">
-                        <label for="funcao" class="block text-gray-700 text-sm font-bold mb-2">Função desempenhada na ONG: </label>
+                        <label for="funcao" class="block text-gray-700 text-sm font-bold mb-2">Função desempenhada na ONG: <span
+                            style="color: red;">*</span></label>
                         <input type="text" id="funcao" name="funcao" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400">
                     </div>
                     <div>
                         <label for="habilidades" class="block text-gray-700 text-sm font-bold mb-2">Quais são suas
-                            habilidades?</label>
+                            habilidades?<span
+                            style="color: red;">*</span></label>
                         <textarea id="habilidades" name="habilidades" rows="4" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400"
                             placeholder="Descrever competências, conhecimentos técnicos ou aptidões que possam contribuir com a atuação desejada."></textarea>
                     </div>
                     <div>
                         <label for="experiencia" class="block text-gray-700 text-sm font-bold mb-2">Conte quais são suas
-                            experiências:</label>
+                            experiências:<span
+                            style="color: red;">*</span></label>
                         <textarea id="experiencia" name="experiencia" rows="4" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400"
                             placeholder="Descrever vivências anteriores, projetos realizados ou atividades relevantes para a área de interesse."></textarea>
@@ -198,7 +211,8 @@
 
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Tem animalzinho?</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Tem animalzinho?<span
+                            style="color: red;">*</span></label>
                         <div class="mt-2">
                             <div class="flex items-center mb-2">
                                 <input type="radio" id="temPetSim" name="temPet" value="sim"
