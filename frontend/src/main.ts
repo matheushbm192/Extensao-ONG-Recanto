@@ -3,9 +3,10 @@ import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
 import { initializeCadastroUsuarioComumPage } from "./cadastroUsuario.js";
 import { initializeCadastroVoluntarioPage } from "./cadastroVoluntario.js";
-
+import { carregarPedidosAdocao } from "./pedidosAdocao.js";
 import { getUserFromToken, isLoggedIn, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
+
 
 
 // Event listeners para navegação
@@ -40,6 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'voluntario':
                     carregarPaginaCadastroVoluntario();
+                    break;
+                case 'pedidos-adocao':
+                    carregarPaginaPedidosAdocao();
                     break;
             }
         }
@@ -213,6 +217,33 @@ function carregarPaginaLogin() {
             initializeLogin();
         });
 }
+function carregarPaginaPedidosAdocao() {
+    fetch('http://localhost:3000/tela/pedidosAdocao')
+        .then(async (response) => {
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error || 'Erro ao carregar pedidos de adoção');
+            }
+            return response.text();
+        })
+        .then((html) => {
+            const container = document.getElementById("principal");
+            if (container) {
+                container.innerHTML = html;
+            } else {
+                console.warn('Container para resposta não encontrado');
+            }
+        })
+        .catch((error) => {
+            console.error('Erro ao carregar pedidos de adoção:', error);
+            alert('Erro ao carregar pedidos de adoção. Verifique a conexão com a internet.');
+        })
+        .then(() => {
+            // 🚨 Adicione esta linha:
+            carregarPedidosAdocao();
+        });
+}
+
 
 
 function logoutUser() {
