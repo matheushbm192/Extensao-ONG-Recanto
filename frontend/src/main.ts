@@ -4,7 +4,7 @@ import { initializeLogin } from "./login.js";
 import { initializeCadastroUsuarioComumPage } from "./cadastroUsuario.js";
 import { initializeCadastroVoluntarioPage } from "./cadastroVoluntario.js";
 // Ajuste esta linha para importar apenas o que é usado do pedidosAdocao.js
-import { carregarPedidosAdocao, inicializarFiltrosPedidosAdocao } from "./pedidosAdocao.js"; 
+import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js";
 // Remova a importação abaixo, pois ela não é usada e pode causar confusão
 // import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js"; 
 
@@ -236,10 +236,9 @@ function carregarPaginaPedidosAdocao() {
             const container = document.getElementById("principal");
             if (container) {
                 container.innerHTML = html;
-                // As funções de inicialização devem ser chamadas AQUI, uma única vez,
-                // após o HTML da página ser injetado.
-                carregarPedidosAdocao(); // Carrega os pedidos na lista
-                inicializarFiltrosPedidosAdocao(); // Inicializa os filtros e a ordenação
+                // Chame APENAS esta função. Ela agora é responsável por
+                // buscar os dados, renderizar, e inicializar todos os listeners.
+                initializePedidosAdocaoPageListeners();
             } else {
                 console.warn('Container para resposta não encontrado');
             }
@@ -248,7 +247,6 @@ function carregarPaginaPedidosAdocao() {
             console.error('Erro ao carregar pedidos de adoção:', error);
             alert('Erro ao carregar pedidos de adoção. Verifique a conexão com a internet.');
         });
-    // Não é necessário um .then() após o .catch() aqui, pois as chamadas já estão no .then() anterior.
 }
 
 
