@@ -1,54 +1,55 @@
- <section class="pt-[200px] max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-6">
-      <aside class="md:col-span-1 p-4 border border-gray-300 rounded bg-white shadow order-1 md:order-none">
-        <h2 class="text-xl font-semibold mb-4 text-[#1f2a5a]">Filtrar Adotantes</h2>
+<section class="pt-[200px] max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-6">
+    <aside class="md:col-span-1 p-4 border border-gray-300 rounded bg-white shadow order-1 md:order-none">
+        <h2 class="text-xl font-semibold mb-4 text-[#1f2a5a]">Filtrar Pedidos</h2>
 
         <label for="filtro-adotante" class="block font-semibold mb-1">Adotante:</label>
         <select id="filtro-adotante" class="w-full mb-4 border rounded px-2 py-1">
-          <option value="">Todas</option>
-          <!-- Opções dinâmicas -->
+            <option value="">Todas</option>
+            </select>
+
+        <label for="filtro-especie" class="block font-semibold mb-1">Espécie:</label>
+        <select id="filtro-especie" class="w-full mb-4 border rounded px-2 py-1">
+            <option value="">Todas</option>
+            <option value="Cachorro">Cachorro</option>
+            <option value="Gato">Gato</option>
         </select>
-
-        <label for="animal" class="block font-semibold mb-1">Animal:</label>
-        <select id="animal" class="w-full mb-4 border rounded px-2 py-1">
-          <option value="">Todas</option>
-          <!-- Opções dinâmicas -->
-        </select>   
-
- 
 
         <label for="filtro-idade" class="block font-semibold mb-1">Idade do Animal:</label>
         <select id="filtro-idade" class="w-full mb-4 border rounded px-2 py-1">
-          <option value="">Todas</option>
-          <option value="0-1">Até 1 ano</option>
-          <option value="2-3">2 a 3 anos</option>
-          <option value="4-6">4 a 6 anos</option>
-          <option value="7+">7 anos ou mais</option>
+            <option value="">Todas</option>
+            <option value="0-1">Até 1 ano</option>
+            <option value="2-3">2 a 3 anos</option>
+            <option value="4-6">4 a 6 anos</option>
+            <option value="7+">7 anos ou mais</option>
         </select>
 
         <button id="btn-clear-filters"
-          class="bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300 transition w-full">Limpar
-          Filtros</button>
-      </aside>
+            class="bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300 transition w-full">Limpar Filtros</button>
+    </aside>
 
-      <section class="md:col-span-3 order-2 md:order-none">
+    <section class="md:col-span-3 order-2 md:order-none">
         <div class="flex justify-between items-center mb-8">
-          <h1 class="text-3xl font-bold text-center text-[#1f2a5a] flex-grow">Pedidos de Adoçao</h1> 
- 
-        </div>
+            <h1 class="text-3xl font-bold text-center text-[#1f2a5a] flex-grow">Pedidos de Adoção</h1> 
+            
+            <div class="flex items-center gap-2 text-gray-700">
+                <label for="ordenar-por" class="font-semibold text-sm whitespace-nowrap">Ordenar por:</label>
+                <select id="ordenar-por" class="border rounded px-2 py-1 text-sm">
+                    <option value="dataSolicitacao_desc">Mais Recentes</option>
+                    <option value="dataSolicitacao_asc">Mais Antigos</option>
+                </select>
+            </div>
+            </div>
         <ul id="pedidosAdocao-list" class="flex flex-col gap-4">
-
-
-          <!-- Lista de Pedidos -->
-         
-
-        </ul>
+            </ul>
         <div class="flex justify-center mt-8 mb-12 space-x-4 items-center text-gray-700" id="pagination-controls">
-          <button id="prev-btn"
-            class="bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled aria-label="Página anterior">&laquo; Anterior</button>
-          <span id="page-info" class="font-semibold"></span>
-          <button id="next-btn" class="bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300"
-            aria-label="Próxima página">Próximo &raquo;</button>
+            <button id="prev-btn"
+                class="bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled aria-label="Página anterior">&laquo; Anterior</button>
+            <span id="page-info" class="font-semibold"></span>
+            <button id="next-btn" class="bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300"
+                aria-label="Próxima página">Próximo &raquo;</button>
         </div>
-      </section>
     </section>
+</section>
+
+<div id="modal-container" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">

@@ -6,6 +6,8 @@ import { initializeCadastroVoluntarioPage } from "./cadastroVoluntario.js";
 import { carregarPedidosAdocao } from "./pedidosAdocao.js";
 import { getUserFromToken, isLoggedIn, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
+import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js";
+
 
 
 
@@ -227,13 +229,16 @@ function carregarPaginaPedidosAdocao() {
             return response.text();
         })
         .then((html) => {
-            const container = document.getElementById("principal");
+             const container = document.getElementById("principal");
             if (container) {
-                container.innerHTML = html;
+                container.innerHTML = html; 
+                // 🚨 CHAMA A NOVA FUNÇÃO DE INICIALIZAÇÃO AQUI!
+                initializePedidosAdocaoPageListeners(); 
             } else {
                 console.warn('Container para resposta não encontrado');
             }
         })
+        
         .catch((error) => {
             console.error('Erro ao carregar pedidos de adoção:', error);
             alert('Erro ao carregar pedidos de adoção. Verifique a conexão com a internet.');
