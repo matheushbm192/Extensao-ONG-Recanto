@@ -3,11 +3,13 @@ import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
 import { initializeCadastroUsuarioComumPage } from "./cadastroUsuario.js";
 import { initializeCadastroVoluntarioPage } from "./cadastroVoluntario.js";
-import { carregarPedidosAdocao } from "./pedidosAdocao.js";
+// Ajuste esta linha para importar apenas o que é usado do pedidosAdocao.js
+import { carregarPedidosAdocao, inicializarFiltrosPedidosAdocao } from "./pedidosAdocao.js"; 
+// Remova a importação abaixo, pois ela não é usada e pode causar confusão
+// import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js"; 
+
 import { getUserFromToken, isLoggedIn, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
-import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js";
-import { inicializarFiltrosPedidosAdocao } from "./pedidosAdocao.js";
 
 
 
@@ -220,6 +222,7 @@ function carregarPaginaLogin() {
             initializeLogin();
         });
 }
+
 function carregarPaginaPedidosAdocao() {
     fetch('http://localhost:3000/tela/pedidosAdocao')
         .then(async (response) => {
@@ -230,27 +233,23 @@ function carregarPaginaPedidosAdocao() {
             return response.text();
         })
         .then((html) => {
-             const container = document.getElementById("principal");
+            const container = document.getElementById("principal");
             if (container) {
-                container.innerHTML = html; 
-                // 🚨 CHAMA A NOVA FUNÇÃO DE INICIALIZAÇÃO AQUI!
-                initializePedidosAdocaoPageListeners(); 
+                container.innerHTML = html;
+                // As funções de inicialização devem ser chamadas AQUI, uma única vez,
+                // após o HTML da página ser injetado.
+                carregarPedidosAdocao(); // Carrega os pedidos na lista
+                inicializarFiltrosPedidosAdocao(); // Inicializa os filtros e a ordenação
             } else {
                 console.warn('Container para resposta não encontrado');
             }
         })
-        
         .catch((error) => {
             console.error('Erro ao carregar pedidos de adoção:', error);
             alert('Erro ao carregar pedidos de adoção. Verifique a conexão com a internet.');
-        })
-        .then(() => {
-            // 🚨 Adicione esta linha:
-            carregarPedidosAdocao();
-            inicializarFiltrosPedidosAdocao();
         });
+    // Não é necessário um .then() após o .catch() aqui, pois as chamadas já estão no .then() anterior.
 }
-
 
 
 function logoutUser() {
@@ -267,7 +266,7 @@ function atualizarInterfaceUsuario() {
     const cadastroAdmnistrador = document.getElementById("menu-cadastro-administrador");
     const cadastrarUsuarioComum = document.getElementById("menu-cadastro-usuario")
     const cadastrarUsuarioVoluntario = document.getElementById("menu-cadastro-voluntario")
-   
+    
 
     if(user) {
         if (loginMenu) loginMenu.style.display = "none";
