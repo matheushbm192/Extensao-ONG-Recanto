@@ -7,6 +7,7 @@ import { carregarPedidosAdocao } from "./pedidosAdocao.js";
 import { getUserFromToken, isLoggedIn, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
 import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js";
+import { inicializarFiltrosPedidosAdocao } from "./pedidosAdocao.js";
 
 
 
@@ -246,6 +247,7 @@ function carregarPaginaPedidosAdocao() {
         .then(() => {
             // 🚨 Adicione esta linha:
             carregarPedidosAdocao();
+            inicializarFiltrosPedidosAdocao();
         });
 }
 
@@ -318,4 +320,5 @@ function carregarPaginaCadastroVoluntario(): void {
             // Inicializa a página de cadastro após carregar o HTML
             initializeCadastroVoluntarioPage();
         });
+        
 }

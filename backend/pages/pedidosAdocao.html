@@ -2,29 +2,33 @@
     <aside class="md:col-span-1 p-4 border border-gray-300 rounded bg-white shadow order-1 md:order-none">
         <h2 class="text-xl font-semibold mb-4 text-[#1f2a5a]">Filtrar Pedidos</h2>
 
-        <label for="filtro-adotante" class="block font-semibold mb-1">Adotante:</label>
-        <select id="filtro-adotante" class="w-full mb-4 border rounded px-2 py-1">
-            <option value="">Todas</option>
-            </select>
+       <label for="filtro-adotante" class="block font-semibold mb-1">Adotante:</label>
+<select id="filtro-adotante" class="w-full mb-4 border rounded px-2 py-1">
+  <option value="">Todas</option>
+  </select>
 
-        <label for="filtro-especie" class="block font-semibold mb-1">Espécie:</label>
-        <select id="filtro-especie" class="w-full mb-4 border rounded px-2 py-1">
-            <option value="">Todas</option>
-            <option value="Cachorro">Cachorro</option>
-            <option value="Gato">Gato</option>
-        </select>
+<label for="animal" class="block font-semibold mb-1">Animal:</label>
+<select id="animal" class="w-full mb-4 border rounded px-2 py-1">
+  <option value="">Todas</option>
+  </select> 
 
-        <label for="filtro-idade" class="block font-semibold mb-1">Idade do Animal:</label>
-        <select id="filtro-idade" class="w-full mb-4 border rounded px-2 py-1">
-            <option value="">Todas</option>
-            <option value="0-1">Até 1 ano</option>
-            <option value="2-3">2 a 3 anos</option>
-            <option value="4-6">4 a 6 anos</option>
-            <option value="7+">7 anos ou mais</option>
-        </select>
+<label for="filtro-idade" class="block font-semibold mb-1">Idade do Animal:</label>
+<select id="filtro-idade" class="w-full mb-4 border rounded px-2 py-1">
+  <option value="">Todas</option>
+  <option value="0-1">Até 1 ano</option>
+  <option value="2-3">2 a 3 anos</option>
+  <option value="4-6">4 a 6 anos</option>
+  <option value="7+">7 anos ou mais</option>
+</select>
 
-        <button id="btn-clear-filters"
-            class="bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300 transition w-full">Limpar Filtros</button>
+<label for="filtro-status" class="block font-semibold mb-1">Status:</label>
+<select id="filtro-status" class="w-full mb-4 border rounded px-2 py-1">
+  <option value="">Todos</option>
+  </select>
+
+<button id="btn-clear-filters"
+  class="bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300 transition w-full">Limpar
+  Filtros</button>
     </aside>
 
     <section class="md:col-span-3 order-2 md:order-none">

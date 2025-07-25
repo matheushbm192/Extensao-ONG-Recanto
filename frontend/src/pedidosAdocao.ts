@@ -56,102 +56,152 @@ let filtroIdadeSelect: HTMLSelectElement | null = null;
 let btnClearFilters: HTMLButtonElement | null = null;
 let ordenarSelect: HTMLSelectElement | null = null;
 
+let filtroAnimalSelect: HTMLSelectElement | null;
+
+let filtroStatusSelect: HTMLSelectElement | null; // Adicione o filtro de status no HTML também!
+let btnLimparFiltros: HTMLButtonElement | null;
+
 let hasListenersBeenInitialized = false;
 
 
 // --- FUNÇÃO PRINCIPAL PARA CARREGAR E RENDERIZAR OS PEDIDOS DE ADOÇÃO ---
-export async function carregarPedidosAdocao(): Promise<void> {
-    console.log('--- Iniciando carregarPedidosAdocao ---'); 
-    
-    // Assegura que pedidosAdocaoList está disponível (deve ser setado por initializePedidosAdocaoPageListeners)
-    if (!pedidosAdocaoList) {
-        console.error('ERRO: carregarPedidosAdocao chamada antes dos elementos DOM estarem prontos ou inicializados.');
-        return; 
-    }
-
+export async function carregarPedidosAdocao(
+    filtroAdotanteId: string = '',
+    filtroAnimalId: string = '',
+    filtroIdadeAnimal: string = '',
+    filtroStatus: string = '',
+    criterioOrdenacao: string = 'dataSolicitacao_desc'
+) {
     try {
-        const params = new URLSearchParams();
-        params.append('_page', currentPage.toString());
-        params.append('_limit', itemsPerPage.toString());
+        const response = await fetch('http://localhost:3000/pedidos-adocao');
+        let pedidos: PedidoAdocao[] = await response.json();
 
-        if (filtroAdotanteSelect?.value) { 
-            params.append('adotante.nomeCompleto_like', filtroAdotanteSelect.value); 
+        // --- Lógica de Filtragem no Frontend (conforme já implementado) ---
+        if (filtroAdotanteId) {
+            pedidos = pedidos.filter(pedido => pedido.adotante.idUsuario === filtroAdotanteId);
         }
-        if (filtroEspecieSelect?.value) {
-            params.append('animal.especie', filtroEspecieSelect.value); 
+        if (filtroAnimalId) {
+            pedidos = pedidos.filter(pedido => pedido.animal.id_pet === filtroAnimalId);
         }
-        if (filtroIdadeSelect?.value) {
-            params.append('animal.idade', filtroIdadeSelect.value);
+        if (filtroIdadeAnimal) {
+            pedidos = pedidos.filter(pedido => {
+                const idade = pedido.animal.idade;
+                if (idade === null || idade === undefined) return false;
+
+                switch (filtroIdadeAnimal) {
+                    case '0-1': return idade >= 0 && idade <= 1;
+                    case '2-3': return idade >= 2 && idade <= 3;
+                    case '4-6': return idade >= 4 && idade <= 6;
+                    case '7+': return idade >= 7;
+                    default: return true;
+                }
+            });
         }
-        
-        params.append('_sort', sortField);
-        params.append('_order', sortOrder);
+        if (filtroStatus) {
+            pedidos = pedidos.filter(pedido => pedido.status === filtroStatus);
+        }
+        // --- Fim da Lógica de Filtragem ---
+         if (criterioOrdenacao) {
+            pedidos.sort((a, b) => {
+                const dataA = new Date(a.dataSolicitacao).getTime();
+                const dataB = new Date(b.dataSolicitacao).getTime();
 
-        const url = `http://localhost:3000/pedidos-adocao?${params.toString()}`;
-        console.log('DEBUG: URL da requisição:', url); 
-
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            console.error(`ERRO HTTP: Status ${response.status} - ${response.statusText} ao tentar carregar pedidos.`);
-            throw new Error(`Erro de rede: ${response.status}`);
+                if (criterioOrdenacao === 'dataSolicitacao_desc') {
+                    return dataB - dataA; // Mais recentes primeiro (decrescente)
+                } else { // 'dataSolicitacao_asc'
+                    return dataA - dataB; // Mais antigos primeiro (crescente)
+                }
+            });
         }
 
-        totalPedidos = parseInt(response.headers.get('X-Total-Count') || '0');
-        const pedidos: PedidoAdocao[] = await response.json();
-
-        console.log('DEBUG: X-Total-Count recebido:', totalPedidos); 
-        console.log('DEBUG: Pedidos recebidos (array):', pedidos); 
-        console.log('DEBUG: Número de pedidos recebidos:', pedidos.length); 
-
-        // Agora que estamos dentro do try, e pedidosAdocaoList é garantido existir pelo if inicial
-        pedidosAdocaoList!.innerHTML = ''; // USO DO '!' AQUI
-        
-        if (totalPedidos === 0) {
-            pedidosAdocaoList!.innerHTML = '<li class="p-4 text-gray-600">Nenhum pedido de adoção encontrado com os filtros aplicados.</li>'; // USO DO '!' AQUI
-            console.log('DEBUG: Nenhum pedido encontrado ou totalPedidos é 0.');
-        } else if (pedidos.length === 0 && currentPage > 1) {
-            console.log('DEBUG: Página atual vazia, voltando para a anterior.');
-            currentPage--;
-            await carregarPedidosAdocao();
+        const lista = document.getElementById('pedidosAdocao-list');
+        if (!lista) {
+            console.warn('Elemento #pedidosAdocao-list não encontrado.');
             return;
         }
-        
-        if (pedidos.length > 0) { 
-            console.log('DEBUG: Iniciando loop para renderizar cards.');
-            pedidos.forEach((pedido) => {
-                const li = document.createElement('li');
-                li.className = 'bg-white rounded-xl shadow-md p-6 flex flex-row items-center w-full cursor-pointer transition-shadow hover:shadow-lg';
-                li.dataset.pedidoId = pedido.idPedido; 
+        lista.innerHTML = ''; // Limpa a lista
 
-                const foto = pedido.animal.foto_url || '/assets/resources/caes_e_gatos.png';
-                const nomeAnimal = pedido.animal.nome;
-                const idadeAnimal = pedido.animal.idade;
-                const nomeAdotante = pedido.adotante.nomeCompleto;
-
-                li.innerHTML = `
-                    <img src="${foto}" alt="Foto de ${nomeAnimal}" class="w-32 h-32 object-cover rounded-xl mr-6 border border-gray-200 bg-gray-100" />
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold mb-2 text-[#1f2a5a]">${nomeAnimal}</h3>
-                        <p><strong>Adotante:</strong> ${nomeAdotante}</p>
-                        <p><strong>Idade do animal:</strong> ${idadeAnimal !== null && idadeAnimal !== undefined ? idadeAnimal + ' anos' : 'Não informada'}</p>
-                        <p><strong>Status:</strong> ${pedido.status}</p>
-                    </div>
-                `;
-                pedidosAdocaoList!.appendChild(li); // USO DO '!' AQUI
-
-                li.addEventListener('click', () => abrirModalDetalhesPedido(pedido));
-            });
-            console.log('DEBUG: Loop para renderizar cards concluído.');
+        if (pedidos.length === 0) {
+            lista.innerHTML = '<li class="text-center text-gray-500 p-8">Nenhum pedido de adoção encontrado com os filtros aplicados.</li>';
+            return;
         }
-        
-        atualizarControlesPaginacao(); 
+
+        pedidos.forEach((pedido) => {
+            const li = document.createElement('li');
+            li.className = 'bg-white rounded-xl shadow-md p-6 flex flex-col w-full'; // Removido flex-row inicial para melhor controle do layout interno
+
+            const foto = pedido.animal.foto_url || '/assets/resources/caes_e_gatos.png';
+
+            li.innerHTML = `
+                <div class="flex flex-col md:flex-row items-center w-full">
+                    <img src="${foto}" alt="Foto de ${pedido.animal.nome}" class="w-32 h-32 object-cover rounded-xl mr-6 border border-gray-200 bg-gray-100 mb-4 md:mb-0" />
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-xl font-bold mb-1 text-[#1f2a5a]">Pedido #${pedido.idPedido} - ${pedido.animal.nome}</h3>
+                        <p class="text-gray-700"><strong>Adotante:</strong> ${pedido.adotante.nomeCompleto}</p>
+                        <p class="text-gray-600"><strong>Status:</strong> <span class="font-semibold ${pedido.status === 'Aprovado' ? 'text-green-600' : pedido.status === 'Rejeitado' ? 'text-red-600' : 'text-blue-600'}">${pedido.status}</span></p>
+                        <p class="text-gray-600"><strong>Data:</strong> ${new Date(pedido.dataSolicitacao).toLocaleDateString()}</p>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-2 mt-4 md:mt-0 md:ml-6">
+                        <button class="toggle-details bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded w-full md:w-auto">Ver Detalhes</button>
+                        <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded w-full md:w-auto">Recusar</button>
+                        <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full md:w-auto">Aceitar</button>
+                    </div>
+                </div>
+
+                <div class="full-details hidden mt-6 pt-4 border-t border-gray-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="text-lg font-bold text-[#1f2a5a] mb-2">Detalhes do Animal:</h4>
+                            <p><strong>Espécie:</strong> ${pedido.animal.especie || 'Não informado'}</p>
+                            <p><strong>Raça:</strong> ${pedido.animal.raca || 'SRD'}</p>
+                            <p><strong>Idade:</strong> ${pedido.animal.idade || '?'} anos</p>
+                            <p><strong>Sexo:</strong> ${pedido.animal.sexo}</p>
+                            <p><strong>Localização:</strong> ${pedido.animal.localizacaoCompleta}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-[#1f2a5a] mb-2">Detalhes do Adotante:</h4>
+                            <p><strong>Email:</strong> ${pedido.adotante.email}</p>
+                            <p><strong>Telefone:</strong> ${pedido.adotante.telefone}</p>
+                            <p><strong>CPF:</strong> ${pedido.adotante.cpf}</p>
+                            <p><strong>Endereço:</strong> ${pedido.adotante.enderecoCompleto}</p>
+                            <p><strong>Escolaridade:</strong> ${pedido.adotante.escolaridade}</p>
+                            <p><strong>Possui Pet:</strong> ${pedido.adotante.possuiPet ? 'Sim' : 'Não'}</p>
+                            ${pedido.adotante.redeSocial ? `<p><strong>Rede Social:</strong> <a href="${pedido.adotante.redeSocial}" target="_blank" class="text-blue-500 hover:underline">${pedido.adotante.redeSocial}</a></p>` : ''}
+                        </div>
+                    </div>
+                    ${pedido.observacoesAdotante ? `<p class="mt-4"><strong>Observações do Adotante:</strong> ${pedido.observacoesAdotante}</p>` : ''}
+                    ${pedido.observacoesAdmin ? `<p class="mt-2"><strong>Observações do Administrador:</strong> ${pedido.observacoesAdmin}</p>` : ''}
+                </div>
+            `;
+            lista.appendChild(li);
+        });
+
+        // Adicionar Event Listeners para os botões "Ver Detalhes" APÓS a renderização
+        document.querySelectorAll('.toggle-details').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const targetButton = event.target as HTMLElement;
+                // Encontra o 'li' pai (o card do pedido)
+                const liElement = targetButton.closest('li'); 
+                if (liElement) {
+                    // Encontra a seção de detalhes dentro do 'li'
+                    const detailsSection = liElement.querySelector('.full-details');
+                    if (detailsSection) {
+                        detailsSection.classList.toggle('hidden'); // Alterna a visibilidade
+                        // Atualiza o texto do botão
+                        if (detailsSection.classList.contains('hidden')) {
+                            targetButton.textContent = 'Ver Detalhes';
+                        } else {
+                            targetButton.textContent = 'Ocultar Detalhes';
+                        }
+                    }
+                }
+            });
+        });
+
 
     } catch (error) {
-        console.error('ERRO FATAL: Erro ao carregar pedidos de adoção:', error);
-        pedidosAdocaoList!.innerHTML = '<li class="text-red-600 p-4">Não foi possível carregar os pedidos de adoção. Verifique a conexão do backend, os mocks ou os filtros.</li>'; // USO DO '!' AQUI
+        console.error('Erro ao carregar pedidos de adoção:', error);
     }
-    console.log('--- Fim carregarPedidosAdocao ---');
 }
 
 // --- FUNÇÃO PARA ATUALIZAR ESTADO DOS BOTÕES DE PAGINAÇÃO ---
@@ -359,4 +409,104 @@ function fecharModalDetalhesPedido(): void {
         modalContainer.classList.add('hidden'); 
         modalContainer.innerHTML = ''; 
     }
+}
+
+
+export async function inicializarFiltrosPedidosAdocao() {
+    // Obter referências dos elementos
+    filtroAdotanteSelect = document.getElementById('filtro-adotante') as HTMLSelectElement;
+    filtroAnimalSelect = document.getElementById('animal') as HTMLSelectElement;
+    filtroIdadeSelect = document.getElementById('filtro-idade') as HTMLSelectElement;
+    filtroStatusSelect = document.getElementById('filtro-status') as HTMLSelectElement; // Certifique-se que você tem este ID no HTML
+    btnLimparFiltros = document.getElementById('btn-clear-filters') as HTMLButtonElement;
+    ordenarSelect = document.getElementById('ordenar-por') as HTMLSelectElement;
+
+    // Fazer uma requisição inicial para obter todos os pedidos para popular os filtros
+    try {
+        const response = await fetch('http://localhost:3000/pedidos-adocao');
+        const todosPedidos: PedidoAdocao[] = await response.json();
+
+        // Popular filtro de Adotante
+        if (filtroAdotanteSelect) {
+            const adotantesUnicos = new Set<string>();
+            todosPedidos.forEach(pedido => adotantesUnicos.add(`${pedido.adotante.idUsuario}|${pedido.adotante.nomeCompleto}`)); // Usar ID + Nome
+            
+            filtroAdotanteSelect.innerHTML = '<option value="">Todos</option>'; // Opção padrão
+            adotantesUnicos.forEach(adotanteInfo => {
+                const [id, nome] = adotanteInfo.split('|');
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = nome;
+                filtroAdotanteSelect!.appendChild(option);
+            });
+        }
+
+        // Popular filtro de Animal
+        if (filtroAnimalSelect) {
+            const animaisUnicos = new Set<string>();
+            todosPedidos.forEach(pedido => animaisUnicos.add(`${pedido.animal.id_pet}|${pedido.animal.nome}`)); // Usar ID + Nome
+            
+            filtroAnimalSelect.innerHTML = '<option value="">Todos</option>'; // Opção padrão
+            animaisUnicos.forEach(animalInfo => {
+                const [id, nome] = animalInfo.split('|');
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = nome;
+                filtroAnimalSelect!.appendChild(option);
+            });
+        }
+
+        // Popular filtro de Status (você pode adicionar isso manualmente no HTML também)
+        if (filtroStatusSelect) {
+            const statusesUnicos = new Set<string>();
+            todosPedidos.forEach(pedido => statusesUnicos.add(pedido.status));
+            
+            filtroStatusSelect.innerHTML = '<option value="">Todos</option>';
+            statusesUnicos.forEach(status => {
+                const option = document.createElement('option');
+                option.value = status;
+                option.textContent = status;
+                filtroStatusSelect!.appendChild(option);
+            });
+        }
+        filtroAdotanteSelect?.addEventListener('change', aplicarFiltros);
+        filtroAnimalSelect?.addEventListener('change', aplicarFiltros);
+        filtroIdadeSelect?.addEventListener('change', aplicarFiltros);
+        filtroStatusSelect?.addEventListener('change', aplicarFiltros);
+        btnLimparFiltros?.addEventListener('click', limparFiltros);
+
+   
+
+        // Adicionar Event Listeners para os filtros
+        filtroAdotanteSelect?.addEventListener('change', aplicarFiltros);
+        filtroAnimalSelect?.addEventListener('change', aplicarFiltros);
+        filtroIdadeSelect?.addEventListener('change', aplicarFiltros);
+        filtroStatusSelect?.addEventListener('change', aplicarFiltros); // Listener para o novo filtro de status
+        btnLimparFiltros?.addEventListener('click', limparFiltros);
+        ordenarSelect?.addEventListener('change', aplicarFiltros)
+
+    } catch (error) {
+        console.error('Erro ao inicializar filtros:', error);
+    }
+}
+
+// Função para aplicar os filtros
+function aplicarFiltros() {
+    const adotanteId = filtroAdotanteSelect?.value || '';
+    const animalId = filtroAnimalSelect?.value || '';
+    const idadeAnimal = filtroIdadeSelect?.value || '';
+    const status = filtroStatusSelect?.value || ''; // Obter o valor do filtro de status
+    const criterioOrdenacao = ordenarSelect?.value || 'dataSolicitacao_desc';
+
+    carregarPedidosAdocao(adotanteId, animalId, idadeAnimal, status, criterioOrdenacao);
+}
+
+// Função para limpar os filtros
+function limparFiltros() {
+    if (filtroAdotanteSelect) filtroAdotanteSelect.value = '';
+    if (filtroAnimalSelect) filtroAnimalSelect.value = '';
+    if (filtroIdadeSelect) filtroIdadeSelect.value = '';
+    if (filtroStatusSelect) filtroStatusSelect.value = ''; // Limpar também o filtro de status
+
+    aplicarFiltros(); // Recarrega os pedidos sem filtros
 }
