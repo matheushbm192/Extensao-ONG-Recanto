@@ -72,7 +72,7 @@ const mockPets = [
     },
     {
         id_pet: "pet-C8D", nome: "Luna", raca: "SRD", especie: "Gato", sexo: "Fêmea", idade: 2,
-        foto_url: "/imagens/foto-1750898840223-697088787.jpeg", // Caminho no frontend
+        foto_url: "/imagens/luna.jpeg", // Caminho no frontend
         cep: "03000-000", logradouro: "Alameda dos Gatos", numero: 45, complemento: null,
         bairro: "Vila Felina", cidade: "São Paulo", estado: "SP", created_at: "2024-02-15T14:30:00Z",
     },
