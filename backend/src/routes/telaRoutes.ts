@@ -1,6 +1,6 @@
 import { Router } from "express"
 
-import { getTelaHome, getTelaAdocao, getTelaCadastrarAnimais, getTelaLogin, getTelaCadastroUsuario, getTelaCadastroAdm, getTelaCadastroVoluntario } from '../controllers/telaControllers';
+import { getTelaHome, getTelaAdocao, getTelaCadastrarAnimais, getTelaLogin, getTelaCadastroUsuario, getTelaCadastroAdm, getTelaCadastroVoluntario, getTelaAnimaisAdotados } from '../controllers/telaControllers';
 
 const router = Router()
 
@@ -17,5 +17,7 @@ router.get('/cadastroUsuario', getTelaCadastroUsuario)
 router.get('/cadastroAdm', getTelaCadastroAdm)
 
 router.get('/cadastroVoluntario', getTelaCadastroVoluntario)
+
+router.get('/animaisAdotados', getTelaAnimaisAdotados);
 
 export default router;

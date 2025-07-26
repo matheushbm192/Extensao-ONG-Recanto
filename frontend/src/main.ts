@@ -3,7 +3,7 @@ import { initializeCadastroPage } from "./routes/rota-cadastro-animais.js";
 import { initializeLogin } from "./login.js";
 import { initializeCadastroUsuarioComumPage } from "./cadastroUsuario.js";
 import { initializeCadastroVoluntarioPage } from "./cadastroVoluntario.js";
-
+import { InitializeAnimaisAdotadosPage } from "./animaisAdotados.js";
 import { getUserFromToken, isLoggedIn, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
 
@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'voluntario':
                     carregarPaginaCadastroVoluntario();
+                    break;
+                case 'animais-adotados':
+                    carregarPaginaAnimaisAdotados();
                     break;
             }
         }
@@ -281,5 +284,29 @@ function carregarPaginaCadastroVoluntario(): void {
         .then(() => {
             // Inicializa a página de cadastro após carregar o HTML
             initializeCadastroVoluntarioPage();
+        });
+}
+
+function carregarPaginaAnimaisAdotados() {
+    fetch('http://localhost:3000/tela/animaisAdotados')
+        .then(async (response) => {
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error || 'Erro ao carregar tela Animais Adotados');
+            }
+            return response.text();
+        }).then((html) => {
+            const container = document.getElementById("principal");
+            if (container) {
+                container.innerHTML = html;
+            } else {
+                console.warn('Container para resposta não encontrado');
+            }
+        }).then(() => {
+            InitializeAnimaisAdotadosPage();
+        })
+        .catch((error) => {
+            console.error('Erro ao carregar tela Animais Adotados:', error);
+            alert('Erro ao carregar tela Animais Adotados. Verifique a conexão com a internet.');
         });
 }
