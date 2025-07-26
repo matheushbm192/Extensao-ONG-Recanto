@@ -8,6 +8,8 @@ import { getUserFromToken, isLoggedIn, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
 
 
+
+
 // Event listeners para navegação
 document.addEventListener('DOMContentLoaded', () => {
     // Event listener para todos os elementos com data-action
@@ -217,6 +219,32 @@ function carregarPaginaLogin() {
         });
 }
 
+function carregarPaginaPedidosAdocao() {
+    fetch('http://localhost:3000/tela/pedidosAdocao')
+        .then(async (response) => {
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error || 'Erro ao carregar pedidos de adoção');
+            }
+            return response.text();
+        })
+        .then((html) => {
+            const container = document.getElementById("principal");
+            if (container) {
+                container.innerHTML = html;
+                // Chame APENAS esta função. Ela agora é responsável por
+                // buscar os dados, renderizar, e inicializar todos os listeners.
+                initializePedidosAdocaoPageListeners();
+            } else {
+                console.warn('Container para resposta não encontrado');
+            }
+        })
+        .catch((error) => {
+            console.error('Erro ao carregar pedidos de adoção:', error);
+            alert('Erro ao carregar pedidos de adoção. Verifique a conexão com a internet.');
+        });
+}
+
 
 function logoutUser() {
     logout();
@@ -232,7 +260,7 @@ function atualizarInterfaceUsuario() {
     const cadastroAdmnistrador = document.getElementById("menu-cadastro-administrador");
     const cadastrarUsuarioComum = document.getElementById("menu-cadastro-usuario")
     const cadastrarUsuarioVoluntario = document.getElementById("menu-cadastro-voluntario")
-   
+    
 
     if(user) {
         if (loginMenu) loginMenu.style.display = "none";
@@ -285,6 +313,7 @@ function carregarPaginaCadastroVoluntario(): void {
             // Inicializa a página de cadastro após carregar o HTML
             initializeCadastroVoluntarioPage();
         });
+        
 }
 
 function carregarPaginaAnimaisAdotados() {

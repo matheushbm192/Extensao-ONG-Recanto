@@ -61,6 +61,14 @@ export const getTelaCadastroVoluntario = async (req: Request, res: Response) => 
         res.send(error);
     }
 }
+export const getTelaPedidosAdocao = async (req: Request, res: Response) => {
+    try {
+        const filePath = path.join(__dirname, '..', '..', 'pages', 'pedidosAdocao.html');
+        res.sendFile(filePath);
+    } catch (error) {
+        res.send(error);
+    }
+}
 
 export const getTelaAnimaisAdotados = async (req: Request, res: Response) => {
     try {
