@@ -1,3 +1,4 @@
+/*
 import { Router } from 'express';
 
 const router = Router();
@@ -26,3 +27,4 @@ router.get('/pedidos-adocao', (req, res) => {
 });
 
 export default router;
+*/

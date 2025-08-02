@@ -70,3 +70,11 @@ export const getTelaPedidosAdocao = async (req: Request, res: Response) => {
     }
 }
 
+export const getTelaAnimaisAdotados = async (req: Request, res: Response) => {
+    try {
+        const filePath = path.join(__dirname, '..', '..', 'pages', 'animaisAdotados.html');
+        res.sendFile(filePath);
+    } catch (error) {
+        res.send(error);
+    }
+}

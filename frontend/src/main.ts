@@ -8,6 +8,8 @@ import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js";
 // Remova a importação abaixo, pois ela não é usada e pode causar confusão
 // import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js"; 
 
+import { InitializeAnimaisAdotadosPage } from "./animaisAdotados.js";
+
 import { getUserFromToken, isLoggedIn, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
 
@@ -49,6 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'pedidos-adocao':
                     carregarPaginaPedidosAdocao();
+                    break;
+                case 'animais-adotados':
+                    carregarPaginaAnimaisAdotados();
                     break;
             }
         }
@@ -318,4 +323,28 @@ function carregarPaginaCadastroVoluntario(): void {
             initializeCadastroVoluntarioPage();
         });
         
+}
+
+function carregarPaginaAnimaisAdotados() {
+    fetch('http://localhost:3000/tela/animaisAdotados')
+        .then(async (response) => {
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error || 'Erro ao carregar tela Animais Adotados');
+            }
+            return response.text();
+        }).then((html) => {
+            const container = document.getElementById("principal");
+            if (container) {
+                container.innerHTML = html;
+            } else {
+                console.warn('Container para resposta não encontrado');
+            }
+        }).then(() => {
+            InitializeAnimaisAdotadosPage();
+        })
+        .catch((error) => {
+            console.error('Erro ao carregar tela Animais Adotados:', error);
+            alert('Erro ao carregar tela Animais Adotados. Verifique a conexão com a internet.');
+        });
 }
