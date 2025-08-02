@@ -9,8 +9,6 @@ router.get('/petGet', async (req: Request, res: Response) => {
   await petCTR.getAllPets(req, res)
 })
 
-
 router.post('/petsPost', upload.single('foto'), petCTR.postPet);
-
 
 export default router

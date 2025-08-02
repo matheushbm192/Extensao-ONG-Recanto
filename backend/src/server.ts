@@ -9,6 +9,7 @@ import telaRoutes from "./routes/telaRoutes";
 import loginRoutes from "./routes/loginRoutes";
 import usuarioRoutes from './routes/usuarioRoutes';
 import pedidosAdocaoRoutes from './routes/pedidosAdocaoRoutes'; // Seu router de pedidos de adoção
+import animaisAdotadosRoutes from './routes/animaisAdotadosRoutes';
 
 // Não é mais necessário importar mustacheExpress se ele não for usado para renderizar páginas aqui
 // import mustacheExpress from 'mustache-express'; 
@@ -49,6 +50,7 @@ app.use('/api', petRoutes);
 app.use('/login', loginRoutes);
 app.use('/usuario', usuarioRoutes);
 app.use('/pedidos-adocao', pedidosAdocaoRoutes); // Seu endpoint principal para pedidos
+app.use('/animais-adotados', animaisAdotadosRoutes);
 
 // Se 'telaRoutes' renderiza páginas HTML com Mustache, e você quer que ele continue fazendo isso:
 app.set('views', path.join(__dirname, 'pages')); // Define onde estão os templates (se for usar views)
