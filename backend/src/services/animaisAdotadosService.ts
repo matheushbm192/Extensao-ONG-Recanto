@@ -13,9 +13,10 @@ export class AnimaisAdotadosRN {
         this.usuarioDAO = new UsuarioDAO();
     }
 
-    async selectAllAnimaisAdotados() {
+    async selectAnimaisAdotadoByUsuarioId(id_usuario: string) {
         try {
-            const animaisAdotados = await this.animaisAdotadosDAO.selectAllAnimaisAdotados();
+
+            const animaisAdotados = await this.animaisAdotadosDAO.selectAnimaisAdotadosByUsuarioId(id_usuario);
 
             console.log("RESULTADOS DA RN/SERVICE: ")
             console.log(animaisAdotados)
@@ -26,8 +27,8 @@ export class AnimaisAdotadosRN {
             
             const listaDeAdocoes = await Promise.all(
                 animaisAdotados.map(async (obj) =>  {
-
-                    const usuario = await this.usuarioDAO.selectUsuarioById(obj.id_usuario);
+                    
+                    // const usuario = await this.usuarioDAO.selectUsuarioById(obj.id_usuario);
                     const pet = await this.petDAO.selectPetById(obj.id_pet);
 
                     const animalAdotado = {
@@ -36,8 +37,6 @@ export class AnimaisAdotadosRN {
                         raca: pet.raca,
                         idade: pet.idade,
                         foto_url: pet.foto_url?.replace('/uploads/', '/imagens/'),
-                        dono_nome: usuario.nome,
-                        dono_sobrenome: usuario.sobrenome
                     }
 
                     return animalAdotado;

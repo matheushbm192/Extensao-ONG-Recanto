@@ -11,6 +11,8 @@ export class LoginCTR {
             const emailNormalizado = email.trim().toLowerCase()
 
             const result = await loginRN.autenticarUsuario(emailNormalizado, senha)
+            console.log("CONTROLLER LOGIN USUARIO")
+            console.log(result)
             
             res.status(200).json(result);
         } catch (error: any) {

@@ -1,7 +1,7 @@
 declare const jwt_decode: <T = unknown>(token: string) => T;
 
 type TokenPayload = {
-  id: string;
+  id_usuario: string;
   email: string;
   tipo_usuario: string;
   exp: number;
@@ -18,7 +18,8 @@ export function getUserFromToken(): TokenPayload | null {
         const payload = jwt_decode<TokenPayload>(token);
 
         const now = Math.floor(Date.now()/ 1000)
-        console.log("TOKEN")
+        console.log("TOKEN NO FRONT END")
+        console.log(payload)
         console.log(payload.exp)
         console.log(now)
 

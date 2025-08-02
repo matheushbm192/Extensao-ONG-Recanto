@@ -1,98 +1,18 @@
 import { Pet } from './models/petModel'; 
-const animaisAdotados: Pet[] = [
-  {
-    id_pet: '1',
-    nome: 'Toody',
-    raca: 'Sem Raça definida',
-    especie: 'Cachorro',
-    sexo: 'M',
-    idade: 3,
-    foto_url: 'https://via.placeholder.com/80x80.png?text=Animal',
-    cep: '00000-000',
-    logradouro: 'Rua dos Animais',
-    numero: 123,
-    complemento: null,
-    bairro: 'Centro',
-    cidade: 'Cidade Exemplo',
-    estado: 'EX',
-    created_at: '2024-01-01T00:00:00Z'
-  },
-  {
-    id_pet: '2',
-    nome: 'Luna',
-    raca: 'Vira-lata',
-    especie: 'Cachorro',
-    sexo: 'F',
-    idade: 2,
-    foto_url: 'https://via.placeholder.com/80x80.png?text=Animal',
-    cep: '00000-000',
-    logradouro: 'Rua dos Animais',
-    numero: 124,
-    complemento: null,
-    bairro: 'Centro',
-    cidade: 'Cidade Exemplo',
-    estado: 'EX',
-    created_at: '2024-01-02T00:00:00Z'
-  },
-  {
-    id_pet: '3',
-    nome: 'Rex',
-    raca: 'Sem Raça definida',
-    especie: 'Cachorro',
-    sexo: 'M',
-    idade: 5,
-    foto_url: 'https://via.placeholder.com/80x80.png?text=Animal',
-    cep: '00000-000',
-    logradouro: 'Rua dos Animais',
-    numero: 125,
-    complemento: null,
-    bairro: 'Centro',
-    cidade: 'Cidade Exemplo',
-    estado: 'EX',
-    created_at: '2024-01-03T00:00:00Z'
-  },
-  {
-    id_pet: '4',
-    nome: 'Max',
-    raca: 'Sem Raça definida',
-    especie: 'Cachorro',
-    sexo: 'M',
-    idade: 4,
-    foto_url: 'https://via.placeholder.com/80x80.png?text=Animal',
-    cep: '00000-000',
-    logradouro: 'Rua dos Animais',
-    numero: 126,
-    complemento: null,
-    bairro: 'Centro',
-    cidade: 'Cidade Exemplo',
-    estado: 'EX',
-    created_at: '2024-01-04T00:00:00Z'
-  },
-  {
-    id_pet: '5',
-    nome: 'Teste',
-    raca: 'Raça Teste',
-    especie: 'Gato',
-    sexo: 'F',
-    idade: 1,
-    foto_url: 'https://via.placeholder.com/80x80.png?text=Teste',
-    cep: '00000-000',
-    logradouro: 'Rua dos Testes',
-    numero: 999,
-    complemento: 'Ap 101',
-    bairro: 'Teste Bairro',
-    cidade: 'Cidade Teste',
-    estado: 'TS',
-    created_at: '2024-01-05T00:00:00Z'
-  }
-];
 
 export async function InitializeAnimaisAdotadosPage() {
   const lista = document.getElementById('adotados-list');
   if (!lista) return;
 
   try {
-    const response = await fetch('http://localhost:3000/animais-adotados/'); 
+    const token = localStorage.getItem("token");
+
+    const response = await fetch('http://localhost:3000/animais-adotados/', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
     console.log("FRONTEND RESPOSTA!!!!!!")
     console.log(response)
 
@@ -118,6 +38,7 @@ export async function InitializeAnimaisAdotadosPage() {
               <span class="text-black">Nome:</span>
               <span class="font-normal text-gray-700">${animal.nome}</span>
             </p>
+
             <p class="font-bold text-[#27387f] mr-4">
               <span class="text-black">Raça:</span>
               <span class="font-normal text-gray-700">${animal.raca ?? 'Não informada'}</span>
@@ -126,15 +47,6 @@ export async function InitializeAnimaisAdotadosPage() {
             <p class="font-bold text-[#27387f]">
               <span class="text-black">Idade:</span>
               <span class="font-normal text-gray-700">${animal.idade !== null ? `${animal.idade} ano(s)` : 'Não informada'}</span>
-            </p>
-
-            <p class="font-bold text-[#27387f] mr-4">
-              <span class="text-black">Dono:</span>
-              <span class="font-normal text-gray-700">${
-                (animal.dono_nome || animal.dono_sobrenome)
-                  ? `${animal.dono_nome ?? ''} ${animal.dono_sobrenome ?? ''}`.trim()
-                  : 'Não informado'
-              }</span>
             </p>
 
           </div>
