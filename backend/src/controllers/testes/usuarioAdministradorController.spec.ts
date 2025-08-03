@@ -23,7 +23,7 @@ describe('UsuarioAdministradorCTR', () => {
   let statusMock: jest.Mock
   let jsonMock: jest.Mock
 
-  // Remove os logs
+  
   beforeAll(() => {
     jest.spyOn(console, 'log').mockImplementation(() => {})
     jest.spyOn(console, 'error').mockImplementation(() => {})
