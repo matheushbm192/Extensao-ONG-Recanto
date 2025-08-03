@@ -4,7 +4,7 @@ import petRoutes from "./routes/petRoutes"
 import telaRoutes from "./routes/telaRoutes"
 import loginRoutes from "./routes/loginRoutes"
 import usuarioRoutes from './routes/usuarioRoutes';
-import pedidosAdocaoRoutes from './routes/pedidosAdocaoRoutes'; // Seu router de pedidos de adoção
+// import pedidosAdocaoRoutes from './routes/pedidosAdocaoRoutes'; // Seu router de pedidos de adoção
 import animaisAdotadosRoutes from './routes/animaisAdotadosRoutes';
 
 import mustacheExpress from 'mustache-express'
@@ -40,7 +40,7 @@ app.use(express.urlencoded({ extended: true })); // Habilita o Express a ler URL
 app.use('/api', petRoutes);
 app.use('/login', loginRoutes);
 app.use('/usuario', usuarioRoutes);
-app.use('/pedidos-adocao', pedidosAdocaoRoutes); // Seu endpoint principal para pedidos
+// app.use('/pedidos-adocao', pedidosAdocaoRoutes); // Seu endpoint principal para pedidos
 app.use('/animais-adotados', animaisAdotadosRoutes);
 
 // Se 'telaRoutes' renderiza páginas HTML com Mustache, e você quer que ele continue fazendo isso:

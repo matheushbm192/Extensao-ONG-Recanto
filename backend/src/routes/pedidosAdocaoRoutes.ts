@@ -1,13 +1,13 @@
 // pedidosAdocaoRoutes.ts
-import { Router } from "express";
-import { PedidosAdocao } from "../controllers/pedidosAdocaoCTR";
-const router = Router();
+// import { Router } from "express";
+// import { PedidosAdocao } from "../controllers/pedidosAdocaoCTR";
+// const router = Router();
 
 
-router.get('/pedidos', async (req: Request, res: Response) => {
-    await PedidosAdocao.getAllPets(req, res)
-  })
-export default router;
+// router.get('/pedidos', async (req: Request, res: Response) => {
+//     await PedidosAdocao.getAllPets(req, res)
+//   })
+// export default router;
 // // **Importante:** Certifique-se de que a interface PedidoAdocaoCompleto
 // // é a mesma que você usa no seu frontend (src/pedidosAdocao.ts)
 // export interface PedidoAdocaoCompleto {
