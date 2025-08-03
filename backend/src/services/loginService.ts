@@ -10,6 +10,8 @@ export class LoginRN {
 
     async autenticarUsuario(email: string, senha: string): Promise<string> {
         const user = await this.loginDAO.selectUserByEmail(email)
+
+        console.log("USER RETORNADO DO BANCO: ", user)
         
         // alterar para comparacao entre senha digitada e senha criptografada no banco
         if(!user || user.senha !== senha) {
@@ -18,17 +20,22 @@ export class LoginRN {
         
         // possivelmente alterar para user
         const payload = {
-            id: user.id,
+            id_usuario: user.id_usuario,
             email: user.email,
             tipo_usuario: user.tipo_usuario
         }
+
+
+        console.log("*********RN*********")
+        console.log("PAYLOAD!!!")
+        console.log(payload)
 
         const token = jwt.sign(payload, process.env.JWT_SECRET || 'super_chave_secreta', {
             expiresIn: '1h'
         })
         
-        console.log("RN***")
         console.log("token: " + token)
+        console.log("*********TOKEN DECODIFICADO*********")
         console.log(jwt.decode(token))
 
         return token     

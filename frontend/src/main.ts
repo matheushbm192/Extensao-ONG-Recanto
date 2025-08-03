@@ -8,6 +8,8 @@ import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js";
 // Remova a importação abaixo, pois ela não é usada e pode causar confusão
 // import { initializePedidosAdocaoPageListeners } from "./pedidosAdocao.js"; 
 
+import { InitializeAnimaisAdotadosPage } from "./animaisAdotados.js";
+
 import { getUserFromToken, isLoggedIn, logout } from "./utils/auth.js";
 import { initializeCadastroAdm } from "./cadastroAdm.js";
 
@@ -49,6 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'pedidos-adocao':
                     carregarPaginaPedidosAdocao();
+                    break;
+                case 'animais-adotados':
+                    carregarPaginaAnimaisAdotados();
                     break;
             }
         }
@@ -264,12 +269,15 @@ function atualizarInterfaceUsuario() {
     const cadastroAdmnistrador = document.getElementById("menu-cadastro-administrador");
     const cadastrarUsuarioComum = document.getElementById("menu-cadastro-usuario")
     const cadastrarUsuarioVoluntario = document.getElementById("menu-cadastro-voluntario")
+    const animaisAdotados = document.getElementById("menu-animais-adotados")
     
 
     if(user) {
         if (loginMenu) loginMenu.style.display = "none";
-        if (logoutMenu) logoutMenu.style.display = "inline";
         if (cadastrarUsuarioComum) cadastrarUsuarioComum.style.display = "none";
+
+        if (logoutMenu) logoutMenu.style.display = "inline";
+        if (animaisAdotados) animaisAdotados.style.display = "inline";
 
         const isAdmin = user.tipo_usuario === "admin";
         const isVoluntario = user.tipo_usuario === "voluntario";
@@ -281,11 +289,13 @@ function atualizarInterfaceUsuario() {
     }
     else {
         if (loginMenu) loginMenu.style.display = "inline";
-        if (logoutMenu) logoutMenu.style.display = "none";
         if (cadastrarUsuarioComum) cadastrarUsuarioComum.style.display = "inline";
+
+        if (logoutMenu) logoutMenu.style.display = "none";
         if (cadastroAnimal) cadastroAnimal.style.display = "none";
         if (cadastroAdmnistrador) cadastroAdmnistrador.style.display = "none";
         if (cadastrarUsuarioVoluntario) cadastrarUsuarioVoluntario.style.display = "none";
+        if (animaisAdotados) animaisAdotados.style.display = "none";
     }
 }
 
@@ -318,4 +328,28 @@ function carregarPaginaCadastroVoluntario(): void {
             initializeCadastroVoluntarioPage();
         });
         
+}
+
+function carregarPaginaAnimaisAdotados() {
+    fetch('http://localhost:3000/tela/animaisAdotados')
+        .then(async (response) => {
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error || 'Erro ao carregar tela Animais Adotados');
+            }
+            return response.text();
+        }).then((html) => {
+            const container = document.getElementById("principal");
+            if (container) {
+                container.innerHTML = html;
+            } else {
+                console.warn('Container para resposta não encontrado');
+            }
+        }).then(() => {
+            InitializeAnimaisAdotadosPage();
+        })
+        .catch((error) => {
+            console.error('Erro ao carregar tela Animais Adotados:', error);
+            alert('Erro ao carregar tela Animais Adotados. Verifique a conexão com a internet.');
+        });
 }

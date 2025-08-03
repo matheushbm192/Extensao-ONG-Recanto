@@ -1,4 +1,5 @@
-// import { Router } from 'express';
+/*
+import { Router } from 'express';
 
 // const router = Router();
 
@@ -25,4 +26,5 @@
 //   res.json(pedidos);
 // });
 
-// export default router;
+export default router;
+*/

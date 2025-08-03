@@ -40,6 +40,21 @@ class PetDAO {
             throw error; 
         }
     }
+
+    async selectPetById(id_pet: string) {
+        const { data, error } = await database
+            .from("PET")
+            .select("*")
+            .eq("id_pet", id_pet)
+            .single();
+
+        if (error) {
+            console.log(error.message);
+            throw new Error("PET não encontrado");
+        }
+
+        return data;
+    }
 }
 
 

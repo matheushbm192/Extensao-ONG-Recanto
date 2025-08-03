@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="absolute inset-0 bg-[url('./assets/resources/caes_e_gatos.png')] bg-cover bg-center opacity-10"></div>
+    <div class="relative z-10 mb-8">
+  <div class="max-w-4xl mx-auto pt-32 pb-12 px-2">
+    <br><br>
+    <h1 class="text-3xl font-bold mb-8 text-[#27387f] text-center">Animais Adotados</h1>
+    <div class="flex justify-end mb-6">
+      <label for="sort" class="self-center mr-2 text-[#27387f] font-medium">Ordenar por:</label>
+      <select id="sort" class="border border-gray-300 p-2 rounded">
+        <option value="recentes">Mais recentes</option>
+        <option value="antigos">Mais antigos</option>
+      </select>
+    </div>
+    <div id="adotados-list" class="space-y-8">
+    </div>
+  </div>
+  <script src="../src/animaisAdotados.ts" type="module"></script>
+  <script>
+    /*
+    document.addEventListener('DOMContentLoaded', function() {
+      function toggleExtraInfo(cardId) {
+        const extraInfo = document.getElementById(`extra-info-${cardId}`);
+        if (extraInfo.classList.contains('hidden')) {
+          extraInfo.classList.remove('hidden');
+        } else {
+          extraInfo.classList.add('hidden');
+        }
+      }
+
+      ['1', '2', '3', '4'].forEach(id => {
+        const card = document.getElementById(`card-${id}`);
+        if (card) {
+          card.addEventListener('click', () => toggleExtraInfo(id));
+        }
+      });
+    });
+    */
+  </script>
+</body>
+</html>

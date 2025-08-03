@@ -4,7 +4,8 @@ import petRoutes from "./routes/petRoutes"
 import telaRoutes from "./routes/telaRoutes"
 import loginRoutes from "./routes/loginRoutes"
 import usuarioRoutes from './routes/usuarioRoutes';
-import pedidosAdocaoRoutes from './routes/pedidosAdocaoRoutes';
+import pedidosAdocaoRoutes from './routes/pedidosAdocaoRoutes'; // Seu router de pedidos de adoção
+import animaisAdotadosRoutes from './routes/animaisAdotadosRoutes';
 
 import mustacheExpress from 'mustache-express'
 import path from 'path';
@@ -30,16 +31,23 @@ app.set('views', path.join(__dirname, 'pages'));
 // Adicione esta linha:
 app.use('/imagens', express.static(path.join(__dirname, '../imagens')));
 
-// Middlewares para processar dados
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// --- Middlewares para processar corpo de requisições ---
+app.use(express.json()); // Habilita o Express a ler JSON no corpo das requisições
+app.use(express.urlencoded({ extended: true })); // Habilita o Express a ler URL-encoded no corpo
 
-app.use('/api', petRoutes)
-app.use('/tela',telaRoutes)
-app.use('/login', loginRoutes)
-app.use('/usuario',usuarioRoutes)
-app.use('/pedidos-adocao', pedidosAdocaoRoutes);
+// --- Definição de Rotas ---
+// Suas rotas da API
+app.use('/api', petRoutes);
+app.use('/login', loginRoutes);
+app.use('/usuario', usuarioRoutes);
+app.use('/pedidos-adocao', pedidosAdocaoRoutes); // Seu endpoint principal para pedidos
+app.use('/animais-adotados', animaisAdotadosRoutes);
 
+// Se 'telaRoutes' renderiza páginas HTML com Mustache, e você quer que ele continue fazendo isso:
+app.set('views', path.join(__dirname, 'pages')); // Define onde estão os templates (se for usar views)
+app.use('/tela', telaRoutes); // Rota para suas páginas HTML
+
+// Rota padrão para a raiz da API
 app.get('/', (req, res) => {
   res.send('API da ONG Recanto dos Animais no ar!');
 });
