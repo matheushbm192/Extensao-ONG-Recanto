@@ -1,9 +1,8 @@
-export interface PedidoAdocao {
+interface PedidoAdocaoCompleto {
     idPedido: string;
-    dataSolicitacao: string;
-    status: "Pendente" | "Aprovado" | "Rejeitado";
-    observacoesAdotante?: string;
-    observacoesAdmin?: string;
+    dataSolicitacao: string; // Formato ISO 8601 recomendado (ex: "YYYY-MM-DDTHH:mm:ssZ")
+    status: "Pendente" | "Concluido";
+    resultado: "Aprovado" | "Rejeitado" | null;
 
     adotante: {
         idUsuario: string;
@@ -11,10 +10,10 @@ export interface PedidoAdocao {
         email: string;
         telefone: string;
         cpf: string;
-        enderecoCompleto: string;
+        enderecoCompleto: string | null;
         redeSocial?: string | null;
         escolaridade: string;
-        possuiPet: boolean;
+        possuiPet: boolean | null;
     };
 
     animal: {
@@ -32,8 +31,8 @@ export interface PedidoAdocao {
 // --- VARIÁVEIS DE ESTADO (GLOBAIS) ---
 let currentPage: number = 1;
 const itemsPerPage: number = 5; // Ajuste quantos itens você quer por página
-let allPedidosData: PedidoAdocao[] = []; // Armazena todos os pedidos brutos do fetch inicial
-let currentFilteredAndSortedPedidos: PedidoAdocao[] = []; // Armazena pedidos após filtros e ordenação
+let allPedidosData: PedidoAdocaoCompleto[] = []; // ✅ Corrigido para usar PedidoAdocaoCompleto
+let currentFilteredAndSortedPedidos: PedidoAdocaoCompleto[] = []; // ✅ Corrigido para usar PedidoAdocaoCompleto
 
 // Variáveis para armazenar os valores dos filtros/ordenação selecionados
 let currentFiltroAdotanteId: string = '';
@@ -57,15 +56,25 @@ let ordenarSelect: HTMLSelectElement | null = null;
 
 let hasListenersBeenInitialized = false; // Flag para evitar inicialização duplicada
 
-
 // --- FUNÇÃO PARA BUSCAR TODOS OS PEDIDOS DO BACKEND ---
 export async function fetchAllPedidosAdocao(): Promise<void> {
     try {
         console.log('DEBUG: Buscando todos os pedidos de adoção do backend.');
-        const response = await fetch('http://localhost:3000/pedidos-adocao');
+        
+        // ✅ Mudança: usar a rota real em vez de /mock
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3000/pedidos-adocao/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // ✅ Adicionar token de autenticação
+            }
+        });
+        
         if (!response.ok) {
             throw new Error('Erro ao buscar pedidos de adoção.');
         }
+        
         allPedidosData = await response.json(); // Armazena a lista completa
 
         // Após buscar todos os dados, aplica os filtros e ordenação iniciais (e paginação)
@@ -77,7 +86,6 @@ export async function fetchAllPedidosAdocao(): Promise<void> {
         alert('Não foi possível carregar os pedidos de adoção. Tente novamente mais tarde.');
     }
 }
-
 
 // --- FUNÇÃO PARA APLICAR FILTROS E ORDENAÇÃO E ATUALIZAR A PAGINAÇÃO ---
 function applyFiltersAndSort(): void {
@@ -139,8 +147,7 @@ function applyFiltersAndSort(): void {
     console.log('--- Fim applyFiltersAndSort ---');
 }
 
-
-// --- FUNÇÃO PARA RENDERIZAR OS PEDIDOS DA PÁGINA ATUAL NO DOM (ADAPTADA DO SEU renderPage) ---
+// --- FUNÇÃO PARA RENDERIZAR OS PEDIDOS DA PÁGINA ATUAL NO DOM ---
 function renderPedidosPaginados(): void {
     console.log('--- Iniciando renderPedidosPaginados ---');
     if (!pedidosAdocaoList) {
@@ -165,20 +172,28 @@ function renderPedidosPaginados(): void {
         li.className = 'bg-white rounded-xl shadow-md p-6 flex flex-col w-full';
 
         const foto = pedido.animal.foto_url || '/assets/resources/caes_e_gatos.png';
+        
+        // ✅ Corrigir lógica de status para interface PedidoAdocaoCompleto
+        const statusDisplay = pedido.resultado || pedido.status;
+        const statusClass = pedido.resultado === 'Aprovado' ? 'text-green-600' : 
+                           pedido.resultado === 'Rejeitado' ? 'text-red-600' : 
+                           'text-blue-600';
 
         li.innerHTML = `
             <div class="flex flex-col md:flex-row items-center w-full">
-                <img src="${foto}" alt="Foto de ${pedido.animal.nome}" class="w-32 h-32 object-cover rounded-xl mr-6 border border-gray-200 bg-gray-100 mb-4 md:mb-0" />
+                <img src="http://localhost:3000${foto}" alt="Foto de ${pedido.animal.nome}" class="w-32 h-32 object-cover rounded-xl mr-6 border border-gray-200 bg-gray-100 mb-4 md:mb-0" />
                 <div class="flex-1 text-center md:text-left">
-                    <h3 class="text-xl font-bold mb-1 text-[#1f2a5a]">Pedido #${pedido.idPedido} - ${pedido.animal.nome}</h3>
+                    <h3 class="text-xl font-bold mb-1 text-[#1f2a5a]">Pedido - ${pedido.animal.nome}</h3>
                     <p class="text-gray-700"><strong>Adotante:</strong> ${pedido.adotante.nomeCompleto}</p>
-                    <p class="text-gray-600"><strong>Status:</strong> <span class="font-semibold ${pedido.status === 'Aprovado' ? 'text-green-600' : pedido.status === 'Rejeitado' ? 'text-red-600' : 'text-blue-600'}">${pedido.status}</span></p>
+                    <p class="text-gray-600"><strong>Status:</strong> <span class="font-semibold ${statusClass}">${statusDisplay}</span></p>
                     <p class="text-gray-600"><strong>Data:</strong> ${new Date(pedido.dataSolicitacao).toLocaleDateString()}</p>
                 </div>
                 <div class="flex flex-col md:flex-row gap-2 mt-4 md:mt-0 md:ml-6">
                     <button class="toggle-details bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded w-full md:w-auto" data-pedido-id="${pedido.idPedido}">Ver Detalhes</button>
-                    <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded w-full md:w-auto" data-action="recusar" data-pedido-id="${pedido.idPedido}">Recusar</button>
-                    <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full md:w-auto" data-action="aceitar" data-pedido-id="${pedido.idPedido}">Aceitar</button>
+                    ${pedido.status === 'Pendente' ? `
+                        <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded w-full md:w-auto" data-action="recusar" data-pedido-id="${pedido.idPedido}">Recusar</button>
+                        <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full md:w-auto" data-action="aceitar" data-pedido-id="${pedido.idPedido}">Aceitar</button>
+                    ` : ''}
                 </div>
             </div>
 
@@ -188,7 +203,7 @@ function renderPedidosPaginados(): void {
                         <h4 class="text-lg font-bold text-[#1f2a5a] mb-2">Detalhes do Animal:</h4>
                         <p><strong>Espécie:</strong> ${pedido.animal.especie || 'Não informado'}</p>
                         <p><strong>Raça:</strong> ${pedido.animal.raca || 'SRD'}</p>
-                        <p><strong>Idade:</strong> ${pedido.animal.idade || '?'} anos</p>
+                        <p><strong>Idade:</strong> ${pedido.animal.idade !== null ? pedido.animal.idade + ' anos' : 'Não informado'}</p>
                         <p><strong>Sexo:</strong> ${pedido.animal.sexo}</p>
                         <p><strong>Localização:</strong> ${pedido.animal.localizacaoCompleta}</p>
                     </div>
@@ -198,14 +213,12 @@ function renderPedidosPaginados(): void {
                         <p><strong>Email:</strong> ${pedido.adotante.email}</p>
                         <p><strong>Telefone:</strong> ${pedido.adotante.telefone}</p>
                         <p><strong>CPF:</strong> ${pedido.adotante.cpf}</p>
-                        <p><strong>Endereço:</strong> ${pedido.adotante.enderecoCompleto}</p>
+                        <p><strong>Endereço:</strong> ${pedido.adotante.enderecoCompleto || 'Não informado'}</p>
                         <p><strong>Escolaridade:</strong> ${pedido.adotante.escolaridade}</p>
-                        <p><strong>Possui Pet:</strong> ${pedido.adotante.possuiPet ? 'Sim' : 'Não'}</p>
+                        <p><strong>Possui Pet:</strong> ${pedido.adotante.possuiPet === null ? 'Não informado' : (pedido.adotante.possuiPet ? 'Sim' : 'Não')}</p>
                         ${pedido.adotante.redeSocial ? `<p><strong>Rede Social:</strong> <a href="${pedido.adotante.redeSocial}" target="_blank" class="text-blue-500 hover:underline">${pedido.adotante.redeSocial}</a></p>` : ''}
                     </div>
                 </div>
-                ${pedido.observacoesAdotante ? `<p class="mt-4"><strong>Obs. Adotante:</strong> ${pedido.observacoesAdotante}</p>` : ''}
-                ${pedido.observacoesAdmin ? `<p class="mt-2"><strong>Obs. Admin:</strong> ${pedido.observacoesAdmin}</p>` : ''}
             </div>
         `;
         pedidosAdocaoList!.appendChild(li); 
@@ -260,16 +273,13 @@ async function handleActionButtons(event: Event): Promise<void> {
         return;
     }
 
-    const newStatus = action === 'aceitar' ? 'Aprovado' : 'Rejeitado';
-    const confirmMessage = `Tem certeza que deseja ${newStatus.toLowerCase()} o pedido #${pedidoId}?`;
+    // ✅ Corrigir para usar resultado em vez de status
+    const newResultado = action === 'aceitar' ? 'Aprovado' : 'Rejeitado';
+    const confirmMessage = `Tem certeza que deseja ${newResultado.toLowerCase()} o pedido #${pedidoId}?`;
 
     if (confirm(confirmMessage)) {
         try {
-            // Em um ambiente real, você faria um fetch para sua API para atualizar o status
-            console.log(`Simulando atualização do pedido ${pedidoId} para status: ${newStatus}`);
-            
-            // Exemplo de como seria um fetch real (você precisaria ter essa rota no seu backend)
-            /*
+            // ✅ Fazer fetch real para sua API para atualizar o status
             const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:3000/pedidos-adocao/${pedidoId}/status`, {
                 method: 'PUT',
@@ -277,20 +287,23 @@ async function handleActionButtons(event: Event): Promise<void> {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}` // Envia o token de autenticação
                 },
-                body: JSON.stringify({ status: newStatus })
+                body: JSON.stringify({ 
+                    status: 'Concluido', // Status vira Concluido
+                    resultado: newResultado // Resultado é Aprovado ou Rejeitado
+                })
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || `Erro ao atualizar status do pedido ${pedidoId}`);
             }
-            */
 
-            // Para o mock (e para manter o estado do frontend): atualize `allPedidosData`
+            // ✅ Atualizar o estado local para refletir as mudanças
             const pedidoToUpdate = allPedidosData.find(p => p.idPedido === pedidoId);
             if (pedidoToUpdate) {
-                pedidoToUpdate.status = newStatus;
-                alert(`Pedido #${pedidoId} ${newStatus.toLowerCase()} com sucesso!`);
+                pedidoToUpdate.status = 'Concluido';
+                pedidoToUpdate.resultado = newResultado as "Aprovado" | "Rejeitado";
+                alert(`Pedido #${pedidoId} ${newResultado.toLowerCase()} com sucesso!`);
             } else {
                 alert(`Pedido #${pedidoId} não encontrado.`);
             }
@@ -300,7 +313,7 @@ async function handleActionButtons(event: Event): Promise<void> {
 
         } catch (error: any) {
             console.error('Erro ao atualizar pedido:', error);
-            alert(`Erro ao ${newStatus.toLowerCase()} pedido: ${error.message}`);
+            alert(`Erro ao ${newResultado.toLowerCase()} pedido: ${error.message}`);
         }
     }
 }
@@ -324,7 +337,6 @@ function updatePaginationControls(): void {
     console.log(`DEBUG: prevBtn.disabled: ${prevBtn.disabled}, nextBtn.disabled: ${nextBtn.disabled}`); 
     console.log('--- Fim updatePaginationControls ---'); 
 }
-
 
 // --- FUNÇÃO PARA POPULAR OS SELECTS DE FILTRO ---
 function populateFilterSelects(): void {
@@ -359,7 +371,12 @@ function populateFilterSelects(): void {
     }
     
     if (filtroStatusSelect) {
-        const statusesUnicos = [...new Set(allPedidosData.map(p => p.status))];
+        // ✅ Mostrar tanto status quanto resultado nos filtros
+        const statusesUnicos = [...new Set([
+            ...allPedidosData.map(p => p.status),
+            ...allPedidosData.filter(p => p.resultado).map(p => p.resultado!)
+        ])];
+        
         filtroStatusSelect.innerHTML = '<option value="">Todos</option>';
         statusesUnicos.forEach(status => {
             const option = document.createElement('option');
@@ -369,7 +386,6 @@ function populateFilterSelects(): void {
         });
     }
 }
-
 
 // --- FUNÇÃO DE INICIALIZAÇÃO DA PÁGINA DE PEDIDOS ---
 export function initializePedidosAdocaoPageListeners(): void {

@@ -1,5 +1,7 @@
 // pedidosAdocaoRoutes.ts
-import { Router } from "express";
+import { Router, Request, Response } from 'express'
+import { PedidoAdocaoController } from "../controllers/pedidoAdocaoController";
+
 const router = Router();
 
 // **Importante:** Certifique-se de que a interface PedidoAdocaoCompleto
@@ -117,7 +119,6 @@ const mockPets = [
 const mockPedidosAdocao: PedidoAdocaoCompleto[] = [
     {
         idPedido: "pedido-001", dataSolicitacao: "2024-07-25T10:30:00Z", status: "Pendente",
-        observacoesAdotante: "Tenho experiência com labradores e um grande quintal.", observacoesAdmin: "",
         adotante: {
             idUsuario: mockUsuarios[0].idUsuario, nomeCompleto: `${mockUsuarios[0].nome} ${mockUsuarios[0].sobrenome}`,
             email: mockUsuarios[0].email, telefone: mockUsuarios[0].telefone, cpf: mockUsuarios[0].cpf,
@@ -131,7 +132,7 @@ const mockPedidosAdocao: PedidoAdocaoCompleto[] = [
         },
     },
     {
-        idPedido: "pedido-002", dataSolicitacao: "2024-07-24T14:15:00Z", status: "Aprovado",
+        idPedido: "pedido-002", dataSolicitacao: "2024-07-24T14:15:00Z", status: "Pendente",
         observacoesAdotante: "Apaixonada por gatos, já tive um antes.", observacoesAdmin: "Contato telefônico OK. Visita pré-adoção agendada.",
         adotante: {
             idUsuario: mockUsuarios[1].idUsuario, nomeCompleto: `${mockUsuarios[1].nome} ${mockUsuarios[1].sobrenome}`,
@@ -236,90 +237,12 @@ const mockPedidosAdocao: PedidoAdocaoCompleto[] = [
         },
     },
 ];
-
+const pedidoAdocao = new PedidoAdocaoController();
 // --- Rota GET para Pedidos de Adoção ---
-router.get("/", (req, res) => {
-    let pedidosFiltrados: PedidoAdocaoCompleto[] = [...mockPedidosAdocao];
-
-    // 1. Lógica de FILTRO
-    const { especie, idade, adotante, status } = req.query; // Adicione 'status' se for filtrar por ele no futuro
-
-    if (especie) {
-        pedidosFiltrados = pedidosFiltrados.filter(p =>
-            p.animal.especie && p.animal.especie.toLowerCase() === (especie as string).toLowerCase()
-        );
-    }
-
-    if (idade) {
-        // Ex: "0-1", "2-3", "4-6", "7+"
-        const [minAgeStr, maxAgeStr] = (idade as string).split('-');
-        let minAge = parseInt(minAgeStr);
-        // Ajusta maxAge para lidar com "7+" ou faixas normais
-        let maxAge = maxAgeStr === '+' ? Infinity : parseInt(maxAgeStr);
-
-        pedidosFiltrados = pedidosFiltrados.filter(p => {
-            const animalAge = p.animal.idade !== null && p.animal.idade !== undefined ? p.animal.idade : 0;
-            return animalAge >= minAge && animalAge <= maxAge;
-        });
-    }
-
-    if (adotante) { // Assumindo que 'adotante' no query é o nome completo para buscar
-        pedidosFiltrados = pedidosFiltrados.filter(p =>
-            p.adotante.nomeCompleto.toLowerCase().includes((adotante as string).toLowerCase())
-        );
-    }
-
-    if (status) { // Exemplo de filtro por status, caso implemente no frontend
-        pedidosFiltrados = pedidosFiltrados.filter(p =>
-            p.status.toLowerCase() === (status as string).toLowerCase()
-        );
-    }
-
-    // 2. Lógica de ORDENAÇÃO
-    const { _sort, _order } = req.query; // Recebe os parâmetros de ordenação
-
-    if (_sort && _order) {
-        pedidosFiltrados.sort((a, b) => {
-            let valA: any;
-            let valB: any;
-
-            // Suporta ordenação por campos aninhados usando notação de ponto
-            const getNestedValue = (obj: any, path: string) => {
-                return path.split('.').reduce((o, key) => (o ? o[key] : undefined), obj);
-            };
-
-            valA = getNestedValue(a, _sort as string);
-            valB = getNestedValue(b, _sort as string);
-
-            // Trata datas para ordenação numérica
-            if (_sort === 'dataSolicitacao') {
-                valA = new Date(valA).getTime(); // Converte para timestamp para comparação numérica
-                valB = new Date(valB).getTime();
-            }
-
-            if (valA < valB) {
-                return _order === 'asc' ? -1 : 1;
-            }
-            if (valA > valB) {
-                return _order === 'asc' ? 1 : -1;
-            }
-            return 0; // Valores iguais
-        });
-    }
-
-    // 3. Lógica de PAGINAÇÃO
-    const totalFiltered = pedidosFiltrados.length; // Total de itens APÓS filtros e ordenação
-    const page = parseInt(req.query._page as string) || 1;
-    const limit = parseInt(req.query._limit as string) || 6;
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-
-    const results = pedidosFiltrados.slice(startIndex, endIndex);
-
-    // --- MUITO IMPORTANTE: Envia o cabeçalho X-Total-Count para o frontend ---
-    // Isso é essencial para a paginação funcionar no frontend
-    res.header('X-Total-Count', totalFiltered.toString());
-    res.json(results); // Envia os resultados paginados
+router.get("/", async (req: Request, res: Response) => await pedidoAdocao.getPedidosAdocao(req, res));
+// --- Rota GET para Pedidos de Adoção com Mock ---
+router.get("/mock", (req: Request, res: Response) => {
+    res.json(mockPedidosAdocao);
 });
 
 export default router;
