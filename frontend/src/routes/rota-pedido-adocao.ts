@@ -19,7 +19,7 @@ router.get('/pedidos-adocao', (req, res) => {
     {
       nome: 'Carlos Souza',
       animal: 'Bidu',
-      status: 'Rejeitado',
+      status: 'Reprovado',
     }
   ];
 

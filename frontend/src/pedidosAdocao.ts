@@ -1,8 +1,10 @@
+import {SolicitacaoAdocao} from "./models/solicitacaoAdocaoModel";
+
 interface PedidoAdocaoCompleto {
     idPedido: string;
     dataSolicitacao: string; // Formato ISO 8601 recomendado (ex: "YYYY-MM-DDTHH:mm:ssZ")
     status: "Pendente" | "Concluido";
-    resultado: "Aprovado" | "Rejeitado" | null;
+    resultado: "Aprovado" | "Reprovado" | null;
 
     adotante: {
         idUsuario: string;
@@ -55,6 +57,45 @@ let btnClearFilters: HTMLButtonElement | null = null;
 let ordenarSelect: HTMLSelectElement | null = null;
 
 let hasListenersBeenInitialized = false; // Flag para evitar inicialização duplicada
+
+// --- FUNÇÃO PARA MAPEAR PedidoAdocaoCompleto PARA SolicitacaoAdocao ---
+function mapPedidoToSolicitacao(pedido: PedidoAdocaoCompleto, novoResultado: "Aprovado" | "Reprovado"): SolicitacaoAdocao {
+    return {
+        id: pedido.idPedido as any, // UUID
+        id_pet: pedido.animal.id_pet as any, // UUID
+        id_usuario: pedido.adotante.idUsuario as any, // UUID
+        id_administrador: null, 
+        status: "Concluido",
+        resultado: novoResultado
+    };
+}
+
+// --- FUNÇÃO PARA ENVIAR REQUISIÇÃO DE APROVAÇÃO/REJEIÇÃO ---
+async function enviarRequisicaoAprovacao(solicitacao: SolicitacaoAdocao): Promise<boolean> {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3000/pedidos-adocao/aprovar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(solicitacao)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao processar solicitação');
+        }
+
+        const result = await response.json();
+        console.log('Resposta da API:', result);
+        return true;
+    } catch (error) {
+        console.error('Erro ao enviar requisição:', error);
+        throw error;
+    }
+}
 
 // --- FUNÇÃO PARA BUSCAR TODOS OS PEDIDOS DO BACKEND ---
 export async function fetchAllPedidosAdocao(): Promise<void> {
@@ -176,7 +217,7 @@ function renderPedidosPaginados(): void {
         // ✅ Corrigir lógica de status para interface PedidoAdocaoCompleto
         const statusDisplay = pedido.resultado || pedido.status;
         const statusClass = pedido.resultado === 'Aprovado' ? 'text-green-600' : 
-                           pedido.resultado === 'Rejeitado' ? 'text-red-600' : 
+                           pedido.resultado === 'Reprovado' ? 'text-red-600' : 
                            'text-blue-600';
 
         li.innerHTML = `
@@ -255,7 +296,7 @@ function handleToggleDetails(event: Event): void {
     }
 }
 
-// --- HANDLER PARA OS BOTÕES "ACEITAR" E "RECUSAR" ---
+// --- HANDLER MODIFICADO PARA OS BOTÕES "ACEITAR" E "RECUSAR" ---
 async function handleActionButtons(event: Event): Promise<void> {
     const targetButton = event.target as HTMLElement;
     const action = targetButton.dataset.action;
@@ -273,47 +314,39 @@ async function handleActionButtons(event: Event): Promise<void> {
         return;
     }
 
-    // ✅ Corrigir para usar resultado em vez de status
-    const newResultado = action === 'aceitar' ? 'Aprovado' : 'Rejeitado';
-    const confirmMessage = `Tem certeza que deseja ${newResultado.toLowerCase()} o pedido #${pedidoId}?`;
+    // ✅ Modificado para usar resultado em vez de status
+    const novoResultado = action === 'aceitar' ? 'Aprovado' : 'Reprovado';
+    const confirmMessage = `Tem certeza que deseja ${novoResultado.toLowerCase()} o pedido #${pedidoId}?`;
 
     if (confirm(confirmMessage)) {
         try {
-            // ✅ Fazer fetch real para sua API para atualizar o status
-            const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/pedidos-adocao/${pedidoId}/status`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Envia o token de autenticação
-                },
-                body: JSON.stringify({ 
-                    status: 'Concluido', // Status vira Concluido
-                    resultado: newResultado // Resultado é Aprovado ou Rejeitado
-                })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || `Erro ao atualizar status do pedido ${pedidoId}`);
+            // Buscar o pedido nos dados locais
+            const pedidoToUpdate = allPedidosData.find(p => p.idPedido === pedidoId);
+            if (!pedidoToUpdate) {
+                alert(`Pedido #${pedidoId} não encontrado.`);
+                return;
             }
+
+            // 🆕 NOVA IMPLEMENTAÇÃO: Enviar requisição para o endpoint de aprovação
+            const solicitacaoData = mapPedidoToSolicitacao(pedidoToUpdate, novoResultado as "Aprovado" | "Reprovado");
+            
+            console.log('Enviando dados para aprovação:', solicitacaoData);
+            
+            // Enviar para o endpoint de aprovação
+            await enviarRequisicaoAprovacao(solicitacaoData);
 
             // ✅ Atualizar o estado local para refletir as mudanças
-            const pedidoToUpdate = allPedidosData.find(p => p.idPedido === pedidoId);
-            if (pedidoToUpdate) {
-                pedidoToUpdate.status = 'Concluido';
-                pedidoToUpdate.resultado = newResultado as "Aprovado" | "Rejeitado";
-                alert(`Pedido #${pedidoId} ${newResultado.toLowerCase()} com sucesso!`);
-            } else {
-                alert(`Pedido #${pedidoId} não encontrado.`);
-            }
+            pedidoToUpdate.status = 'Concluido';
+            pedidoToUpdate.resultado = novoResultado as "Aprovado" | "Reprovado";
+            
+            alert(`Pedido #${pedidoId} ${novoResultado.toLowerCase()} com sucesso!`);
 
             // Re-aplica filtros/ordenação (para que o item atualizado se ajuste) e re-renderiza a página
             applyFiltersAndSort(); 
 
         } catch (error: any) {
-            console.error('Erro ao atualizar pedido:', error);
-            alert(`Erro ao ${newResultado.toLowerCase()} pedido: ${error.message}`);
+            console.error('Erro ao processar pedido:', error);
+            alert(`Erro ao ${novoResultado.toLowerCase()} pedido: ${error.message}`);
         }
     }
 }

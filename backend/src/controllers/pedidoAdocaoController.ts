@@ -1,11 +1,12 @@
 import { Request, Response } from 'express'
 import { PedidoAdocaoRN } from '../services/pedidoAdocaoServices';
+import { SolicitacaoAdocao } from '../models/solicitacaoAdocaoModel';
 
 export interface PedidoAdocaoCompleto {
     idPedido: string;
     dataSolicitacao: string; // Formato ISO 8601 recomendado (ex: "YYYY-MM-DDTHH:mm:ssZ")
     status: "Pendente" | "Concluido";
-    resultado: "Aprovado" | "Rejeitado" | null;
+    resultado: "Aprovado" | "Reprovado" | null;
 
     adotante: {
         idUsuario: string;
@@ -43,6 +44,17 @@ export class PedidoAdocaoController {
         const results: PedidoAdocaoCompleto[] = pedidos;
 
         return res.json(results); // Envia os resultados paginados
+    }
+
+    async aprovarPedidoAdocao(req: Request, res: Response) {
+        const resultado = req.body as SolicitacaoAdocao;
+
+        if (!resultado.id) {
+            return res.status(400).json({ message: "ID do pedido é obrigatório." });
+        }
+        await this.pedidoAdocaoRN.resultadoPedidoAdocao(resultado);
+
+        return res.json({ message: `Pedido de adoção ID ${resultado.id} foi concluído!` });
     }
 }
 
