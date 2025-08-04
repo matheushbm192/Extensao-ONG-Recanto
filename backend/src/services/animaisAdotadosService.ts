@@ -36,7 +36,7 @@ export class AnimaisAdotadosRN {
                         nome: pet.nome,
                         raca: pet.raca,
                         idade: pet.idade,
-                        foto_url: pet.foto_url?.replace('/uploads/', '/imagens/'),
+                        foto_url: pet.foto_url
                     }
 
                     return animalAdotado;
