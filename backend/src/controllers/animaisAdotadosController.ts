@@ -10,6 +10,8 @@ export class AnimaisAdotadosCTR {
             
             console.log("REQUEST CONTROLLER")
             console.log(req.body)
+
+            console.log("ANIMAIS ADOTADOOOO")
             
             const id_usuario = req.body.id_usuario; 
             

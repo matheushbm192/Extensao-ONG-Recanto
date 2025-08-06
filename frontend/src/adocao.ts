@@ -1,4 +1,5 @@
 import { Pet } from "./models/petModel";
+import { getUserFromToken } from './utils/auth.js';
 
 function getAllPets() {
   return fetch('http://localhost:3000/api/petGet')
@@ -100,10 +101,27 @@ export async function renderPage(page: number = 1): Promise<void> {
           <li><strong>Sexo:</strong> ${pet.sexo}</li>
           <li><strong>Idade:</strong> ${pet.idade}</li>
         </ul>
-        <button class="mt-4 bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300 transition" type="button">Adotar</button>
+
+        <button class="adotar-btn mt-4 bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-300 transition" 
+          type="button" 
+          data-pet-id="${pet.id_pet}">
+            Adotar
+        </button>
+
       </div>
     `;
     petList.appendChild(li);
+  });
+
+  document.querySelectorAll(".adotar-btn").forEach(btn => {
+    btn.addEventListener("click", async (event) => {
+      const button = event.currentTarget as HTMLButtonElement;
+      const petId = button.dataset.petId;
+
+      console.log("TYPE DE PET ID: ", typeof(petId));
+      console.log("Adotar clicado para pet id:", petId);
+      await solicitarAdocao(petId || "");
+    });
   });
 
   pageInfo.textContent = `Página ${currentPage} de ${totalPages || 1}`;
@@ -158,4 +176,46 @@ export async function initializeAdocaoPage(): Promise<void> {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   });
+}
+
+async function solicitarAdocao(petId: string) {
+  const token = localStorage.getItem("token");
+
+  const user = getUserFromToken();
+  if (!user) {
+    alert("Usuário não autenticado");
+    return;
+  }
+
+  const { id_usuario } = user;
+  console.log("USEEEER", user)
+  const usuarioPetObj = {
+    id_usuario: id_usuario,
+    id_pet: petId
+  };
+
+  console.log("USUARIO PET OBJ", usuarioPetObj)
+
+  try {
+    const response = await fetch('http://localhost:3000/solicitar-adocao/', {
+      method: "POST",
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(usuarioPetObj)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Erro ao solicitar adoção");
+    }
+
+    const resultado = await response.json();
+    alert("Solicitação de adoção enviada com sucesso!");
+    console.log("Resposta do servidor:", resultado);
+  } catch (error) {
+    console.error("Erro ao solicitar adoção:", error);
+    alert("Erro ao solicitar adoção.");
+  }
 }
