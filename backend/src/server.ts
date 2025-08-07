@@ -10,6 +10,7 @@ import loginRoutes from "./routes/loginRoutes";
 import usuarioRoutes from './routes/usuarioRoutes';
 import pedidosAdocaoRoutes from './routes/pedidosAdocaoRoutes';
 import animaisAdotadosRoutes from './routes/animaisAdotadosRoutes';
+import solicitacaoAdocaoRoutes from './routes/solicitacaoAdocaoRoutes'
 
 const app = express();
 const PORT = 3000;
@@ -52,12 +53,14 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // --- Definição de Rotas ---
 app.use('/api', petRoutes);
 app.use('/login', loginRoutes);
 app.use('/usuario', usuarioRoutes);
 app.use('/pedidos-adocao', pedidosAdocaoRoutes);
 app.use('/animais-adotados', animaisAdotadosRoutes);
+app.use('/solicitar-adocao', solicitacaoAdocaoRoutes);
 
 // --- Views e páginas HTML ---
 // Define onde estão os templates

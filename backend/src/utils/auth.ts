@@ -15,7 +15,7 @@ export function autenticarToken(req: Request, res: Response, next: NextFunction)
     console.log("DECODED TOKEN")
     console.log(decoded)
 
-    req.body = decoded;
+    req.body = { ...req.body, ...decoded };
     next();
   });
 }
