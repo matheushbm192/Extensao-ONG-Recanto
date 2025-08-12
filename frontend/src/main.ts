@@ -270,7 +270,7 @@ function atualizarInterfaceUsuario() {
     const cadastrarUsuarioComum = document.getElementById("menu-cadastro-usuario")
     const cadastrarUsuarioVoluntario = document.getElementById("menu-cadastro-voluntario")
     const animaisAdotados = document.getElementById("menu-animais-adotados")
-    
+    const menuPedidosAdocao = document.getElementById("menu-pedidos-adocao");
 
     if(user) {
         if (loginMenu) loginMenu.style.display = "none";
@@ -285,6 +285,7 @@ function atualizarInterfaceUsuario() {
         if (cadastroAnimal) cadastroAnimal.style.display = (isAdmin || isVoluntario) ? "inline" : "none";
         if (cadastroAdmnistrador) cadastroAdmnistrador.style.display = isAdmin ? "inline" : "none"
         if (cadastrarUsuarioVoluntario) cadastrarUsuarioVoluntario.style.display = isAdmin ? "inline" : "none";
+        if (menuPedidosAdocao) menuPedidosAdocao.style.display = isAdmin ? "inline" : "none";
 
     }
     else {
@@ -296,6 +297,7 @@ function atualizarInterfaceUsuario() {
         if (cadastroAdmnistrador) cadastroAdmnistrador.style.display = "none";
         if (cadastrarUsuarioVoluntario) cadastrarUsuarioVoluntario.style.display = "none";
         if (animaisAdotados) animaisAdotados.style.display = "none";
+        if (menuPedidosAdocao) menuPedidosAdocao.style.display = "none";
     }
 }
 
